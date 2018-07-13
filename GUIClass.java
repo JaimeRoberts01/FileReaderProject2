@@ -9,9 +9,9 @@ import java.awt.event.*;
 public class GUIClass extends JFrame implements ActionListener {
 
 	private JPanel Panel1, Panel2, Panel3;
-	private JLabel Label1, Label2, Label3, Label4, Label5, Label6;
+	private JLabel Label1, Label2, Label3, Label4, Label5, Label6, Label7;
 	private JComboBox<String> JB1;
-	private JTextField TF1, TF2, TF3, TF4, TF5;
+	private JTextField TF1, TF2, TF3, TF4, TF5, TF6;
 	private JTextArea JT1;
 	private JFileChooser JFC;
 	private JButton Button1, Button2, Button3, Button4;
@@ -21,6 +21,7 @@ public class GUIClass extends JFrame implements ActionListener {
 	private Processing Process;
 
 	private ArrayList <String> fileLine;
+	//private String ID;
 	private double conversion, youngsModulous, pillarD, pillarL;
 
 	public ArrayList<String> getFileLine() {return fileLine;}
@@ -33,8 +34,10 @@ public class GUIClass extends JFrame implements ActionListener {
 	public void setPillarD(double pillarD) {this.pillarD = pillarD;}
 	public double getPillarL() {return pillarL;}
 	public void setPillarL(double pillarL) {this.pillarL = pillarL;}
-
-
+//	public String getID() {return ID;}
+//	public void setID(String iD) {ID = iD;}
+	
+	
 	public GUIClass ()  {
 
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
@@ -110,11 +113,20 @@ public class GUIClass extends JFrame implements ActionListener {
 		Panel2.add (Label5);
 		Label5.setEnabled (true);
 
-		String [] comboBox = {"Frame", "Pillar ID"};
+		String [] comboBox = {"Frame", "Pillar"};
 		JB1 = new JComboBox <String>(comboBox);
 		JB1.addActionListener (this);
 		Panel2.add(JB1);
 		JB1.setEnabled(true);
+		
+		Label7 = new JLabel ("ID:");
+		Panel2.add (Label7);
+		Label7.setEnabled (true);
+		
+		TF6 = new JTextField (4);
+		TF6.addActionListener (this);
+		Panel2.add(TF6);
+		TF6.setEnabled(true);
 
 		Button2 = new JButton ("Get Data");
 		Button2.setPreferredSize(new Dimension(125,25));
@@ -155,21 +167,22 @@ public class GUIClass extends JFrame implements ActionListener {
 		youngsModulous = Double.parseDouble(TF2.getText().trim());
 		pillarD = Double.parseDouble(TF3.getText().trim());
 		pillarL = Double.parseDouble(TF4.getText().trim());
+		//ID = TF6.getText().trim();
+		//System.out.println("HERE IS ID: " + ID);
 	}
 
 
 	public void fileReader () { // Get my file - eventually the file size will be too much for this at 9000 lines. 
 
 		FileReader reader = null;
+		FileWriter writer1 = null;
 		BufferedReader bufferedReader = null;
-		String file = null;
-		String line = null;
+		String file = "";//null;
+		String line = "";//null;
 		ReportFrame = new ReportFrame ();
 
 		try {
 
-			//file = "Beacon-2 ROI data_WS.csv";
-			//file = "Book1D.csv";
 			file = TF5.getText();
 			fileLine = new ArrayList<String>();
 
@@ -180,6 +193,19 @@ public class GUIClass extends JFrame implements ActionListener {
 				fileLine.add (line);
 			}
 
+			writer1 = new FileWriter ("output2.csv"); //This shows that the extra bit appended on does not happen here.
+			
+			for (String FU : fileLine) {
+			writer1.write(FU +"\n");
+			System.out.println(FU);
+			}
+			writer1.close();
+
+			
+			
+			
+			
+			
 			for (String s : fileLine) {
 				ReportFrame.reportFormatter(s);
 				//System.out.println (s);
@@ -216,8 +242,6 @@ public class GUIClass extends JFrame implements ActionListener {
 
 				file = "fileOut.csv";
 				writer = new FileWriter (file);	
-				//writer.write(Process.header());
-				//writer.write(Process.outputFile());
 				writer.write(Process.outputFile());
 			}
 
@@ -245,10 +269,9 @@ public class GUIClass extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		if (e.getSource() == Button1) { // I want this button to calculate the deflection and nanometer values.
+		if (e.getSource() == Button1) { 
 			System.out.println("We definitely hit button 1");
 			inputData ();
-			//Process.pillarDeflection();
 			Process.nanoMeters(conversion);
 			Process.forces(youngsModulous, pillarD, pillarL);
 			Process.newDataArray();
@@ -256,22 +279,30 @@ public class GUIClass extends JFrame implements ActionListener {
 		}
 
 		if (e.getSource() == Button2) {
-			System.out.println("We definitely hit button 2");	// I want this button to bring up the display page - testing to see if it prints out properly.
+			
+			System.out.println("We definitely hit button 2");
 			displayOutput();
-			Process.byFrame ();
-			Process.byTrajectory ();
+			String ID = TF6.getText().trim();
+//			
+			if (JB1.getSelectedIndex() == 0 ) {	
+				Process.byFrame (ID);
+			}
+			
+			else if (JB1.getSelectedIndex() == 1) {
+				Process.byPillar (ID);
+			}
 			System.out.println("And if you're seeing this, we did something!");
 		}
 
 		if (e.getSource() == Button3) {
 			System.out.println("We definitely hit button 3");	// Not sure what I'm doing with this one
-			JFC = new JFileChooser();
-			int saveVal = JFC.showSaveDialog(GUIClass.this);
-			
-			if (saveVal == JFileChooser.APPROVE_OPTION) {
-				//String savedFileName = TF5.getText();
-			}
-			//fileWriter ();
+//			JFC = new JFileChooser();
+//			int saveVal = JFC.showSaveDialog(GUIClass.this);
+//			
+//			if (saveVal == JFileChooser.APPROVE_OPTION) {
+//				//String savedFileName = TF5.getText();
+//			}
+			fileWriter ();
 			System.out.println("And if you're seeing this, we did something!");	
 		}
 
