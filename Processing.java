@@ -1,15 +1,14 @@
-import java.math.BigDecimal;
 import java.util.*;
 
 
 public class Processing {
 
-	private ArrayList<String> frame, pillar;
+	private ArrayList<Integer> frame, pillar;
 	private ArrayList<Double> x, y, dx, dy, deflection, nanometers, picoNewtons;
 	private String [][] data;
 	private Object [][] newData;
 	private int rows;
-	private double frameAverage, trajectoryAverage; //, frameStandardDeviation, trajectoryStandardDeviation;
+	private double frameAverage, pillarAverage; 
 
 
 	public Processing () {	
@@ -19,10 +18,10 @@ public class Processing {
 
 	/*Getters and Setters*/
 
-	public ArrayList<String> getFrame() {return frame;}
-	public void setFrame(ArrayList<String> frame) {this.frame = frame;}
-	//	public ArrayList<String> getTrajectory() {return trajectory;}
-	//	public void setTrajectory(ArrayList<String> trajectory) {this.trajectory = trajectory;}
+	public ArrayList<Integer> getFrame() {return frame;}
+	public void setFrame(ArrayList<Integer> frame) {this.frame = frame;}
+	public ArrayList<Integer> getPillar() {return pillar;}
+	public void setPillar(ArrayList<Integer> pillar) {this.pillar = pillar;}
 	public ArrayList<Double> getDx() {return dx;}
 	public void setDx(ArrayList<Double> dx) {this.dx = dx;}
 	public ArrayList<Double> getDy() {return dy;}
@@ -44,27 +43,26 @@ public class Processing {
 
 		data = new String [rows][columns];
 
-		frame = new ArrayList<String>();
-		pillar = new ArrayList<String>();
+		frame = new ArrayList<Integer>();
+		pillar = new ArrayList<Integer>();
 		x = new ArrayList<Double>();
 		y = new ArrayList<Double>();
 		dx = new ArrayList<Double>();
 		dy = new ArrayList<Double>();
 		deflection = new ArrayList<Double>();
 
-
-
 		for (int i = 0; i < rows; i++) {
+
 			data [i] = fileLine.get(i).split(",");
-			frame.add (data [i][0]);
-			pillar.add (data [i][1]);
+
+			frame.add (Integer.parseInt(data [i][0]));
+			pillar.add (Integer.parseInt(data [i][1]));
 			x.add (Double.parseDouble(data [i][2]));
 			y.add (Double.parseDouble(data [i][3]));
 			dx.add (Double.parseDouble(data [i][4]));
 			dy.add (Double.parseDouble(data [i][5]));
 			deflection.add (Double.parseDouble(data [i][6]));
 		}
-
 	}
 
 
@@ -72,14 +70,13 @@ public class Processing {
 
 		nanometers = new ArrayList <Double>();
 
-		for (int i=0; i<rows;i++) {
+		for (int i= 0; i<rows; i++) {
 
-			BigDecimal bd1 = BigDecimal.valueOf(conversion);
-			BigDecimal bd2 = BigDecimal.valueOf(deflection.get(i));
-			BigDecimal multiply = bd2.multiply(bd1);
-			double nm = multiply.doubleValue();
+			double nm = deflection.get(i) * 73;
 			nanometers.add(nm);
 		}
+		
+		//System.out.println(nanometers);
 		return nanometers;
 	}
 
@@ -89,19 +86,19 @@ public class Processing {
 		picoNewtons = new ArrayList <Double>();
 
 		double constant = (double) 3/64;
-		double E = youngsModulous; //double E = 2.0;
+		double E = youngsModulous; //double E = 2.0 for PDMS;
 		double pi = Math.PI;
-		double diameter = pillarD; //double diameter = 0.5;
-		double length = pillarL; //double length = 1.3;
+		double diameter = pillarD; //double diameter = 0.5 for the 500 nm pillars;
+		double length = pillarL; //double length = 1.3 for the 500 nm pillars;
 
 		for (int i=0; i<rows; i++) {
 
 			double picoMeters = nanometers.get(i)*1000;
 			double picoForces = (constant * pi *E * (Math.pow(diameter, 4)/Math.pow(length, 3))*picoMeters);
 			picoNewtons.add(picoForces);
-			System.out.println(String.format("%.10f", picoNewtons.get(i)));
+			//System.out.println(String.format("%.10f", picoNewtons.get(i)));
 		}
-		
+
 		return picoNewtons;
 	}
 
@@ -122,26 +119,25 @@ public class Processing {
 			newData [i][6] = deflection.get(i);
 			newData [i][7] = nanometers.get(i);	
 			newData [i][8] = picoNewtons.get(i); 
-			System.out.println("Here is newData: " + Arrays.toString(newData[i]));
+			//System.out.println("Here is newData: " + Arrays.toString(newData[i]));
 		}
 
 		return newData;
 	}
 
 
-	public void byFrame (String ID) { //This will need checks for non-existent frames
+	public void byFrame (int ID) { //This will need checks for non-existent frames. This should probably be in its own class.
 
 		ArrayList <Double> byFrame = new ArrayList<Double>();
 
 		for (int i = 0; i<rows; i++) {
 
-			String frameID = (String) newData[i][0];
-
-			if (frameID.equals(ID)) {
+			int frameID = (int) newData [i][0];
+			if (frameID == ID) {
 				double something = (double) newData [i][8];
 				byFrame.add(something);
 				//System.out.println("Here is the row for Frame: " + Arrays.toString(newData[i]));
-				System.out.println("Here is picoNewtons for Frame: " + (newData[i][8]));
+				//System.out.println("Here is picoNewtons for Frame: " + (newData[i][8]));
 			}
 		}
 
@@ -151,33 +147,32 @@ public class Processing {
 		}
 
 		frameAverage = frameAverage/byFrame.size();
-		System.out.println("Here is byframe average: " + frameAverage);
+		//System.out.println("Here is byframe average: " + frameAverage);
 	}
 
 
-	public void byPillar (String ID) { //This will need checks for non-existent trajectories
+	public void byPillar (int ID) { //This will need checks for non-existent trajectories. This should probably be in its own class with byFrame.
 
 		ArrayList <Double> byPillar = new ArrayList<Double>();
 
 		for (int i = 0; i<rows; i++) {
 
-			String pillarID = (String) newData[i][1];
-
-			if (pillarID.equals(ID)) {
+			int pillarID = (int) newData[i][1];
+			if (pillarID == ID) {
 				double something = (double) newData[i][8];
 				byPillar.add(something);
 				//System.out.println("Here is the row for Trajectory: " + Arrays.toString(newData[i]));
-				System.out.println("Here is picoNewtons for Trajectory: " + (newData[i][8]));
+				//System.out.println("Here is picoNewtons for Trajectory: " + (newData[i][8]));
 			}
 		}
 
-		System.out.println("Here is byTrajectory: " + byPillar);
+		System.out.println("Here is byPillar: " + byPillar);
 		for (double d: byPillar){
-			trajectoryAverage += d; 	
+			pillarAverage += d; 	
 		}
 
-		trajectoryAverage = trajectoryAverage/byPillar.size();
-		System.out.println("Here is byTrajecotry average: " + trajectoryAverage);
+		pillarAverage = pillarAverage/byPillar.size();
+		//System.out.println("Here is byPillar average: " + pillarAverage);
 	}
 
 

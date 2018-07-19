@@ -2,17 +2,19 @@ import java.io.*;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.event.*;
+
 import java.awt.event.*;
 
 
 @SuppressWarnings("serial")
-public class GUIClass extends JFrame implements ActionListener {
+public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
-	private JPanel Panel1, Panel2, Panel3;
+	private JPanel Panel1, Panel2, Panel3, Panel4;
 	private JLabel Label1, Label2, Label3, Label4, Label5, Label6, Label7;
 	private JComboBox<String> JB1;
-	private JTextField TF1, TF2, TF3, TF4, TF5, TF6;
-	private JTextArea JT1;
+	private JTextField TF1, TF2, TF3, TF4, TF5, TF6, TF7;
+	private JSlider JS1;
 	private JFileChooser JFC;
 	private JButton Button1, Button2, Button3, Button4;
 
@@ -21,7 +23,6 @@ public class GUIClass extends JFrame implements ActionListener {
 	private Processing Process;
 
 	private ArrayList <String> fileLine;
-	//private String ID;
 	private double conversion, youngsModulous, pillarD, pillarL;
 
 	public ArrayList<String> getFileLine() {return fileLine;}
@@ -34,10 +35,8 @@ public class GUIClass extends JFrame implements ActionListener {
 	public void setPillarD(double pillarD) {this.pillarD = pillarD;}
 	public double getPillarL() {return pillarL;}
 	public void setPillarL(double pillarL) {this.pillarL = pillarL;}
-//	public String getID() {return ID;}
-//	public void setID(String iD) {ID = iD;}
-	
-	
+
+
 	public GUIClass ()  {
 
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
@@ -45,7 +44,7 @@ public class GUIClass extends JFrame implements ActionListener {
 		setSize (700, 300);
 		setLocation (1500,0);
 		setResizable (false);
-		setLayout (new GridLayout (3,1));
+		setLayout (new GridLayout (4,1));
 		GUIComponents ();
 	}
 
@@ -118,11 +117,11 @@ public class GUIClass extends JFrame implements ActionListener {
 		JB1.addActionListener (this);
 		Panel2.add(JB1);
 		JB1.setEnabled(true);
-		
+
 		Label7 = new JLabel ("ID:");
 		Panel2.add (Label7);
 		Label7.setEnabled (true);
-		
+
 		TF6 = new JTextField (4);
 		TF6.addActionListener (this);
 		Panel2.add(TF6);
@@ -133,12 +132,6 @@ public class GUIClass extends JFrame implements ActionListener {
 		Button2.addActionListener (this);
 		Panel2.add (Button2);
 		Button2.setEnabled (true);
-
-		JT1 = new JTextArea ();
-		JT1.setSize(20, 100);
-		JT1.setEditable(false);
-		Panel2.add(JT1);
-		JT1.setEnabled(true);
 
 		Panel3 = new JPanel ();
 		Panel3.setBackground (Color.lightGray);
@@ -158,27 +151,53 @@ public class GUIClass extends JFrame implements ActionListener {
 		Button4.addActionListener (this);
 		Panel3.add (Button4);
 		Button4.setEnabled (true);
+
+
+		Panel4 = new JPanel ();
+		Panel4.setBackground (Color.lightGray);
+		add(Panel4);
+
+		JS1 = new JSlider (JSlider.HORIZONTAL); // There's no point in doing this but I want a reference of it anyway
+		JS1.addChangeListener(this);
+		JS1.setMaximum(100);
+		JS1.setMinimum(0);
+		JS1.setValue(1);
+		JS1.setPreferredSize(new Dimension(500, 50));
+		//JS1.setMajorTickSpacing(10);
+		//JS1.setMinorTickSpacing(1);
+		//JS1.setPaintTicks(true);
+		//JS1.setPaintLabels(true);
+		Panel4.add(JS1);
+		JS1.setEnabled(true);
+
+		TF7 = new JTextField(4);
+		TF7.addActionListener (this);
+		TF7.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
+		TF7.setText(Integer.toString(1));
+		TF7.setEditable(false);
+		Panel4.add(TF7);
+		TF7.setEnabled(true);
+
+
+
 	}
 
-	
+
 	public void inputData () {
-		
+
 		conversion = Double.parseDouble(TF1.getText().trim());
 		youngsModulous = Double.parseDouble(TF2.getText().trim());
 		pillarD = Double.parseDouble(TF3.getText().trim());
 		pillarL = Double.parseDouble(TF4.getText().trim());
-		//ID = TF6.getText().trim();
-		//System.out.println("HERE IS ID: " + ID);
 	}
 
 
-	public void fileReader () { // Get my file - eventually the file size will be too much for this at 9000 lines. 
+	public void fileReader () { // This should be moved to an IO class. 
 
 		FileReader reader = null;
-		FileWriter writer1 = null;
 		BufferedReader bufferedReader = null;
-		String file = "";//null;
-		String line = "";//null;
+		String file = null;
+		String line = null;
 		ReportFrame = new ReportFrame ();
 
 		try {
@@ -193,22 +212,8 @@ public class GUIClass extends JFrame implements ActionListener {
 				fileLine.add (line);
 			}
 
-			writer1 = new FileWriter ("output2.csv"); //This shows that the extra bit appended on does not happen here.
-			
-			for (String FU : fileLine) {
-			writer1.write(FU +"\n");
-			System.out.println(FU);
-			}
-			writer1.close();
-
-			
-			
-			
-			
-			
 			for (String s : fileLine) {
 				ReportFrame.reportFormatter(s);
-				//System.out.println (s);
 			}
 
 			Process = new Processing (fileLine);	
@@ -231,9 +236,9 @@ public class GUIClass extends JFrame implements ActionListener {
 	}
 
 
-	public void fileWriter () {
+	public void fileWriter () { // This should probably be moved to its own class I/O.
 
-		FileWriter writer = null;	
+		FileWriter writer = null;
 		String file = null;
 
 		try {
@@ -267,7 +272,7 @@ public class GUIClass extends JFrame implements ActionListener {
 
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) { // Could we remember to sort out the button order
 
 		if (e.getSource() == Button1) { 
 			System.out.println("We definitely hit button 1");
@@ -279,15 +284,15 @@ public class GUIClass extends JFrame implements ActionListener {
 		}
 
 		if (e.getSource() == Button2) {
-			
+
 			System.out.println("We definitely hit button 2");
 			displayOutput();
-			String ID = TF6.getText().trim();
-//			
+			int ID = Integer.parseInt(TF6.getText().trim());
+
 			if (JB1.getSelectedIndex() == 0 ) {	
 				Process.byFrame (ID);
 			}
-			
+
 			else if (JB1.getSelectedIndex() == 1) {
 				Process.byPillar (ID);
 			}
@@ -296,12 +301,12 @@ public class GUIClass extends JFrame implements ActionListener {
 
 		if (e.getSource() == Button3) {
 			System.out.println("We definitely hit button 3");	// Not sure what I'm doing with this one
-//			JFC = new JFileChooser();
-//			int saveVal = JFC.showSaveDialog(GUIClass.this);
-//			
-//			if (saveVal == JFileChooser.APPROVE_OPTION) {
-//				//String savedFileName = TF5.getText();
-//			}
+			//			JFC = new JFileChooser();
+			//			int saveVal = JFC.showSaveDialog(GUIClass.this);
+			//			
+			//			if (saveVal == JFileChooser.APPROVE_OPTION) {
+			//				//String savedFileName = TF5.getText();
+			//			}
 			fileWriter ();
 			System.out.println("And if you're seeing this, we did something!");	
 		}
@@ -310,12 +315,22 @@ public class GUIClass extends JFrame implements ActionListener {
 			JFC = new JFileChooser ();
 			JFC.setMultiSelectionEnabled(false);
 			int openVal = JFC.showDialog(GUIClass.this, "Select");
-			
+
 			if (openVal == JFileChooser.APPROVE_OPTION) {
 				File selected =	JFC.getSelectedFile();
 				TF5.setText(selected.toString());
 				fileReader ();
 			}
+		}
+	}
+	@Override
+	public void stateChanged(ChangeEvent e) {
+
+		if (e.getSource() == JS1) {
+			if (JS1.getValueIsAdjusting()) {
+				int slider = JS1.getValue();
+				TF7.setText(Integer.toString(slider));
+			}	
 		}
 	}
 }

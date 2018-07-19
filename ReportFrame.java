@@ -6,7 +6,7 @@ import javax.swing.border.*;
 
 
 @SuppressWarnings("serial")
-public class ReportFrame extends JFrame {
+public class ReportFrame extends JFrame { // For checking the FileReader is behaving.
 
 
 	private JTextArea displayFile;

@@ -1,8 +1,6 @@
-import java.awt.Font;
-//import java.util.Arrays;
-
+import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import javax.swing.border.*;
 
 @SuppressWarnings("serial")
 public class ReportFrame2 extends JFrame {
@@ -10,7 +8,7 @@ public class ReportFrame2 extends JFrame {
 	private JTextArea displayFile;
 	private Processing Process;
 
-	public ReportFrame2 (Processing Process) {	
+	public ReportFrame2 (Processing Process) {	// For testing the output data without having to search for it in the file system - consider changing to a log.
 		
 		this.Process = Process;
 		setDefaultCloseOperation (DISPOSE_ON_CLOSE);
@@ -47,13 +45,5 @@ public class ReportFrame2 extends JFrame {
 		displayFile.append(header);
 		displayFile.append (bar+ "\n\n");
 		displayFile.append (Process.outputString());
-		
-
-//		for (int i = 0; i<20;i++) {
-//			String believe = (Arrays.deepToString(Process.getNewData()) + "\n");
-//			String believe2 = believe.replace("[", "");
-//			String believe3 = believe2.replace("]", "");
-//			displayFile.append(believe3 + "\n");
-//		}
 	}
 }
