@@ -7,7 +7,7 @@ public class Processing {
 	private ArrayList<Double> x, y, dx, dy, deflection, nanometers, picoNewtons;
 	private String [][] data;
 	private Object [][] newData;
-	private int rows;
+	private int rows, frames, uniquePillars;
 	private double frameAverage, pillarAverage; 
 
 
@@ -32,9 +32,13 @@ public class Processing {
 	public void setNanometers(ArrayList<Double> nanometers) {this.nanometers = nanometers;}
 	public Object[][] getNewData() {return newData;}
 	public void setNewData(Object[][] newData) {this.newData = newData;}
+	public int getFrames() {return frames;}
+	public void setFrames(int frames) {this.frames = frames;}
+	public int getUniquePillars() {return uniquePillars;}
+	public void setUniquePillars(int uniquePillars) {this.uniquePillars = uniquePillars;}
 
 
-	public Processing (ArrayList<String> fileLine) {
+	public Processing (ArrayList<String> fileLine) { // We need to deal with the NaN issue.
 
 		rows = fileLine.size();
 		int columns = 7;
@@ -72,10 +76,10 @@ public class Processing {
 
 		for (int i= 0; i<rows; i++) {
 
-			double nm = deflection.get(i) * 73;
+			double nm = deflection.get(i) * conversion;
 			nanometers.add(nm);
 		}
-		
+
 		//System.out.println(nanometers);
 		return nanometers;
 	}
@@ -126,6 +130,42 @@ public class Processing {
 	}
 
 
+	public int getNumberOfFrames () {
+
+		frames = (int) newData [0][0];
+
+		for (int i = 0; i< newData.length; i++) {
+
+			if ((int) newData [i][0] > frames) {
+
+				frames = (int) newData [i][0]; 
+			}
+		}
+
+		System.out.println("Here are the number of frames: " + frames);
+		return frames;
+	}
+
+
+	public int getNumberOfUniquePillars () {
+
+		uniquePillars = 0;
+		int pillars = 0; // there will never be a pillar 0.
+
+		for (int i = 0; i< newData.length; i++) {
+
+			if ((int) newData [i][1] > pillars) {
+
+				pillars = (int) newData [i][1];
+				uniquePillars ++;	
+			}
+		}
+
+		System.out.println("Here are the number of unique pillars: " + uniquePillars);
+		return uniquePillars;
+	}
+
+
 	public void byFrame (int ID) { //This will need checks for non-existent frames. This should probably be in its own class.
 
 		ArrayList <Double> byFrame = new ArrayList<Double>();
@@ -173,6 +213,36 @@ public class Processing {
 
 		pillarAverage = pillarAverage/byPillar.size();
 		//System.out.println("Here is byPillar average: " + pillarAverage);
+	}
+
+
+	public void allFrames () {
+
+
+
+		for (int i = 0; i<uniquePillars; i++) {
+
+			double averageTest =0.0;
+			int pillarCounter = (int) newData [i][1];
+			System.out.println("This is the value of pillarCounter: " + pillarCounter);
+
+			for (int j =0; j< rows; j++) {
+
+
+				int pillarID = (int) newData [j][1];
+				//System.out.println("This is the value of pillarID: " + pillarID);
+
+				if (pillarID == pillarCounter) {
+					double something = (double) newData [j][8];
+					averageTest += (double) newData [j][8];
+					System.out.println("This is the force value matching the pillar: " + something);
+
+				}
+			}	
+
+			System.out.println("Averagetest: " + averageTest/frames);
+			System.out.println("This is the next value of pillarCounter: " + pillarCounter);
+		}
 	}
 
 

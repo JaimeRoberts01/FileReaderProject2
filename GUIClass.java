@@ -16,7 +16,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private JTextField TF1, TF2, TF3, TF4, TF5, TF6, TF7;
 	private JSlider JS1;
 	private JFileChooser JFC;
-	private JButton Button1, Button2, Button3, Button4;
+	private JButton Button1, Button2, Button3, Button4, Button5;
 
 	private ReportFrame ReportFrame;
 	private ReportFrame2 ReportFrame2;
@@ -132,6 +132,13 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Button2.addActionListener (this);
 		Panel2.add (Button2);
 		Button2.setEnabled (true);
+		
+		Button5 = new JButton ("All Frames");
+		Button5.setPreferredSize(new Dimension(125,25));
+		Button5.addActionListener (this);
+		Panel2.add (Button5);
+		Button5.setEnabled (true);
+	
 
 		Panel3 = new JPanel ();
 		Panel3.setBackground (Color.lightGray);
@@ -212,9 +219,9 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 				fileLine.add (line);
 			}
 
-			for (String s : fileLine) {
-				ReportFrame.reportFormatter(s);
-			}
+//			for (String s : fileLine) {
+//				ReportFrame.reportFormatter(s);
+//			}
 
 			Process = new Processing (fileLine);	
 
@@ -286,7 +293,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == Button2) {
 
 			System.out.println("We definitely hit button 2");
-			displayOutput();
+			//displayOutput();
 			int ID = Integer.parseInt(TF6.getText().trim());
 
 			if (JB1.getSelectedIndex() == 0 ) {	
@@ -319,10 +326,22 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			if (openVal == JFileChooser.APPROVE_OPTION) {
 				File selected =	JFC.getSelectedFile();
 				TF5.setText(selected.toString());
-				fileReader ();
+				fileReader ();	
 			}
 		}
+		
+		if (e.getSource() == Button5) {
+
+			System.out.println("We definitely hit button AllFrame");
+			//displayOutput();
+			Process.getNumberOfFrames();
+			Process.getNumberOfUniquePillars ();
+			Process.allFrames();
+			System.out.println("And if you're seeing this, we did something!");
+			}
 	}
+	
+	
 	@Override
 	public void stateChanged(ChangeEvent e) {
 
