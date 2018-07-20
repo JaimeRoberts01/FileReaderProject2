@@ -2,14 +2,10 @@ import java.util.*;
 
 
 public class Processing {
-
-
-	ArrayList<Double> nanometers;
-	private ArrayList<Double> picoNewtons;
-//	private int frame, pillar;
-//	private double x, y, dx, dy, deflection;
-	private Object [][] data;
-	private Object [][] newData;
+	
+	/*Instance variables for the arrays.*/
+	private Object [][] data, newData;
+	private double [] nanometers, picoNewtons;
 	private int frames, uniquePillars; 
 
 
@@ -19,21 +15,21 @@ public class Processing {
 
 
 	/*Getters and Setters*/
-
-	public Object[][] data() {return data;}
-	public void setdata(Object[][] newData) {this.data = newData;}
+	public Object[][] getData() {return data;}
+	public void setData(Object[][] data) {this.data = data;}
+	public Object[][] getNewData() {return newData;}
+	public void setNewData(Object[][] newData) {this.newData = newData;}
 	public int getFrames() {return frames;}
 	public void setFrames(int frames) {this.frames = frames;}
 	public int getUniquePillars() {return uniquePillars;}
 	public void setUniquePillars(int uniquePillars) {this.uniquePillars = uniquePillars;}
 
 
-	/*This method breaks the ArrayList<String> into a 2D array using "," as the delimiter.
-	Then adds the values of the different indices to specific arrayLists for further work*/
-
+	/*This method breaks the ArrayList<String> into a 2D array using "," as the delimiter. It 
+	starts by removing any lines that contain the word "NaN", which cannot be processed*/
 	public Processing (ArrayList<String> fileLine) { 
 
-		for (int i = 0; i < fileLine.size(); i++) { // Removes any line in the arrayList that contains "NaN" as a value.
+		for (int i = 0; i < fileLine.size(); i++) {
 
 			if (fileLine.get(i).contains("NaN")) {
 				fileLine.remove(i);
@@ -51,25 +47,29 @@ public class Processing {
 			System.out.println(Arrays.toString(data[i]));
 		}
 	}
+
 	
+	/*This method converts pixels into nanometres for the deflection values.*/
+	public double [] nanoMeters (double conversion) {
 
-	public ArrayList<Double> nanoMeters (double conversion) {
-
-		nanometers = new ArrayList <Double>();
+		int columns = data.length;
+		nanometers = new double [columns];
 
 		for (int i= 0; i<data.length; i++) {
 
 			double nm =  Double.parseDouble((String) data [i][6]) * conversion;
-			nanometers.add(nm);
+			nanometers [i] = nm;
 		}
 
 		return nanometers;
 	}
 
+	
+	/*This method calculates the picoNewton forces from all the values provided .*/
+	public double [] forces (double youngsModulous, double pillarD, double pillarL) {
 
-	public ArrayList<Double> forces (double youngsModulous, double pillarD, double pillarL) {
-
-		picoNewtons = new ArrayList <Double>();
+		int columns = data.length;
+		picoNewtons = new double [columns];
 
 		double constant = (double) 3/64;
 		double E = youngsModulous; //double E = 2.0 for PDMS;
@@ -79,15 +79,16 @@ public class Processing {
 
 		for (int i=0; i<data.length; i++) {
 
-			double picoMeters = (double) nanometers.get(i)*1000;
+			double picoMeters = (double) nanometers [i] *1000;
 			double picoForces = (constant * pi *E * (Math.pow(diameter, 4)/Math.pow(length, 3))*picoMeters);
-			picoNewtons.add(picoForces);
+			picoNewtons [i] = picoForces;
 		}
 
 		return picoNewtons;
 	}
 
 
+	/*This method creates a new array with the added nanometres and picoNewton values.*/
 	public Object [][] newDataArray () {
 
 		int columns = 9;
@@ -104,8 +105,8 @@ public class Processing {
 			newData [i][4] = data [i][4]; // dx
 			newData [i][5] = data [i][5]; // dy
 			newData [i][6] = data [i][6]; // deflection
-			newData [i][7] = nanometers.get(i); // nanometres	
-			newData [i][8] = picoNewtons.get(i); // picometers
+			newData [i][7] = nanometers [i];
+			newData [i][8] = picoNewtons [i];
 
 			System.out.println("Here is newData: " + Arrays.toString(newData[i]));
 		}
@@ -225,7 +226,8 @@ public class Processing {
 	}
 
 
-	public String outputString () { // For the reader - this will be deleted eventually.
+	/*This method builds a string for the ReportFrame2 to test proper output; it will be deleted eventually.*/
+	public String outputString () { 
 
 		StringBuilder SB = new StringBuilder();
 		for (int i = 0; i <newData.length; i++) {
@@ -240,7 +242,8 @@ public class Processing {
 	}
 
 
-	public String outputFile () { // For a CSV file.
+	/*This method builds a string for the output file, which is another CSV file.*/
+	public String outputFile () {
 
 		String header = ("frame" + "," + "pillar" + "," + "x" + "," + "y" + ","  + "dx" + ","
 				+ "dy" + "," + "deflection" + "," + "nanometers"+ "," + "picoNewtons" + ",");

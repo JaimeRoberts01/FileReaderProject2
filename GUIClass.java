@@ -2,9 +2,8 @@ import java.io.*;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.event.*;
-
 import java.awt.event.*;
+import javax.swing.event.*;
 
 
 @SuppressWarnings("serial")
@@ -301,7 +300,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 			System.out.println("We definitely hit button 2");
 			displayOutput();
-			int ID = Integer.parseInt(TF6.getText().trim());
+//			int ID = Integer.parseInt(TF6.getText().trim());
 
 //			if (JB1.getSelectedIndex() == 0 ) {	
 //				Process.byFrame (ID);
