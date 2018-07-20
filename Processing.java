@@ -5,7 +5,10 @@ public class Processing {
 
 	private ArrayList<Integer> frame, pillar;
 	private ArrayList<Double> x, y, dx, dy, deflection, nanometers, picoNewtons;
+//	private ArrayList<Object> frame, pillar;
+//	private ArrayList<Object> x, y, dx, dy, deflection, nanometers, picoNewtons;
 	private String [][] data;
+	//private Object [][] data;
 	private Object [][] newData;
 	private int rows, frames, uniquePillars;
 	private double frameAverage, pillarAverage; 
@@ -40,13 +43,6 @@ public class Processing {
 
 	public Processing (ArrayList<String> fileLine) { // We need to deal with the NaN issue.
 
-		rows = fileLine.size();
-		int columns = 7;
-
-		System.out.println("We have found size: " + rows);
-
-		data = new String [rows][columns];
-
 		frame = new ArrayList<Integer>();
 		pillar = new ArrayList<Integer>();
 		x = new ArrayList<Double>();
@@ -54,11 +50,36 @@ public class Processing {
 		dx = new ArrayList<Double>();
 		dy = new ArrayList<Double>();
 		deflection = new ArrayList<Double>();
+		
+//		frame = new ArrayList<Object>();
+//		pillar = new ArrayList<Object>();
+//		x = new ArrayList<Object>();
+//		y = new ArrayList<Object>();
+//		dx = new ArrayList<Object>();
+//		dy = new ArrayList<Object>();
+//		deflection = new ArrayList<Object>();
 
-		for (int i = 0; i < rows; i++) {
+		for (int i = 0; i < fileLine.size(); i++) {
+			
+			//if (fileLine.get(i).equals("NaN,NaN,NaN,NaN,NaN,NaN,NaN")) {
+			if (fileLine.get(i).contains("NaN")) {
+				fileLine.remove(i);
+			}
+		}
+		
+		System.out.println("We have found new size: " + fileLine.size());
+		
+		rows = fileLine.size();
+		int columns = 7;
+		
+		data = new String [rows][columns];
+		
+			for (int i = 0; i < rows; i++) {
 
 			data [i] = fileLine.get(i).split(",");
-
+			
+			//System.out.println (fileLine.get(i));
+			
 			frame.add (Integer.parseInt(data [i][0]));
 			pillar.add (Integer.parseInt(data [i][1]));
 			x.add (Double.parseDouble(data [i][2]));
@@ -66,17 +87,32 @@ public class Processing {
 			dx.add (Double.parseDouble(data [i][4]));
 			dy.add (Double.parseDouble(data [i][5]));
 			deflection.add (Double.parseDouble(data [i][6]));
+			
+//			frame.add (data [i][0]);
+//			pillar.add (data [i][1]);
+//			x.add (data [i][2]);
+//			y.add (data [i][3]);
+//			dx.add (data [i][4]);
+//			dy.add (data [i][5]);
+//			deflection.add (data [i][6]);
+			
+			System.out.println(Arrays.toString(data[i]));
+			
 		}
 	}
+	//}
 
-
-	public ArrayList<Double> nanoMeters (double conversion) { 
+	public ArrayList<Double> nanoMeters (double conversion) {
+//	public ArrayList<Object> nanoMeters (double conversion) {
 
 		nanometers = new ArrayList <Double>();
+//		nanometers = new ArrayList <Object>();
 
 		for (int i= 0; i<rows; i++) {
 
 			double nm = deflection.get(i) * conversion;
+//			double nm = (double) deflection.get(i) * conversion;
+//			Object nm = (double) deflection.get(i) * conversion;
 			nanometers.add(nm);
 		}
 
@@ -86,8 +122,10 @@ public class Processing {
 
 
 	public ArrayList<Double> forces (double youngsModulous, double pillarD, double pillarL) {
+//	public ArrayList<Object> forces (double youngsModulous, double pillarD, double pillarL) {
 
 		picoNewtons = new ArrayList <Double>();
+//		picoNewtons = new ArrayList <Object>();
 
 		double constant = (double) 3/64;
 		double E = youngsModulous; //double E = 2.0 for PDMS;
@@ -96,8 +134,9 @@ public class Processing {
 		double length = pillarL; //double length = 1.3 for the 500 nm pillars;
 
 		for (int i=0; i<rows; i++) {
-
+			
 			double picoMeters = nanometers.get(i)*1000;
+//			double picoMeters = (double)nanometers.get(i)*1000;
 			double picoForces = (constant * pi *E * (Math.pow(diameter, 4)/Math.pow(length, 3))*picoMeters);
 			picoNewtons.add(picoForces);
 			//System.out.println(String.format("%.10f", picoNewtons.get(i)));
@@ -129,7 +168,7 @@ public class Processing {
 		return newData;
 	}
 
-
+	
 	public int getNumberOfFrames () {
 
 		frames = (int) newData [0][0];
@@ -250,10 +289,14 @@ public class Processing {
 
 		StringBuilder SB = new StringBuilder();
 		for (int i = 0; i<rows; i++) {
-			double x = dx.get(i);
-			double y = dy.get(i);
-			double deflect = deflection.get(i);
-			double nm = nanometers.get(i);
+//			double x = dx.get(i);
+//			double y = dy.get(i);
+//			double deflect = deflection.get(i);
+//			double nm = nanometers.get(i);
+			double x = (double) dx.get(i);
+			double y = (double) dy.get(i);
+			double deflect = (double) deflection.get(i);
+			double nm = (double) nanometers.get(i);
 			String dxVal = String.format("%.4f", x);
 			String dyVal = String.format("%.4f", y);
 			String deflectVal = String.format("%.3f", deflect);
