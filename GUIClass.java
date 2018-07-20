@@ -20,22 +20,27 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private ReportFrame ReportFrame;
 	private ReportFrame2 ReportFrame2;
 	private Processing Process;
+	private FileManager FileManager;
 
 	private ArrayList <String> fileLine;
-	private double conversion, youngsModulous, pillarD, pillarL;
-
+//	private int conversion;
+//	private double youngsModulous, pillarD, pillarL;	
+	//private String file;
+	
 	public ArrayList<String> getFileLine() {return fileLine;}
 	public void setFileLine(ArrayList<String> fileLine) {this.fileLine = fileLine;}
-	public double getConversion() {return conversion;}
-	public void setConversion(double conversion) {this.conversion = conversion;}
-	public double getYoungsModulous() {return youngsModulous;}
-	public void setYoungsModulous(double youngsModulous) {this.youngsModulous = youngsModulous;}
-	public double getPillarD() {return pillarD;}
-	public void setPillarD(double pillarD) {this.pillarD = pillarD;}
-	public double getPillarL() {return pillarL;}
-	public void setPillarL(double pillarL) {this.pillarL = pillarL;}
-
-
+//	public int getConversion() {return conversion;}
+//	public void setConversion(int conversion) {this.conversion = conversion;}
+//	public double getYoungsModulous() {return youngsModulous;}
+//	public void setYoungsModulous(double youngsModulous) {this.youngsModulous = youngsModulous;}
+//	public double getPillarD() {return pillarD;}
+//	public void setPillarD(double pillarD) {this.pillarD = pillarD;}
+//	public double getPillarL() {return pillarL;}
+//	public void setPillarL(double pillarL) {this.pillarL = pillarL;}
+//	public String getFile() {return file;}
+//	public void setFile(String file) {this.file = file;}
+	
+	
 	public GUIClass ()  {
 
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
@@ -183,19 +188,21 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		TF7.setEditable(false);
 		Panel4.add(TF7);
 		TF7.setEnabled(true);
-
-
-
 	}
 
-
-	public void inputData () {
-
-		conversion = Double.parseDouble(TF1.getText().trim());
-		youngsModulous = Double.parseDouble(TF2.getText().trim());
-		pillarD = Double.parseDouble(TF3.getText().trim());
-		pillarL = Double.parseDouble(TF4.getText().trim());
+	public String file () {
+		
+		String file = TF5.getText(); 
+		return file;
 	}
+	
+//	public void inputData () {
+//
+//		conversion = Integer.parseInt(TF1.getText().trim());
+//		youngsModulous = Double.parseDouble(TF2.getText().trim());
+//		pillarD = Double.parseDouble(TF3.getText().trim());
+//		pillarL = Double.parseDouble(TF4.getText().trim());
+//	}
 
 
 	public void fileReader () { // This should be moved to an IO class. 
@@ -222,17 +229,10 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 				ReportFrame.reportFormatter(s);	
 			}
 
-			//for (int i = 0; i < fileLine.size(); i++) {
-		
-			//if (fileLine.get(i).equals("NaN")) {
-			//	fileLine.remove(i);
-			//}
-			//else {
 			Process = new Processing (fileLine);	
-			//}
+
 			reader.close();	
 			bufferedReader.close();
-			//}
 		}
 
 		catch (IOException IOE) {
@@ -283,14 +283,19 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		ReportFrame2.reportFormatter();
 	}
 
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) { // Could we remember to sort out the button order
 
 		if (e.getSource() == Button1) { 
 			System.out.println("We definitely hit button 1");
-			inputData ();
+//			inputData ();
+			int conversion = Integer.parseInt(TF1.getText().trim());
+			double youngsModulous = Double.parseDouble(TF2.getText().trim());
+			double pillarD = Double.parseDouble(TF3.getText().trim());
+			double pillarL = Double.parseDouble(TF4.getText().trim());
 			Process.nanoMeters(conversion);
+			System.out.println ("THIS IS CONVERSION: " + conversion);
 			Process.forces(youngsModulous, pillarD, pillarL);
 			Process.newDataArray();
 			System.out.println("And if you're seeing this, we did something!");
@@ -330,10 +335,16 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			int openVal = JFC.showDialog(GUIClass.this, "Select");
 
 			if (openVal == JFileChooser.APPROVE_OPTION) {
-				File selected =	JFC.getSelectedFile();
-				TF5.setText(selected.toString());
-				fileReader ();	
+				File selectedFile =	JFC.getSelectedFile();
+				TF5.setText(selectedFile.toString());
+				System.out.println("THIS IS TF5;" + TF5.getText());
+				fileReader();
+//				String fileName = TF5.getText();
+//				System.out.println("THIS IS FILEZ" + fileName);
+//				FileManager = new FileManager ();
+//				FileManager.fileReader (fileName);
 			}
+	
 		}
 		
 		if (e.getSource() == Button5) {

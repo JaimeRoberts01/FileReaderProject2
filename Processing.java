@@ -7,7 +7,7 @@ public class Processing {
 	private Object [][] data, newData;
 	private double [] nanometers, picoNewtons;
 	private int frames, uniquePillars; 
-
+	//private GUIClass GUI;
 
 	public Processing () {	
 
@@ -43,15 +43,18 @@ public class Processing {
 
 		for (int i = 0; i < rows; i++) {
 
-			data [i] = fileLine.get(i).split(",");	
+			data [i] = fileLine.get(i).split(",");
 			System.out.println(Arrays.toString(data[i]));
 		}
+		System.out.println ("Data length: " + data.length);
 	}
 
 	
 	/*This method converts pixels into nanometres for the deflection values.*/
-	public double [] nanoMeters (double conversion) {
+	public double [] nanoMeters (int conversion) {
 
+		System.out.println ("WE'RE IN NANO: " + conversion);
+		
 		int columns = data.length;
 		nanometers = new double [columns];
 
@@ -237,7 +240,7 @@ public class Processing {
 					+ "\t" + String.format("%10.8s", newData [i][8]) + "\n");
 		}
 
-		String output = SB.toString();
+		String output = SB.toString();	
 		return output;
 	}
 
