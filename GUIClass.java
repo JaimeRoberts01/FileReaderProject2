@@ -303,13 +303,13 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			displayOutput();
 			int ID = Integer.parseInt(TF6.getText().trim());
 
-			if (JB1.getSelectedIndex() == 0 ) {	
-				Process.byFrame (ID);
-			}
-
-			else if (JB1.getSelectedIndex() == 1) {
-				Process.byPillar (ID);
-			}
+//			if (JB1.getSelectedIndex() == 0 ) {	
+//				Process.byFrame (ID);
+//			}
+//
+//			else if (JB1.getSelectedIndex() == 1) {
+//				Process.byPillar (ID);
+//			}
 			System.out.println("And if you're seeing this, we did something!");
 		}
 
