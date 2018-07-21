@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 public class FileManager {
 	
-	private GUIClass GUI;
+	//private GUIClass GUI;
 	private Processing Process;
 	private ReportFrame ReportFrame;
 	
@@ -49,7 +49,9 @@ public class FileManager {
 				ReportFrame.reportFormatter(s);	
 			}
 			
-			Process = new Processing (fileLine);
+			//Process = new Processing (fileLine);
+			Process = new Processing ();
+			Process.data(fileLine);
 			
 
 			reader.close();	

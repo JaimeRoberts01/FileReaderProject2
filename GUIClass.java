@@ -9,6 +9,7 @@ import javax.swing.event.*;
 @SuppressWarnings("serial")
 public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
+	/*Instance variables*/
 	private JPanel Panel1, Panel2, Panel3, Panel4;
 	private JLabel Label1, Label2, Label3, Label4, Label5, Label6, Label7;
 	private JComboBox<String> JB1;
@@ -20,27 +21,17 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private ReportFrame ReportFrame;
 	private ReportFrame2 ReportFrame2;
 	private Processing Process;
-	private FileManager FileManager;
+	//private FileManager FileManager;
 
 	private ArrayList <String> fileLine;
-//	private int conversion;
-//	private double youngsModulous, pillarD, pillarL;	
-	//private String file;
-	
+
+
+	/*Getters and Setters*/
 	public ArrayList<String> getFileLine() {return fileLine;}
 	public void setFileLine(ArrayList<String> fileLine) {this.fileLine = fileLine;}
-//	public int getConversion() {return conversion;}
-//	public void setConversion(int conversion) {this.conversion = conversion;}
-//	public double getYoungsModulous() {return youngsModulous;}
-//	public void setYoungsModulous(double youngsModulous) {this.youngsModulous = youngsModulous;}
-//	public double getPillarD() {return pillarD;}
-//	public void setPillarD(double pillarD) {this.pillarD = pillarD;}
-//	public double getPillarL() {return pillarL;}
-//	public void setPillarL(double pillarL) {this.pillarL = pillarL;}
-//	public String getFile() {return file;}
-//	public void setFile(String file) {this.file = file;}
-	
-	
+
+
+	/*Constructor*/
 	public GUIClass ()  {
 
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
@@ -53,7 +44,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	}
 
 
-	public void GUIComponents () { // Basic GUI setup.
+	/*Basic GUI setup*/
+	public void GUIComponents () {
 
 		Panel1 = new JPanel ();
 		Panel1.setBackground (Color.lightGray);
@@ -136,13 +128,13 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Button2.addActionListener (this);
 		Panel2.add (Button2);
 		Button2.setEnabled (true);
-		
+
 		Button5 = new JButton ("All Frames");
 		Button5.setPreferredSize(new Dimension(125,25));
 		Button5.addActionListener (this);
 		Panel2.add (Button5);
 		Button5.setEnabled (true);
-	
+
 
 		Panel3 = new JPanel ();
 		Panel3.setBackground (Color.lightGray);
@@ -174,10 +166,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		JS1.setMinimum(0);
 		JS1.setValue(1);
 		JS1.setPreferredSize(new Dimension(500, 50));
-		//JS1.setMajorTickSpacing(10);
-		//JS1.setMinorTickSpacing(1);
-		//JS1.setPaintTicks(true);
-		//JS1.setPaintLabels(true);
 		Panel4.add(JS1);
 		JS1.setEnabled(true);
 
@@ -190,32 +178,21 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		TF7.setEnabled(true);
 	}
 
-	public String file () {
-		
-		String file = TF5.getText(); 
-		return file;
-	}
-	
-//	public void inputData () {
-//
-//		conversion = Integer.parseInt(TF1.getText().trim());
-//		youngsModulous = Double.parseDouble(TF2.getText().trim());
-//		pillarD = Double.parseDouble(TF3.getText().trim());
-//		pillarL = Double.parseDouble(TF4.getText().trim());
-//	}
 
-
-	public void fileReader () { // This should be moved to an IO class. 
+	/*FileReader opens the file and reads the data within it storing the data line by line in an array.
+	 This should be moved to its own class but there are problems when this happens.*/
+	public void fileReader (String fileName) { 
 
 		FileReader reader = null;
 		BufferedReader bufferedReader = null;
 		String file = null;
 		String line = null;
 		ReportFrame = new ReportFrame ();
+		Process = new Processing();
 
 		try {
 
-			file = TF5.getText();
+			file = fileName;
 			fileLine = new ArrayList<String>();
 
 			reader = new FileReader (file);
@@ -229,7 +206,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 				ReportFrame.reportFormatter(s);	
 			}
 
-			Process = new Processing (fileLine);	
+			Process.data(fileLine);
 
 			reader.close();	
 			bufferedReader.close();
@@ -249,7 +226,9 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	}
 
 
-	public void fileWriter () { // This should probably be moved to its own class I/O.
+	/*FileWriter saves the data to a new file. This should be in its own class but there are problems
+	 when attempting this.*/
+	public void fileWriter (String fileName) {
 
 		FileWriter writer = null;
 		String file = null;
@@ -258,7 +237,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 			try {
 
-				file = "fileOut.csv";
+				file = fileName;
 				writer = new FileWriter (file);	
 				writer.write(Process.outputFile());
 			}
@@ -271,95 +250,129 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 		catch (IOException IOE) {
 
-			JOptionPane.showMessageDialog (null, "FILE NOT FOUND", "ERROR", JOptionPane.ERROR_MESSAGE);
 			IOE.printStackTrace();	
 		}
 	}
 
 
-	public void displayOutput () { // This is for the Output Display - testing for correct output.
+	/*This is for displaying the output data in the report frame. It is for testing the output data
+	 is correct and will be deleted at the end - it cannot cope with the whole file.*/
+	public void displayOutput () {
 
 		ReportFrame2 = new ReportFrame2 (Process);	
 		ReportFrame2.reportFormatter();
 	}
 
-	
-	@Override
-	public void actionPerformed(ActionEvent e) { // Could we remember to sort out the button order
 
+	@Override /*ActionPerformed methods for the individual buttons*/
+	public void actionPerformed(ActionEvent e) {
+
+		/*This is the 'Calculate Forces' button and calls methods for calculating the forces.*/
 		if (e.getSource() == Button1) { 
 			System.out.println("We definitely hit button 1");
-//			inputData ();
 			int conversion = Integer.parseInt(TF1.getText().trim());
 			double youngsModulous = Double.parseDouble(TF2.getText().trim());
 			double pillarD = Double.parseDouble(TF3.getText().trim());
 			double pillarL = Double.parseDouble(TF4.getText().trim());
 			Process.nanoMeters(conversion);
-			System.out.println ("THIS IS CONVERSION: " + conversion);
 			Process.forces(youngsModulous, pillarD, pillarL);
 			Process.newDataArray();
 			System.out.println("And if you're seeing this, we did something!");
 		}
 
+		/**/
 		if (e.getSource() == Button2) {
 
 			System.out.println("We definitely hit button 2");
-			displayOutput();
-//			int ID = Integer.parseInt(TF6.getText().trim());
+			//			displayOutput();
+			//			int ID = Integer.parseInt(TF6.getText().trim());
 
-//			if (JB1.getSelectedIndex() == 0 ) {	
-//				Process.byFrame (ID);
-//			}
-//
-//			else if (JB1.getSelectedIndex() == 1) {
-//				Process.byPillar (ID);
-//			}
+			//			if (JB1.getSelectedIndex() == 0 ) {	
+			//				Process.byFrame (ID);
+			//			}
+			//
+			//			else if (JB1.getSelectedIndex() == 1) {
+			//				Process.byPillar (ID);
+			//			}
 			System.out.println("And if you're seeing this, we did something!");
 		}
 
-		if (e.getSource() == Button3) {
+		/*This is the 'Save' button. It calls the fileReader and passes it a string for the file name.If
+		 a file with this name exists, the user is given the option to change the name or overwrite.*/
+		if (e.getSource() == Button3) { // save Button
+
 			System.out.println("We definitely hit button 3");	// Not sure what I'm doing with this one
-			//			JFC = new JFileChooser();
-			//			int saveVal = JFC.showSaveDialog(GUIClass.this);
-			//			
-			//			if (saveVal == JFileChooser.APPROVE_OPTION) {
-			//				//String savedFileName = TF5.getText();
-			//			}
-			fileWriter ();
+
+			JFC = new JFileChooser();
+			int saveVal = JFC.showSaveDialog(null);
+
+			if (saveVal == JFileChooser.APPROVE_OPTION) {
+
+				File savedFile = JFC.getSelectedFile();
+
+				if (savedFile.exists()) {
+					int response = JOptionPane.showConfirmDialog (null, "FILE ALREADY EXISTS. REPLACE?", 
+							"Select an Option...", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+
+					if (response == JOptionPane.YES_OPTION) {
+						String fileName = savedFile.toString();
+						fileWriter (fileName);
+					}
+
+					if (response == JOptionPane.NO_OPTION) {
+						response = JOptionPane.CLOSED_OPTION;
+					}
+				}
+
+				else {
+					String fileName1 = savedFile.toString();
+					fileWriter (fileName1);
+					System.out.println("Here is the filename: " + fileName1);
+				}
+
+			}
 			System.out.println("And if you're seeing this, we did something!");	
 		}
 
+		/*This is the 'Browse' button and enables the user to open a file. A string is passed to the
+		 texfield so the user can see which file has been opened.*/
 		if (e.getSource() == Button4) {
 			JFC = new JFileChooser ();
 			JFC.setMultiSelectionEnabled(false);
-			int openVal = JFC.showDialog(GUIClass.this, "Select");
+			int openVal = JFC.showDialog(null, "Select");
 
 			if (openVal == JFileChooser.APPROVE_OPTION) {
 				File selectedFile =	JFC.getSelectedFile();
 				TF5.setText(selectedFile.toString());
+				String fileName = TF5.getText();
+
 				System.out.println("THIS IS TF5;" + TF5.getText());
-				fileReader();
-//				String fileName = TF5.getText();
-//				System.out.println("THIS IS FILEZ" + fileName);
-//				FileManager = new FileManager ();
-//				FileManager.fileReader (fileName);
+				fileReader(fileName);
+				//				String fileName = TF5.getText();
+				//				System.out.println("THIS IS FILEZ" + fileName);
+				//				FileManager = new FileManager ();
+				//				FileManager.fileReader (fileName);
 			}
-	
+
 		}
+
 		
+		/*This is the 'All Frames' button and is used to call a method for separating out the data
+		 for individual pillars across the different frames.*/
 		if (e.getSource() == Button5) {
 
 			System.out.println("We definitely hit button AllFrame");
 			displayOutput();
-			Process.getNumberOfFrames();
+			Process.getNumberOfUniqueFrames();
 			Process.getNumberOfUniquePillars ();
 			Process.allFrames();
 			System.out.println("And if you're seeing this, we did something!");
-			}
+		}
 	}
+
+
 	
-	
-	@Override
+	@Override /*State change method for the slider - this will go if I can't find anything to do with it.*/
 	public void stateChanged(ChangeEvent e) {
 
 		if (e.getSource() == JS1) {

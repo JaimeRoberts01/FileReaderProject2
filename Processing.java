@@ -9,12 +9,16 @@ public class Processing {
 	private int frames, uniquePillars; 
 	//private GUIClass GUI;
 
+//	public Processing (int conversion, double youngsModulous, double pillarD, double pillarL) {	
+//
+//	}
 	public Processing () {	
 
 	}
 
 
 	/*Getters and Setters*/
+
 	public Object[][] getData() {return data;}
 	public void setData(Object[][] data) {this.data = data;}
 	public Object[][] getNewData() {return newData;}
@@ -27,7 +31,8 @@ public class Processing {
 
 	/*This method breaks the ArrayList<String> into a 2D array using "," as the delimiter. It 
 	starts by removing any lines that contain the word "NaN", which cannot be processed*/
-	public Processing (ArrayList<String> fileLine) { 
+//	public Processing (ArrayList<String> fileLine) { 
+	public Object [][] data (ArrayList<String> fileLine) { 
 
 		for (int i = 0; i < fileLine.size(); i++) {
 
@@ -47,18 +52,19 @@ public class Processing {
 			System.out.println(Arrays.toString(data[i]));
 		}
 		System.out.println ("Data length: " + data.length);
+		return data;
 	}
 
 	
 	/*This method converts pixels into nanometres for the deflection values.*/
 	public double [] nanoMeters (int conversion) {
 
-		System.out.println ("WE'RE IN NANO: " + conversion);
-		
+//		System.out.println ("WE'RE IN NANO: " + conversion);
+//		System.out.println("whatever: " + whatever);
 		int columns = data.length;
 		nanometers = new double [columns];
 
-		for (int i= 0; i<data.length; i++) {
+		for (int i= 0; i<this.data.length; i++) {
 
 			double nm =  Double.parseDouble((String) data [i][6]) * conversion;
 			nanometers [i] = nm;
@@ -81,7 +87,7 @@ public class Processing {
 		double length = pillarL; //double length = 1.3 for the 500 nm pillars;
 
 		for (int i=0; i<data.length; i++) {
-
+	
 			double picoMeters = (double) nanometers [i] *1000;
 			double picoForces = (constant * pi *E * (Math.pow(diameter, 4)/Math.pow(length, 3))*picoMeters);
 			picoNewtons [i] = picoForces;
@@ -117,8 +123,10 @@ public class Processing {
 		return data;
 	}
 
-
-	public int getNumberOfFrames () {
+	
+	/*This method cycles through the frames and finds the highest number of frames in the dataset
+	 e.g. There are usually 91 frames with 5535 sets of pillar data in each frame.*/
+	public int getNumberOfUniqueFrames () {
 
 		frames = Integer.parseInt((String) data [0][0]);
 
@@ -135,6 +143,8 @@ public class Processing {
 	}
 
 
+	/*This method cycles through the pillars to find how many pillars there are in a frame. This
+	 one needs more work - I can't remember what I wanted it for.*/
 	public int getNumberOfUniquePillars () {
 
 		uniquePillars = 0;
