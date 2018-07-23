@@ -30,13 +30,13 @@ public class Processing {
 
 
 	/*This method breaks the ArrayList<String> into a 2D array using "," as the delimiter. It 
-	starts by removing any lines that contain the word "NaN", which cannot be processed*/
-//	public Processing (ArrayList<String> fileLine) { 
+	starts by removing lines that contain the word "NaN"/"Frame Index", which aren't processed*/
+ 
 	public Object [][] data (ArrayList<String> fileLine) { 
 
 		for (int i = 0; i < fileLine.size(); i++) {
 
-			if (fileLine.get(i).contains("NaN")) {
+			if (fileLine.get(i).contains("NaN") || fileLine.get(i).contains("Frame Index")) {
 				fileLine.remove(i);
 			}
 		}
@@ -59,8 +59,6 @@ public class Processing {
 	/*This method converts pixels into nanometres for the deflection values.*/
 	public double [] nanoMeters (int conversion) {
 
-//		System.out.println ("WE'RE IN NANO: " + conversion);
-//		System.out.println("whatever: " + whatever);
 		int columns = data.length;
 		nanometers = new double [columns];
 
@@ -117,7 +115,7 @@ public class Processing {
 			newData [i][7] = nanometers [i];
 			newData [i][8] = picoNewtons [i];
 
-			System.out.println("Here is newData: " + Arrays.toString(newData[i]));
+			System.out.println("Here is newData: " + Arrays.toString (newData[i]));
 		}
 
 		return data;
@@ -214,28 +212,91 @@ public class Processing {
 	//	}
 
 
-	public void allFrames () {
+//	public void allFrames () { // needs moving to its own class after it is sorted
+//
+//		for (int i = 0; i<uniquePillars; i++) {
+//
+//			double averageTest =0.0;
+//			int pillarCounter = Integer.parseInt((String) newData [i][1]);
+//			System.out.println("This is the value of pillarCounter: " + pillarCounter);
+//
+//			for (int j =0; j< newData.length; j++) {
+//
+//				int pillarID = Integer.parseInt((String) newData [j][1]);
+//	
+//				if (pillarID == pillarCounter) {
+//					double something = (double) newData [j][8];
+//					averageTest += (double) newData [j][8];
+//					System.out.println("This is the force value matching the pillar: " + something);
+//				}
+//			}	
+//
+//			System.out.println("Averagetest: " + averageTest/frames);
+//			System.out.println("This is the next value of pillarCounter: " + pillarCounter);
+//		}
+//	}
+		
 
-		for (int i = 0; i<uniquePillars; i++) {
+	public void allFrames () { // needs moving to its own class after it is sorted
 
-			double averageTest =0.0;
-			int pillarCounter = Integer.parseInt((String) newData [i][1]);
-			System.out.println("This is the value of pillarCounter: " + pillarCounter);
+		ArrayList <Integer> pillar = new ArrayList <Integer> ();
 
-			for (int j =0; j< newData.length; j++) {
+		for (int i = 0; i<newData.length; i++) {
 
-				int pillarID = Integer.parseInt((String) newData [j][1]);
-	
-				if (pillarID == pillarCounter) {
-					double something = (double) newData [j][8];
-					averageTest += (double) newData [j][8];
-					System.out.println("This is the force value matching the pillar: " + something);
-				}
-			}	
-
-			System.out.println("Averagetest: " + averageTest/frames);
-			System.out.println("This is the next value of pillarCounter: " + pillarCounter);
+			int pillarID = Integer.parseInt((String) newData [i][1]); //this is starting the iteration through the array
+			boolean contains = pillar.contains(pillarID);
+			
+			if (contains != true) {
+				pillar.add(pillarID);
+			}
 		}
+		
+		Collections.sort(pillar);
+		
+		for (int i : pillar) {System.out.println("pillar: " + i);}
+
+		ArrayList <Double> pico = new ArrayList <Double> ();
+		
+		for (int j = 0; j < pillar.size(); j++) {
+			
+			int pillarArray = pillar.get(j);
+			System.out.println("pillarArray: " + pillarArray);
+			
+			for (int k = 0; k < newData.length; k++) {
+			
+			int pillarIndex = Integer.parseInt((String) newData [k][1]);
+			
+			if (pillarIndex == pillarArray) {
+				
+				pico.add ((double) newData [k][8]);
+			}
+		}
+			System.out.println("pico: " + pico);
+			statistics (pico);
+			pico.clear();
+		}
+	}	
+	
+	
+	/*This method calculates the average and standard deviation of the picoNewton values in the data.*/
+	public void statistics (ArrayList<Double> pico) {
+		
+		double average = 0.0;
+		double sd = 0.0;
+		
+		for (double avg : pico) {
+			average += avg;			
+		}
+		average = average/pico.size();
+		System.out.println("Average: " + average);
+		
+		
+		for (double stdev : pico) {
+		
+			sd += Math.pow((stdev-average), 2);			
+		}
+		sd = Math.sqrt(sd/pico.size());
+		System.out.println("SD: " + sd);
 	}
 
 
