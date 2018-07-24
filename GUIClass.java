@@ -17,10 +17,11 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private JSlider JS1;
 	private JFileChooser JFC;
 	private JButton Button1, Button2, Button3, Button4, Button5;
-
+	
 	private ReportFrame ReportFrame;
 	private ReportFrame2 ReportFrame2;
 	private Processing Process;
+	private Processing2 Process2;
 	//private FileManager FileManager;
 
 	private ArrayList <String> fileLine;
@@ -160,7 +161,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Panel4.setBackground (Color.lightGray);
 		add(Panel4);
 
-		JS1 = new JSlider (JSlider.HORIZONTAL); // There's no point in doing this but I want a reference of it anyway
+		JS1 = new JSlider (JSlider.HORIZONTAL);
 		JS1.addChangeListener(this);
 		JS1.setMaximum(100);
 		JS1.setMinimum(0);
@@ -239,8 +240,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 				file = fileName;
 				writer = new FileWriter (file);	
-//				writer.write(Process.outputFile());
-				writer.write(Process.outputFile2());
+				writer.write(Process.outputFile());
+				//writer.write(Process.outputFile2());
 			}
 
 			finally {
@@ -286,8 +287,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 			System.out.println("We definitely hit button 2");
 			//			displayOutput();
-			
-			Process.outputFile2();
+
+			//Process2.outputFile2();
 			//			int ID = Integer.parseInt(TF6.getText().trim());
 
 			//			if (JB1.getSelectedIndex() == 0 ) {	
@@ -359,23 +360,21 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 		}
 
-		
+
 		/*This is the 'All Frames' button and is used to call a method for separating out the data
 		 for individual pillars across the different frames.*/
 		if (e.getSource() == Button5) {
 
 			System.out.println("We definitely hit button AllFrame");
 			displayOutput();
-//			Process.getNumberOfUniqueFrames();
-//			Process.getNumberOfUniquePillars ();
-			Process.allFrames();
-			
+			Process2 = new Processing2 ();
+			Process2.allFrames(Process.getNewData());
+
 			System.out.println("And if you're seeing this, we did something!");
 		}
 	}
 
 
-	
 	@Override /*State change method for the slider - this will go if I can't find anything to do with it.*/
 	public void stateChanged(ChangeEvent e) {
 

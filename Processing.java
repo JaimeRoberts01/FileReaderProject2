@@ -6,8 +6,8 @@ public class Processing {
 	/*Instance variables for the arrays.*/
 	private Object [][] data, newData;
 	private double [] nanometers, picoNewtons;
-	private ArrayList <Double> mean, standard_deviation;
-	private ArrayList <Integer> pillar;
+//	private ArrayList <Double> mean, standard_deviation;
+//	private ArrayList <Integer> pillar;
 
 	
 	public Processing () {	
@@ -21,11 +21,14 @@ public class Processing {
 	public void setData(Object[][] data) {this.data = data;}
 	public Object[][] getNewData() {return newData;}
 	public void setNewData(Object[][] newData) {this.newData = newData;}
+	public double[] getNanometers() {return nanometers;}
+	public void setNanometers(double[] nanometers) {this.nanometers = nanometers;}
+	public double[] getPicoNewtons() {return picoNewtons;}
+	public void setPicoNewtons(double[] picoNewtons) {this.picoNewtons = picoNewtons;}
 
 
 	/*This method breaks the ArrayList<String> into a 2D array using "," as the delimiter. It 
 	starts by removing lines that contain the word "NaN"/"Frame Index", which aren't processed*/
- 
 	public Object [][] data (ArrayList<String> fileLine) { 
 
 		for (int i = 0; i < fileLine.size(); i++) {
@@ -169,78 +172,78 @@ public class Processing {
 	//	}
 
 
-	public void allFrames () { // needs moving to its own class after it is sorted
-
-		pillar = new ArrayList <Integer> ();
-		mean = new ArrayList<Double> ();
-		standard_deviation = new ArrayList<Double> ();
-	
-		for (int i = 0; i<newData.length; i++) {
-
-			int pillarID = Integer.parseInt((String) newData [i][1]); 
-			
-			if (!pillar.contains(pillarID)) {
-				pillar.add(pillarID);
-			}
-		}
-
-		Collections.sort(pillar);
-
-		
-		for (int i : pillar) {System.out.println("pillar: " + i);}
-
-		ArrayList <Double> pico = new ArrayList <Double> ();
-
-		for (int j = 0; j < pillar.size(); j++) {
-
-			int pillarArray = pillar.get(j);
-			System.out.println("pillarArray: " + pillarArray);
-
-			for (int k = 0; k < newData.length; k++) {
-
-				int pillarIndex = Integer.parseInt((String) newData [k][1]);
-
-				if (pillarIndex == pillarArray) {
-
-					pico.add ((double) newData [k][8]);
-				}
-			}
-			System.out.println("pico: " + pico);
-			statistics (pico);
-			pico.clear();
-		}
-		
-		for (double m : mean) {System.out.println("mean: " + m);}
-		for (double s : standard_deviation) {System.out.println("stndev: " + s);}
-	}	
-	
-	
-	/*This method calculates the average and standard deviation of the picoNewton values in the data.*/
-	public void statistics (ArrayList<Double> pico) {
-		
-		double average = 0.0;
-	
-		double sd = 0.0;
-	
-		
-		for (double avg : pico) {
-			average += avg;			
-		}
-		average = average/pico.size();
-	
-		mean.add(average);
-		System.out.println("Average: " + average);
-		
-		
-		for (double stdev : pico) {
-		
-			sd += Math.pow((stdev-average), 2);			
-		}
-		sd = Math.sqrt(sd/pico.size());
-		standard_deviation.add(sd);
-		System.out.println("SD: " + sd);
-		
-	}
+//	public void allFrames () { // needs moving to its own class after it is sorted
+//
+//		pillar = new ArrayList <Integer> ();
+//		mean = new ArrayList<Double> ();
+//		standard_deviation = new ArrayList<Double> ();
+//	
+//		for (int i = 0; i<newData.length; i++) {
+//
+//			int pillarID = Integer.parseInt((String) newData [i][1]); 
+//			
+//			if (!pillar.contains(pillarID)) {
+//				pillar.add(pillarID);
+//			}
+//		}
+//
+//		Collections.sort(pillar);
+//
+//		
+//		for (int i : pillar) {System.out.println("pillar: " + i);}
+//
+//		ArrayList <Double> pico = new ArrayList <Double> ();
+//
+//		for (int j = 0; j < pillar.size(); j++) {
+//
+//			int pillarArray = pillar.get(j);
+//			System.out.println("pillarArray: " + pillarArray);
+//
+//			for (int k = 0; k < newData.length; k++) {
+//
+//				int pillarIndex = Integer.parseInt((String) newData [k][1]);
+//
+//				if (pillarIndex == pillarArray) {
+//
+//					pico.add ((double) newData [k][8]);
+//				}
+//			}
+//			System.out.println("pico: " + pico);
+//			statistics (pico);
+//			pico.clear();
+//		}
+//		
+//		for (double m : mean) {System.out.println("mean: " + m);}
+//		for (double s : standard_deviation) {System.out.println("stndev: " + s);}
+//	}	
+//	
+//	
+//	/*This method calculates the average and standard deviation of the picoNewton values in the data.*/
+//	public void statistics (ArrayList<Double> pico) {
+//		
+//		double average = 0.0;
+//	
+//		double sd = 0.0;
+//	
+//		
+//		for (double avg : pico) {
+//			average += avg;			
+//		}
+//		average = average/pico.size();
+//	
+//		mean.add(average);
+//		System.out.println("Average: " + average);
+//		
+//		
+//		for (double stdev : pico) {
+//		
+//			sd += Math.pow((stdev-average), 2);			
+//		}
+//		sd = Math.sqrt(sd/pico.size());
+//		standard_deviation.add(sd);
+//		System.out.println("SD: " + sd);
+//		
+//	}
 
 
 	/*This method builds a string for the ReportFrame2 to test proper output; it will be deleted eventually.*/
@@ -282,21 +285,21 @@ public class Processing {
 	}
 	
 	
-	public String outputFile2 () {
-		
-		String header = ("pillar" + "," + "average" + "," + "stndev" + ",");
-		String body = "";
-		
-		for (int i =0; i<pillar.size();i++) {
-			
-			body += (pillar.get(i) + "," + mean.get(i) + "," + standard_deviation.get(i) + "\n");
-		}
-		StringBuilder SB = new StringBuilder();
-		SB.append(header + "\n");
-		SB.append(body);
-		String outputFile = SB.toString();
-		System.out.println(outputFile);
-		//GUI.fileWriter(outputFile);
-		return outputFile;
-	}
+//	public String outputFile2 () {
+//		
+//		String header = ("pillar" + "," + "average" + "," + "stndev" + ",");
+//		String body = "";
+//		
+//		for (int i =0; i<pillar.size();i++) {
+//			
+//			body += (pillar.get(i) + "," + mean.get(i) + "," + standard_deviation.get(i) + "\n");
+//		}
+//		StringBuilder SB = new StringBuilder();
+//		SB.append(header + "\n");
+//		SB.append(body);
+//		String outputFile = SB.toString();
+//		System.out.println(outputFile);
+//		//GUI.fileWriter(outputFile);
+//		return outputFile;
+//	}
 }
