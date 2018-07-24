@@ -42,7 +42,6 @@ public class ReportFrame extends JFrame { // For checking the FileReader is beha
 	}
 
 
-//	public void reportFormatter (ArrayList<String> fileLine) {
 	public void reportFormatter (String l) {
 		
 		displayFile.append (l + "\n");	

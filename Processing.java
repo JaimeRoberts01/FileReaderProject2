@@ -6,12 +6,10 @@ public class Processing {
 	/*Instance variables for the arrays.*/
 	private Object [][] data, newData;
 	private double [] nanometers, picoNewtons;
-	private int frames, uniquePillars; 
-	//private GUIClass GUI;
+	private ArrayList <Double> mean, standard_deviation;
+	private ArrayList <Integer> pillar;
 
-//	public Processing (int conversion, double youngsModulous, double pillarD, double pillarL) {	
-//
-//	}
+	
 	public Processing () {	
 
 	}
@@ -23,10 +21,6 @@ public class Processing {
 	public void setData(Object[][] data) {this.data = data;}
 	public Object[][] getNewData() {return newData;}
 	public void setNewData(Object[][] newData) {this.newData = newData;}
-	public int getFrames() {return frames;}
-	public void setFrames(int frames) {this.frames = frames;}
-	public int getUniquePillars() {return uniquePillars;}
-	public void setUniquePillars(int uniquePillars) {this.uniquePillars = uniquePillars;}
 
 
 	/*This method breaks the ArrayList<String> into a 2D array using "," as the delimiter. It 
@@ -122,44 +116,7 @@ public class Processing {
 	}
 
 	
-	/*This method cycles through the frames and finds the highest number of frames in the dataset
-	 e.g. There are usually 91 frames with 5535 sets of pillar data in each frame.*/
-	public int getNumberOfUniqueFrames () {
 
-		frames = Integer.parseInt((String) data [0][0]);
-
-		for (int i = 0; i< data.length; i++) {
-
-			if (Integer.parseInt((String) data [i][0]) > frames) {
-
-				frames = Integer.parseInt((String) data [i][0]); 
-			}
-		}
-
-		System.out.println("Here are the number of frames: " + frames);
-		return frames;
-	}
-
-
-	/*This method cycles through the pillars to find how many pillars there are in a frame. This
-	 one needs more work - I can't remember what I wanted it for.*/
-	public int getNumberOfUniquePillars () {
-
-		uniquePillars = 0;
-		int pillars = 0; // there will never be a pillar 0.
-
-		for (int i = 0; i< data.length; i++) {
-
-			if (Integer.parseInt((String) data [i][1]) > pillars) {
-
-				pillars = Integer.parseInt((String) data [i][1]);
-				uniquePillars ++;	
-			}
-		}
-
-		System.out.println("Here are the number of unique pillars: " + uniquePillars);
-		return uniquePillars;
-	}
 
 
 	//	public void byFrame (int ID) { //This will need checks for non-existent frames. This should probably be in its own class.
@@ -212,69 +169,49 @@ public class Processing {
 	//	}
 
 
-//	public void allFrames () { // needs moving to its own class after it is sorted
-//
-//		for (int i = 0; i<uniquePillars; i++) {
-//
-//			double averageTest =0.0;
-//			int pillarCounter = Integer.parseInt((String) newData [i][1]);
-//			System.out.println("This is the value of pillarCounter: " + pillarCounter);
-//
-//			for (int j =0; j< newData.length; j++) {
-//
-//				int pillarID = Integer.parseInt((String) newData [j][1]);
-//	
-//				if (pillarID == pillarCounter) {
-//					double something = (double) newData [j][8];
-//					averageTest += (double) newData [j][8];
-//					System.out.println("This is the force value matching the pillar: " + something);
-//				}
-//			}	
-//
-//			System.out.println("Averagetest: " + averageTest/frames);
-//			System.out.println("This is the next value of pillarCounter: " + pillarCounter);
-//		}
-//	}
-		
-
 	public void allFrames () { // needs moving to its own class after it is sorted
 
-		ArrayList <Integer> pillar = new ArrayList <Integer> ();
-
+		pillar = new ArrayList <Integer> ();
+		mean = new ArrayList<Double> ();
+		standard_deviation = new ArrayList<Double> ();
+	
 		for (int i = 0; i<newData.length; i++) {
 
-			int pillarID = Integer.parseInt((String) newData [i][1]); //this is starting the iteration through the array
-			boolean contains = pillar.contains(pillarID);
+			int pillarID = Integer.parseInt((String) newData [i][1]); 
 			
-			if (contains != true) {
+			if (!pillar.contains(pillarID)) {
 				pillar.add(pillarID);
 			}
 		}
-		
+
 		Collections.sort(pillar);
+
 		
 		for (int i : pillar) {System.out.println("pillar: " + i);}
 
 		ArrayList <Double> pico = new ArrayList <Double> ();
-		
+
 		for (int j = 0; j < pillar.size(); j++) {
-			
+
 			int pillarArray = pillar.get(j);
 			System.out.println("pillarArray: " + pillarArray);
-			
+
 			for (int k = 0; k < newData.length; k++) {
-			
-			int pillarIndex = Integer.parseInt((String) newData [k][1]);
-			
-			if (pillarIndex == pillarArray) {
-				
-				pico.add ((double) newData [k][8]);
+
+				int pillarIndex = Integer.parseInt((String) newData [k][1]);
+
+				if (pillarIndex == pillarArray) {
+
+					pico.add ((double) newData [k][8]);
+				}
 			}
-		}
 			System.out.println("pico: " + pico);
 			statistics (pico);
 			pico.clear();
 		}
+		
+		for (double m : mean) {System.out.println("mean: " + m);}
+		for (double s : standard_deviation) {System.out.println("stndev: " + s);}
 	}	
 	
 	
@@ -282,12 +219,16 @@ public class Processing {
 	public void statistics (ArrayList<Double> pico) {
 		
 		double average = 0.0;
+	
 		double sd = 0.0;
+	
 		
 		for (double avg : pico) {
 			average += avg;			
 		}
 		average = average/pico.size();
+	
+		mean.add(average);
 		System.out.println("Average: " + average);
 		
 		
@@ -296,7 +237,9 @@ public class Processing {
 			sd += Math.pow((stdev-average), 2);			
 		}
 		sd = Math.sqrt(sd/pico.size());
+		standard_deviation.add(sd);
 		System.out.println("SD: " + sd);
+		
 	}
 
 
@@ -335,6 +278,25 @@ public class Processing {
 		outputFile = outputFile.replace("[", "");
 		outputFile = outputFile.replace("]", "");
 
+		return outputFile;
+	}
+	
+	
+	public String outputFile2 () {
+		
+		String header = ("pillar" + "," + "average" + "," + "stndev" + ",");
+		String body = "";
+		
+		for (int i =0; i<pillar.size();i++) {
+			
+			body += (pillar.get(i) + "," + mean.get(i) + "," + standard_deviation.get(i) + "\n");
+		}
+		StringBuilder SB = new StringBuilder();
+		SB.append(header + "\n");
+		SB.append(body);
+		String outputFile = SB.toString();
+		System.out.println(outputFile);
+		//GUI.fileWriter(outputFile);
 		return outputFile;
 	}
 }

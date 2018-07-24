@@ -239,7 +239,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 				file = fileName;
 				writer = new FileWriter (file);	
-				writer.write(Process.outputFile());
+//				writer.write(Process.outputFile());
+				writer.write(Process.outputFile2());
 			}
 
 			finally {
@@ -285,6 +286,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 			System.out.println("We definitely hit button 2");
 			//			displayOutput();
+			
+			Process.outputFile2();
 			//			int ID = Integer.parseInt(TF6.getText().trim());
 
 			//			if (JB1.getSelectedIndex() == 0 ) {	
@@ -363,9 +366,10 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 			System.out.println("We definitely hit button AllFrame");
 			displayOutput();
-			Process.getNumberOfUniqueFrames();
-			Process.getNumberOfUniquePillars ();
+//			Process.getNumberOfUniqueFrames();
+//			Process.getNumberOfUniquePillars ();
 			Process.allFrames();
+			
 			System.out.println("And if you're seeing this, we did something!");
 		}
 	}
