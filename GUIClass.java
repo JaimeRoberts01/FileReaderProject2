@@ -40,9 +40,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	public GUIClass ()  {
 
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-		
-		setTitle ("PillarTracker File Reader");
 		setFont(new Font ("Consolas", Font.PLAIN, 14));
+		setTitle ("PillarTracker File Reader");
 		setSize (700, 300);
 		setLocation (1500,0);
 		setResizable (false);
@@ -299,7 +298,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 	/*FileWriter saves the data to a new file. This should be in its own class but there are problems
 	 when attempting this.*/
-	public void fileWriter (String fileName) {
+	public void fileWriter (String fileName, int dataset) {
 
 		FileWriter writer = null;
 		String file = null;
@@ -307,11 +306,17 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		try {
 
 			try {
-
 				file = fileName;
-				writer = new FileWriter (file);	
-				writer.write(Process.outputFile());
-				//writer.write(Process.outputFile2());
+				writer = new FileWriter (file);
+				
+				if (dataset == 0) {	
+					writer.write(Process.outputFile());
+				}
+				else if (dataset ==1) {
+					writer.write(Process2.outputFile2());	
+				}
+
+
 			}
 
 			finally {
@@ -380,8 +385,21 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == Button3) { 
 
 			System.out.println("We definitely hit button 3");	
+			
+
+			Object [] options = {"Force Data", "Stats Data"};
+			String option = (String) JOptionPane.showInputDialog (null, "Choose which data to save", 
+					"Select an Option...", JOptionPane.PLAIN_MESSAGE, null, options, "Force Data");
+			int dataset = 0;
+			if (option == options [0] ) {
+				dataset = 0;
+			}
+			else if (option == options [1] ) {
+				dataset = 1;
+			}
 
 			JFC = new JFileChooser();
+			String fileName = "";
 			int saveVal = JFC.showSaveDialog(null);
 
 			if (saveVal == JFileChooser.APPROVE_OPTION) {
@@ -393,8 +411,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 							"Select an Option...", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
 
 					if (response == JOptionPane.YES_OPTION) {
-						String fileName = savedFile.toString();
-						fileWriter (fileName);
+						fileName = savedFile.toString();
+						fileWriter (fileName, dataset);
 					}
 
 					if (response == JOptionPane.NO_OPTION) {
@@ -403,9 +421,9 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 				}
 
 				else {
-					String fileName1 = savedFile.toString();
-					fileWriter (fileName1);
-					System.out.println("Here is the filename: " + fileName1);
+					fileName = savedFile.toString();
+					fileWriter (fileName, dataset);
+					System.out.println("Here is the filename: " + fileName);
 				}
 
 			}
@@ -417,18 +435,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == Button4) {
 
 			System.out.println("We definitely hit button 4");
-			//			displayOutput();
 
-			//Process2.outputFile2();
-			//			int ID = Integer.parseInt(TF6.getText().trim());
-
-			//			if (JB1.getSelectedIndex() == 0 ) {	
-			//				Process.byFrame (ID);
-			//			}
-			//
-			//			else if (JB1.getSelectedIndex() == 1) {
-			//				Process.byPillar (ID);
-			//			}
 			System.out.println("And if you're seeing this, we did something!");
 		}
 
@@ -436,8 +443,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		/**/
 		if (e.getSource() == Button5) {
 
-			System.out.println("We definitely hit button 6");
-
+			System.out.println("We definitely hit button 5");
 
 			System.out.println("And if you're seeing this, we did something!");
 		}
