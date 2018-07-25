@@ -70,13 +70,13 @@ public class Processing {
 
 	
 	/*This method calculates the picoNewton forces from all the values provided .*/
-	public double [] forces (double youngsModulous, double pillarD, double pillarL) {
+	public double [] forces (double youngsM, double pillarD, double pillarL) {
 
 		int columns = data.length;
 		picoNewtons = new double [columns];
 
 		double constant = (double) 3/64;
-		double E = youngsModulous; //double E = 2.0 for PDMS;
+		double E = youngsM; //double E = 2.0 for PDMS;
 		double pi = Math.PI;
 		double diameter = pillarD; //double diameter = 0.5 for the 500 nm pillars;
 		double length = pillarL; //double length = 1.3 for the 500 nm pillars;
