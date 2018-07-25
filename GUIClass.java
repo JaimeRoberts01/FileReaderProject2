@@ -13,12 +13,11 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 
 	/*Instance variables*/
-	private JPanel Panel1, Panel2, Panel3, Panel4;
+	private JPanel Panel1, Panel2, Panel3, Panel4, Panel5;
 	private JLabel Label1, Label2, Label3, Label4, Label5, Label6, Label7, Label8;
-	//private JComboBox<String> JB1;
 	private JSeparator S1;
 	private JTextField TF1, TF2, TF3, TF4, TF5, TF6, TF7;
-	
+
 	private JSlider JS1;
 	private JFileChooser JFC;
 	private JButton Button1, Button2, Button3, Button4, Button5, Button6;
@@ -41,11 +40,13 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	public GUIClass ()  {
 
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-		setTitle ("Jemma's Test GUI");
+		
+		setTitle ("PillarTracker File Reader");
+		setFont(new Font ("Consolas", Font.PLAIN, 14));
 		setSize (700, 300);
 		setLocation (1500,0);
 		setResizable (false);
-		setLayout (new GridLayout (4,1));
+		setLayout (new GridLayout (5,1));
 		GUIComponents ();
 	}
 
@@ -56,13 +57,12 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		/*Panel1 contains the JFileChooser for selecting files*/
 		Panel1 = new JPanel ();
 		Panel1.setBackground (Color.lightGray);
-		Panel1.setBorder(new EmptyBorder (18,4,18,4));
+		Panel1.setBorder(new EmptyBorder (12,4,12,4));
 		add (Panel1);
 
 		Label1 = new JLabel ("File:");
 		Label1.setFont(new Font ("Consolas", Font.PLAIN, 14));
 		Panel1.add(Label1);
-		Label1.setEnabled(true);
 
 		TF1 = new JTextField(43);
 		TF1.addActionListener (this);
@@ -71,7 +71,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		TF1.setEditable(false);
 		Panel1.add(TF1);
 		TF1.setEnabled(true);
-		
 
 		Button1 = new JButton ("Browse");
 		Button1.setPreferredSize(new Dimension(125,23));
@@ -85,14 +84,13 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 		/*Panel2 contains the JTextFields for calculating force.*/
 		Panel2 = new JPanel ();
-		Panel2.setBackground (Color.gray);
-		Panel2.setBorder(new EmptyBorder (4,6,4,6));
+		Panel2.setBackground (Color.lightGray);
+		Panel2.setBorder(new EmptyBorder (12,6,12,6));
 		add (Panel2);
 
 		Label2 = new JLabel ("Pixel to nm:");
 		Label2.setFont(new Font ("Consolas", Font.PLAIN, 14));
 		Panel2.add (Label2);
-		Label2.setEnabled (true);
 
 		TF2 = new JTextField (4);
 		TF2.addActionListener (this);
@@ -105,7 +103,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Label3 = new JLabel ("Substrate (E):");
 		Label3.setFont(new Font ("Consolas", Font.PLAIN, 14));
 		Panel2.add (Label3);
-		Label3.setEnabled (true);
 
 		TF3 = new JTextField (4);
 		TF3.addActionListener (this);
@@ -118,7 +115,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Label4 = new JLabel (" Pillar Diameter (µm):");
 		Label4.setFont(new Font ("Consolas", Font.PLAIN, 14));
 		Panel2.add (Label4);
-		Label4.setEnabled (true);
 
 		TF4 = new JTextField (4);
 		TF4.addActionListener (this);
@@ -131,7 +127,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Label5 = new JLabel (" Pillar Length (µm):");
 		Label5.setFont(new Font ("Consolas", Font.PLAIN, 14));
 		Panel2.add (Label5);
-		Label5.setEnabled (true);
 
 		TF5 = new JTextField (4);
 		TF5.addActionListener (this);
@@ -141,13 +136,20 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Panel2.add(TF5);
 		TF5.setEnabled(true);
 
+
+		/*Panel3 contains buttons for calculating force and saving.*/
+		Panel3 = new JPanel ();
+		Panel3.setBackground (Color.lightGray);
+		Panel3.setBorder(new EmptyBorder (12,6,12,7));
+		add (Panel3);
+
 		Button2 = new JButton ("Calculate Force");
 		Button2.setPreferredSize(new Dimension(125,23));
 		Button2.setFont(new Font ("Consolas", Font.PLAIN, 14));
 		Button2.setOpaque(true);
 		Button2.setBorder(BorderFactory.createLineBorder(Color.black));
 		Button2.addActionListener (this);
-		Panel2.add (Button2);
+		Panel3.add (Button2);
 		Button2.setEnabled (true);
 
 		Button3 = new JButton ("Save Data");
@@ -156,96 +158,95 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Button3.setOpaque(true);
 		Button3.setBorder(BorderFactory.createLineBorder(Color.black));
 		Button3.addActionListener (this);
-		Panel2.add (Button3);
+		Panel3.add (Button3);
 		Button3.setEnabled (true);
 
 
-		/*Panel3 has means for manipulating the data*/
-		Panel3 = new JPanel ();
-		Panel3.setBackground (Color.lightGray);
-		Panel3.setBorder(new EmptyBorder (18,6,18,7));
-		add (Panel3);
-
-		Label6 = new JLabel ("Get data by pillar:");
-		Label6.setFont(new Font ("Consolas", Font.PLAIN, 14));
-		Panel3.add (Label6);
-		Label6.setEnabled (true);
-
-		TF6 = new JTextField (5);
-		TF6.addActionListener (this);
-		TF6.setBorder(BorderFactory.createLineBorder(Color.black));
-		TF6.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
-		TF6.setPreferredSize(new Dimension(4,23));
-		Panel3.add(TF6);
-		TF6.setEnabled(true);
-		
-		Button6 = new JButton ("Add");
-		Button6.setPreferredSize(new Dimension(125,23));
-		Button6.setFont(new Font ("Consolas", Font.PLAIN, 14));
-		Button6.setOpaque(true);
-		Button6.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button6.addActionListener (this);
-		Panel3.add (Button6);
-		Button6.setEnabled (true);
-
-		Button4 = new JButton ("Get Data");
-		Button4.setPreferredSize(new Dimension(125,23));
-		Button4.setFont(new Font ("Consolas", Font.PLAIN, 14));
-		Button4.setOpaque(true);
-		Button4.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button4.addActionListener (this);
-		Panel3.add (Button4);
-		Button4.setEnabled (true);
-		
-		S1 = new JSeparator(SwingConstants.VERTICAL);
-		S1.setPreferredSize(new Dimension(10,23));
-		S1.setBackground(Color.DARK_GRAY);
-		Panel3.add(S1);
-		
-		Label7 = new JLabel ("Get all data:");
-		Label7.setFont(new Font ("Consolas", Font.PLAIN, 14));
-		Panel3.add (Label7);
-		Label7.setEnabled (true);
-		
-		Button5 = new JButton ("All Frames");
-		Button5.setPreferredSize(new Dimension(127,23));
-		Button5.setFont(new Font ("Consolas", Font.PLAIN, 14));
-		Button5.setOpaque(true);
-		Button5.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button5.addActionListener (this);
-		Panel3.add (Button5);
-		Button5.setEnabled (true);
-
-
-		/*Panel4 may go*/
+		/*Panel4 contains sliders for obtaining all pillar data for a
+		 given frame (selected by the slider).*/
 		Panel4 = new JPanel ();
-		Panel4.setBackground (Color.gray);
-		Panel4.setBorder(new EmptyBorder (4,6,4,7));
+		Panel4.setBackground (Color.lightGray);
+		Panel4.setBorder(new EmptyBorder (12,6,12,7));
 		add(Panel4);
-		
-		Label8 = new JLabel ("Get data by frame:");
-		Label8.setFont(new Font ("Consolas", Font.PLAIN, 14));
-		Panel4.add(Label8);
-		Label8.setEnabled(true);
+
+		Label6 = new JLabel ("Get data by frame:");
+		Label6.setFont(new Font ("Consolas", Font.PLAIN, 14));
+		Panel4.add(Label6);
 
 		JS1 = new JSlider (JSlider.HORIZONTAL);
 		JS1.addChangeListener(this);
 		JS1.setMaximum(100);
 		JS1.setMinimum(0);
 		JS1.setValue(1);
-		JS1.setPreferredSize(new Dimension(496, 50));
+		JS1.setPreferredSize(new Dimension(496, 23));
 		Panel4.add(JS1);
 		JS1.setEnabled(true);
 
-		TF7 = new JTextField(4);
+		TF6 = new JTextField(4);
+		TF6.addActionListener (this);
+		TF6.setBorder(BorderFactory.createLineBorder(Color.black));
+		TF6.setPreferredSize(new Dimension(4,23));
+		TF6.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
+		TF6.setText(Integer.toString(1));
+		TF6.setEditable(false);
+		Panel4.add(TF6);
+		TF6.setEnabled(true);
+
+
+		/*Panel5 contains the JTextfields and buttons for obtaining pillar
+		 data for a particular pillar.*/
+		Panel5 = new JPanel ();
+		Panel5.setBackground (Color.lightGray);
+		Panel5.setBorder(new EmptyBorder (12,6,12,7));
+		add(Panel5);
+
+		Label7 = new JLabel ("Get data by pillar:");
+		Label7.setFont(new Font ("Consolas", Font.PLAIN, 14));
+		Panel5.add (Label7);
+
+		TF7 = new JTextField (5);
 		TF7.addActionListener (this);
 		TF7.setBorder(BorderFactory.createLineBorder(Color.black));
-		TF7.setPreferredSize(new Dimension(4,23));
 		TF7.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
-		TF7.setText(Integer.toString(1));
-		TF7.setEditable(false);
-		Panel4.add(TF7);
+		TF7.setPreferredSize(new Dimension(4,23));
+		Panel5.add(TF7);
 		TF7.setEnabled(true);
+
+		Button4 = new JButton ("Add");
+		Button4.setPreferredSize(new Dimension(125,23));
+		Button4.setFont(new Font ("Consolas", Font.PLAIN, 14));
+		Button4.setOpaque(true);
+		Button4.setBorder(BorderFactory.createLineBorder(Color.black));
+		Button4.addActionListener (this);
+		Panel5.add (Button4);
+		Button4.setEnabled (true);
+
+		Button5 = new JButton ("Get Data");
+		Button5.setPreferredSize(new Dimension(125,23));
+		Button5.setFont(new Font ("Consolas", Font.PLAIN, 14));
+		Button5.setOpaque(true);
+		Button5.setBorder(BorderFactory.createLineBorder(Color.black));
+		Button5.addActionListener (this);
+		Panel5.add (Button5);
+		Button5.setEnabled (true);
+
+		S1 = new JSeparator(SwingConstants.VERTICAL);
+		S1.setPreferredSize(new Dimension(10,23));
+		S1.setBackground(Color.DARK_GRAY);
+		Panel5.add(S1);
+
+		Label8 = new JLabel ("Get all data:");
+		Label8.setFont(new Font ("Consolas", Font.PLAIN, 14));
+		Panel5.add (Label8);
+
+		Button6 = new JButton ("All Frames");
+		Button6.setPreferredSize(new Dimension(127,23));
+		Button6.setFont(new Font ("Consolas", Font.PLAIN, 14));
+		Button6.setOpaque(true);
+		Button6.setBorder(BorderFactory.createLineBorder(Color.black));
+		Button6.addActionListener (this);
+		Panel5.add (Button6);
+		Button6.setEnabled (true);
 	}
 
 
@@ -362,7 +363,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 		/*This is the 'Calculate Forces' button and calls methods for calculating the forces.*/
 		if (e.getSource() == Button2) { 
-			System.out.println("We definitely hit button 1");
+			System.out.println("We definitely hit button 2");
 			int conversion = Integer.parseInt(TF2.getText().trim());
 			double youngsM = Double.parseDouble(TF3.getText().trim());
 			double pillarD = Double.parseDouble(TF4.getText().trim());
@@ -415,7 +416,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		/**/
 		if (e.getSource() == Button4) {
 
-			System.out.println("We definitely hit button 2");
+			System.out.println("We definitely hit button 4");
 			//			displayOutput();
 
 			//Process2.outputFile2();
@@ -432,9 +433,19 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		}
 
 
+		/**/
+		if (e.getSource() == Button5) {
+
+			System.out.println("We definitely hit button 6");
+
+
+			System.out.println("And if you're seeing this, we did something!");
+		}
+
+
 		/*This is the 'All Frames' button and is used to call a method for separating out the data
 		 for individual pillars across the different frames.*/
-		if (e.getSource() == Button5) {
+		if (e.getSource() == Button6) {
 
 			System.out.println("We definitely hit button AllFrame");
 			displayOutput();
@@ -452,7 +463,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == JS1) {
 			if (JS1.getValueIsAdjusting()) {
 				int slider = JS1.getValue();
-				TF7.setText(Integer.toString(slider));
+				TF6.setText(Integer.toString(slider));
 			}	
 		}
 	}
