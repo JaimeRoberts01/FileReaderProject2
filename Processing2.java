@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class Processing2 {
@@ -58,8 +57,7 @@ public class Processing2 {
 		for (double m : mean) {System.out.println("mean: " + m);}
 		for (double s : standard_deviation) {System.out.println("stndev: " + s);}
 		this.dataByframe(newData);
-		//this.dataByPillar(newData);
-		
+		this.dataByPillar(newData);	
 	}	
 
 
@@ -90,16 +88,12 @@ public class Processing2 {
 	
 	
 	/*This method will generate a list of Frame ID, PillarID and Forces relating to a particular Frame */
-	public Object [][] dataByframe (Object [][] newData) {
+	public ArrayList <Object> dataByframe (Object [][] newData) {
 			
 		int ID = 1;
 		System.out.println("We are in dataByFrame");
-
-//		int columns = 9;
-		int columns = 3;
-		int rows = newData.length;
 		
-		Object [][] byFrame = new Object [rows][columns];
+		ArrayList <Object> dataByFrame = new ArrayList <Object>();
 
 		for (int i = 0; i< newData.length; i++) {
 
@@ -107,33 +101,22 @@ public class Processing2 {
 
 			if (frameID == ID) {
 
-				byFrame [i][0] = newData [i][0];
-				byFrame [i][1] = newData [i][1];
-				byFrame [i][2] = newData [i][8];
-//				byFrame [i][3] = newData [i][3];
-//				byFrame [i][4] = newData [i][4];
-//				byFrame [i][5] = newData [i][5];
-//				byFrame [i][6] = newData [i][6];
-//				byFrame [i][7] = newData [i][7];
-//				byFrame [i][8] = newData [i][8];
+				Object forces = newData [i][0] + "," + newData [i][1] + "," + newData [i][8];
+				dataByFrame.add(forces);
 					
 			}	
 		}
-		for (int j =0; j< byFrame.length; j++) {System.out.println("byFrame: " + Arrays.toString (byFrame [j]));}
-		return byFrame;
+		for (int j =0; j< dataByFrame.size(); j++) {System.out.println("byFrame: " + dataByFrame.get(j));}
+		return dataByFrame;
 	}
 
 
-	public Object [][] dataByPillar (Object [][] newData) { // this will have to be an arraylist because I don't know the size
+	public ArrayList <Object> dataByPillar (Object [][] newData) { // this will have to be an arraylist because I don't know the size
 
 		int ID = 2559;
 		System.out.println("We are in dataByPillar");
-
-//		int columns = 9;
-		int columns = 3;
-		int rows = newData.length;
 		
-		Object [][] byPillar = new Object [rows][columns];
+		ArrayList <Object> dataByPillar = new ArrayList <Object> ();
 
 		for (int i = 0; i< newData.length; i++) {
 
@@ -141,22 +124,13 @@ public class Processing2 {
 
 			if (pillarID == ID) {
 
-				byPillar [i][0] = newData [i][0];
-				byPillar [i][1] = newData [i][1];
-				byPillar [i][2] = newData [i][8];
-//				byPillar [i][3] = newData [i][3];
-//				byPillar [i][4] = newData [i][4];
-//				byPillar [i][5] = newData [i][5];
-//				byPillar [i][6] = newData [i][6];
-//				byPillar [i][7] = newData [i][7];
-//				byPillar [i][8] = newData [i][8];
+				Object forces = newData [i][0] + "," + newData [i][1] + "," + newData [i][8];
+				dataByPillar.add(forces);
 					
 			}	
 		}
-		for (int j =0; j< byPillar.length; j++) {System.out.println("bypillar: " + Arrays.toString (byPillar [j]));}
-//		System.out.println("bypillar: " + Arrays.deepToString (byPillar));
-		return byPillar;
-
+		for (int j =0; j< dataByPillar.size(); j++) {System.out.println("bypillar: " + dataByPillar.get(j));}
+		return dataByPillar;
 	}
 
 	
