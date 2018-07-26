@@ -26,6 +26,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private ReportFrame2 ReportFrame2;
 	private Processing Process;
 	private Processing2 Process2;
+	private DataPlotting DataPlotting;
 	//private FileManager FileManager;
 
 	private ArrayList <String> fileLine;
@@ -315,8 +316,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 				else if (dataset ==1) {
 					writer.write(Process2.outputFile2());	
 				}
-
-
 			}
 
 			finally {
@@ -431,11 +430,12 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		}
 
 
-		/**/
+		/*Add*/
 		if (e.getSource() == Button4) {
 
 			System.out.println("We definitely hit button 4");
-
+			DataPlotting = new DataPlotting ();
+			DataPlotting.graph();
 			System.out.println("And if you're seeing this, we did something!");
 		}
 
@@ -457,7 +457,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			displayOutput();
 			Process2 = new Processing2 ();
 			Process2.allFrames(Process.getNewData());
-
 			System.out.println("And if you're seeing this, we did something!");
 		}
 	}
