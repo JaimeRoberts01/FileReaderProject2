@@ -175,8 +175,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 		JS1 = new JSlider (JSlider.HORIZONTAL);
 		JS1.addChangeListener(this);
-		JS1.setMaximum(100);
-		JS1.setMinimum(0);
+		JS1.setMaximum(91);
+		JS1.setMinimum(1);
 		JS1.setValue(1);
 		JS1.setPreferredSize(new Dimension(496, 23));
 		Panel4.add(JS1);
@@ -440,11 +440,13 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		}
 
 
-		/**/
+		/*Get Data*/
 		if (e.getSource() == Button5) {
 
 			System.out.println("We definitely hit button 5");
-
+			int ID = Integer.parseInt(TF6.getText().trim());
+			Process2 = new Processing2 ();
+			Process2.dataByframe(null);
 			System.out.println("And if you're seeing this, we did something!");
 		}
 
@@ -466,6 +468,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	public void stateChanged(ChangeEvent e) {
 
 		if (e.getSource() == JS1) {
+			
 			if (JS1.getValueIsAdjusting()) {
 				int slider = JS1.getValue();
 				TF6.setText(Integer.toString(slider));
