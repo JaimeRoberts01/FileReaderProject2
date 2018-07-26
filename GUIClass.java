@@ -20,7 +20,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 	private JSlider JS1;
 	private JFileChooser JFC;
-	private JButton Button1, Button2, Button3, Button4, Button5, Button6;
+	private JButton Button1, Button2, Button3, Button4, Button5, Button6, Button7;
 
 	private ReportFrame ReportFrame;
 	private ReportFrame2 ReportFrame2;
@@ -172,25 +172,34 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Label6 = new JLabel ("Get data by frame:");
 		Label6.setFont(new Font ("Consolas", Font.PLAIN, 14));
 		Panel4.add(Label6);
+		
+		TF6 = new JTextField(5);
+		TF6.addActionListener (this);
+		TF6.setBorder(BorderFactory.createLineBorder(Color.black));
+		TF6.setPreferredSize(new Dimension(5,23));
+		TF6.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
+		TF6.setText(Integer.toString(1));
+		TF6.setEditable(false);
+		Panel4.add(TF6);
+		TF6.setEnabled(true);
 
 		JS1 = new JSlider (JSlider.HORIZONTAL);
 		JS1.addChangeListener(this);
 		JS1.setMaximum(91);
 		JS1.setMinimum(1);
 		JS1.setValue(1);
-		JS1.setPreferredSize(new Dimension(496, 23));
+		JS1.setPreferredSize(new Dimension(354, 23));
 		Panel4.add(JS1);
 		JS1.setEnabled(true);
 
-		TF6 = new JTextField(4);
-		TF6.addActionListener (this);
-		TF6.setBorder(BorderFactory.createLineBorder(Color.black));
-		TF6.setPreferredSize(new Dimension(4,23));
-		TF6.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
-		TF6.setText(Integer.toString(1));
-		TF6.setEditable(false);
-		Panel4.add(TF6);
-		TF6.setEnabled(true);
+		Button4 = new JButton ("Get Data");
+		Button4.setPreferredSize(new Dimension(125,23));
+		Button4.setFont(new Font ("Consolas", Font.PLAIN, 14));
+		Button4.setOpaque(true);
+		Button4.setBorder(BorderFactory.createLineBorder(Color.black));
+		Button4.addActionListener (this);
+		Panel4.add (Button4);
+		Button4.setEnabled (true);
 
 
 		/*Panel5 contains the JTextfields and buttons for obtaining pillar
@@ -200,7 +209,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Panel5.setBorder(new EmptyBorder (12,6,12,7));
 		add(Panel5);
 
-		Label7 = new JLabel ("Get data by pillar:");
+		Label7 = new JLabel ("Get data by pillar: ");
 		Label7.setFont(new Font ("Consolas", Font.PLAIN, 14));
 		Panel5.add (Label7);
 
@@ -208,20 +217,11 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		TF7.addActionListener (this);
 		TF7.setBorder(BorderFactory.createLineBorder(Color.black));
 		TF7.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
-		TF7.setPreferredSize(new Dimension(4,23));
+		TF7.setPreferredSize(new Dimension(5,23));
 		Panel5.add(TF7);
 		TF7.setEnabled(true);
 
-		Button4 = new JButton ("Add");
-		Button4.setPreferredSize(new Dimension(125,23));
-		Button4.setFont(new Font ("Consolas", Font.PLAIN, 14));
-		Button4.setOpaque(true);
-		Button4.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button4.addActionListener (this);
-		Panel5.add (Button4);
-		Button4.setEnabled (true);
-
-		Button5 = new JButton ("Get Data");
+		Button5 = new JButton ("Add");
 		Button5.setPreferredSize(new Dimension(125,23));
 		Button5.setFont(new Font ("Consolas", Font.PLAIN, 14));
 		Button5.setOpaque(true);
@@ -229,6 +229,15 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Button5.addActionListener (this);
 		Panel5.add (Button5);
 		Button5.setEnabled (true);
+
+		Button6 = new JButton ("Get Data");
+		Button6.setPreferredSize(new Dimension(125,23));
+		Button6.setFont(new Font ("Consolas", Font.PLAIN, 14));
+		Button6.setOpaque(true);
+		Button6.setBorder(BorderFactory.createLineBorder(Color.black));
+		Button6.addActionListener (this);
+		Panel5.add (Button6);
+		Button6.setEnabled (true);
 
 		S1 = new JSeparator(SwingConstants.VERTICAL);
 		S1.setPreferredSize(new Dimension(10,23));
@@ -239,14 +248,14 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Label8.setFont(new Font ("Consolas", Font.PLAIN, 14));
 		Panel5.add (Label8);
 
-		Button6 = new JButton ("All Frames");
-		Button6.setPreferredSize(new Dimension(127,23));
-		Button6.setFont(new Font ("Consolas", Font.PLAIN, 14));
-		Button6.setOpaque(true);
-		Button6.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button6.addActionListener (this);
-		Panel5.add (Button6);
-		Button6.setEnabled (true);
+		Button7 = new JButton ("All Frames");
+		Button7.setPreferredSize(new Dimension(125,23));
+		Button7.setFont(new Font ("Consolas", Font.PLAIN, 14));
+		Button7.setOpaque(true);
+		Button7.setBorder(BorderFactory.createLineBorder(Color.black));
+		Button7.addActionListener (this);
+		Panel5.add (Button7);
+		Button7.setEnabled (true);
 	}
 
 
@@ -430,34 +439,45 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		}
 
 
-		/*Add*/
+		/*Get Data - Slider*/
 		if (e.getSource() == Button4) {
 
 			System.out.println("We definitely hit button 4");
+			int ID = Integer.parseInt(TF6.getText().trim());
+			Process2.dataByFrame(Process.getNewData(), ID);
+			System.out.println("And if you're seeing this, we did something!");
+		}
+		
+		/*Add*/
+		if (e.getSource() == Button5) {
+
+			System.out.println("We definitely hit button 5");
 			DataPlotting = new DataPlotting ();
 			DataPlotting.graph();
 			System.out.println("And if you're seeing this, we did something!");
 		}
 
 
-		/*Get Data*/
-		if (e.getSource() == Button5) {
+		/*Get Data - Pillar*/
+		if (e.getSource() == Button6) {
 
-			System.out.println("We definitely hit button 5");
-			int ID = Integer.parseInt(TF6.getText().trim());
+			System.out.println("We definitely hit button 6");
+			
+			int ID = Integer.parseInt(TF7.getText().trim());
 			Process2 = new Processing2 ();
-			Process2.dataByframe(null);
+			Process2.dataByPillar(Process.getNewData(), ID);
 			System.out.println("And if you're seeing this, we did something!");
 		}
 
 
 		/*This is the 'All Frames' button and is used to call a method for separating out the data
 		 for individual pillars across the different frames.*/
-		if (e.getSource() == Button6) {
+		if (e.getSource() == Button7) {
 
 			System.out.println("We definitely hit button AllFrame");
 			displayOutput();
 			Process2 = new Processing2 ();
+			Process2.getPillars(Process.getNewData());
 			Process2.allFrames(Process.getNewData());
 			System.out.println("And if you're seeing this, we did something!");
 		}

@@ -5,20 +5,17 @@ public class Processing2 {
 
 	private ArrayList <Double> mean, standard_deviation;
 	private ArrayList <Integer> pillar;
-	
-	//private Processing Process;
 
 
 	Processing2 () {		
 	}
 
-	
-	public void allFrames (Object [][] newData) {
-
+	/*This method creates a list of the pillars in the newData array. It is used for initialising
+	the first pillar value and sets up allFrames so that it can collect data for specific pillars.*/
+	public ArrayList <Integer> getPillars (Object [][] newData) {
+		
 		pillar = new ArrayList <Integer> ();
-		mean = new ArrayList<Double> ();
-		standard_deviation = new ArrayList<Double> ();
-
+		
 		for (int i = 0; i<newData.length; i++) {
 
 			int pillarID = Integer.parseInt((String) newData [i][1]); 
@@ -30,8 +27,15 @@ public class Processing2 {
 
 		Collections.sort(pillar);
 
-
 		for (int i : pillar) {System.out.println("pillar: " + i);}
+		return pillar;
+	}
+	
+	
+	public void allFrames (Object [][] newData) {
+
+		mean = new ArrayList<Double> ();
+		standard_deviation = new ArrayList<Double> ();
 
 		ArrayList <Double> pico = new ArrayList <Double> ();
 
@@ -56,8 +60,8 @@ public class Processing2 {
 
 		for (double m : mean) {System.out.println("mean: " + m);}
 		for (double s : standard_deviation) {System.out.println("stndev: " + s);}
-		this.dataByframe(newData);
-		this.dataByPillar(newData);	
+//		this.dataByframe(newData, 0);
+//		this.dataByPillar(newData, 0);	
 	}	
 
 
@@ -88,9 +92,9 @@ public class Processing2 {
 	
 	
 	/*This method will generate a list of Frame ID, PillarID and Forces relating to a particular Frame */
-	public ArrayList <Object> dataByframe (Object [][] newData) {
+	public ArrayList <Object> dataByFrame (Object [][] newData, int ID) {
 			
-		int ID = 1;
+		//int ID = 1;
 		System.out.println("We are in dataByFrame");
 		
 		ArrayList <Object> dataByFrame = new ArrayList <Object>();
@@ -111,9 +115,9 @@ public class Processing2 {
 	}
 
 
-	public ArrayList <Object> dataByPillar (Object [][] newData) { // this will have to be an arraylist because I don't know the size
-
-		int ID = 2559;
+	public ArrayList <Object> dataByPillar (Object [][] newData, int ID) { 
+		
+		//int ID = 2563;
 		System.out.println("We are in dataByPillar");
 		
 		ArrayList <Object> dataByPillar = new ArrayList <Object> ();
