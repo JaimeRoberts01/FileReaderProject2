@@ -27,7 +27,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private ReportFrame3 ReportFrame3;
 	private Processing Process;
 	private Processing2 Process2;
-	private DataPlotting DataPlotting;
+	//private DataPlotting DataPlotting;
 	//private FileManager FileManager;
 
 	private ArrayList <String> fileLine;
@@ -354,6 +354,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	@Override /*ActionPerformed methods for the individual buttons*/
 	public void actionPerformed(ActionEvent e) {
 
+		
 		/*This is the 'Browse' button and enables the user to open a file. A string is passed to the
 		 texfield so the user can see which file has been opened.*/
 		if (e.getSource() == Button1) {
@@ -386,10 +387,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			Process.nanoMeters(conversion);
 			Process.forces(youngsM, pillarD, pillarL);
 			Process.newDataArray();
-			//ReportFrame3 = new ReportFrame3(Process);
-			//ReportFrame3 = new ReportFrame3();
-			//ReportFrame3.reportFormatter();
-
 			System.out.println("And if you're seeing this, we did something!");
 		}
 
@@ -459,8 +456,10 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == Button5) {
 
 			System.out.println("We definitely hit button 5");
-			DataPlotting = new DataPlotting ();
-			DataPlotting.graph();
+//			DataPlotting = new DataPlotting ();
+//			DataPlotting.graph();
+			ReportFrame3 = new ReportFrame3 ();
+			//ReportFrame3.reportFormatter();
 			System.out.println("And if you're seeing this, we did something!");
 		}
 

@@ -9,7 +9,7 @@ public class Processing2 {
 
 	Processing2 () {		
 	}
-
+	
 	
 	/*This method counts the number of frames that make up the data*/
 	public int frames (Object [][] newData) {
@@ -86,7 +86,7 @@ public class Processing2 {
 		for (double s : standard_deviation) {System.out.println("stndev: " + s);}
 	}	
 
-
+	
 	/*This method calculates the average and standard deviation of the picoNewton values in the data.*/
 	public void statistics (ArrayList<Double> pico) {
 
