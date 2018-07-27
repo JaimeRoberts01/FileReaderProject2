@@ -6,11 +6,10 @@ import javax.swing.border.*;
 
 
 @SuppressWarnings("serial")
-public class ReportFrame extends JFrame { // For checking the FileReader is behaving.
+public class ReportFrame extends JFrame {
 
 
 	private JTextArea displayFile;
-	//private JScrollPane scrollPane;
 
 
 	public ReportFrame () {		
@@ -20,7 +19,7 @@ public class ReportFrame extends JFrame { // For checking the FileReader is beha
 		setLocation (1500, 330);
 		setSize (700, 330);
 		setVisible (true);
-		//setResizable (false); // Disable owing to scrollbar being a dick.
+		setResizable (false); 
 		frameComponents ();
 	}
 
@@ -33,12 +32,8 @@ public class ReportFrame extends JFrame { // For checking the FileReader is beha
 		displayFile.setFont (new Font ("Courier", Font.PLAIN, 14));
 		displayFile.setBorder (new EmptyBorder (10,10,10,10));
 		displayFile.setEditable (false);
-		add (displayFile);
-
-		//scrollPane = new JScrollPane (displayFile); // WHY DO YOU NOT WORK!!!
-		//scrollPane.setVerticalScrollBarPolicy (JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		//scrollPane.setPreferredSize (new Dimension (200, 200));
-		//add (scrollPane);
+		JScrollPane scroll = new JScrollPane (displayFile);
+		add (scroll);
 	}
 
 

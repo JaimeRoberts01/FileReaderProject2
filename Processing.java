@@ -6,18 +6,14 @@ public class Processing {
 	/*Instance variables for the arrays.*/
 	private Object [][] data, newData;
 	private double [] nanometers, picoNewtons;
-	int frames;
-	//	private ArrayList <Double> mean, standard_deviation;
-	//	private ArrayList <Integer> pillar;
 
 
+	/*Constructor*/
 	public Processing () {	
-
 	}
 
 
 	/*Getters and Setters*/
-
 	public Object[][] getData() {return data;}
 	public void setData(Object[][] data) {this.data = data;}
 	public Object[][] getNewData() {return newData;}
@@ -50,30 +46,9 @@ public class Processing {
 			System.out.println(Arrays.toString(data[i]));
 		}
 		System.out.println ("Data length: " + data.length);
-		this.dataFrames();
 		return data;
+	}
 		
-	}
-	
-	
-	/*This does something but it will never do what I want owing to catch 22*/
-	public int dataFrames () {
-
-
-		frames = Integer.parseInt ((String) data[0][0]);
-
-
-		for (int i = 0; i < data.length; i++) {
-
-			if (Integer.parseInt((String) data [i][0]) > frames) {
-
-				frames = Integer.parseInt ((String) data [i][0]);
-			}
-		}
-		System.out.println("This is the highest frame value: " + frames);
-		return frames;
-	}
-	
 	
 	/*This method converts pixels into nanometres for the deflection values.*/
 	public double [] nanoMeters (int conversion) {
@@ -148,8 +123,8 @@ public class Processing {
 		for (int i = 0; i <newData.length; i++) {
 
 			SB.append(String.format("%3s",newData[i][0]) + "\t" + String.format("%8.4s", newData [i][1])  + "\t"  + String.format("%8.7s", newData [i][4]) + "\t" 
-					+ String.format("%8.7s", newData[i][5]) + "\t"  + String.format("%8.7s", newData [i][6]) + "\t" + String.format("%10.7s", newData [i][7]) 
-					+ "\t" + String.format("%10.8s", newData [i][8]) + "\n");
+					+ String.format("%8.7s", newData[i][5]) + "\t"  + String.format("%8.7s", newData [i][6]) + "\t" + String.format("%9.7s", newData [i][7]) 
+					+ "\t" + String.format("%9.8s", newData [i][8]) + "\n");
 		}
 
 		String output = SB.toString();	

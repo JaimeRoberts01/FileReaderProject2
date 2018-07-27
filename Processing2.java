@@ -10,6 +10,27 @@ public class Processing2 {
 	Processing2 () {		
 	}
 
+	
+	/*This method counts the number of frames that make up the data*/
+	public int frames (Object [][] newData) {
+
+
+		 int frames = Integer.parseInt ((String) newData[0][0]);
+
+
+		for (int i = 0; i < newData.length; i++) {
+
+			if (Integer.parseInt((String) newData [i][0]) > frames) {
+
+				frames = Integer.parseInt ((String) newData [i][0]);
+			}
+		}
+		
+		System.out.println("This is the highest frame value: " + frames);
+		return frames;
+	}
+	
+	
 	/*This method creates a list of the pillars in the newData array. It is used for initialising
 	the first pillar value and sets up allFrames so that it can collect data for specific pillars.*/
 	public ArrayList <Integer> getPillars (Object [][] newData) {
@@ -32,6 +53,9 @@ public class Processing2 {
 	}
 	
 	
+	/*This method loops through the pillar ArrayList identifying pillars of the same ID
+	 from all the frames in the dataset. Pillars of the same ID are added to a temporary
+	 ArrayList, which is used for averages and standard deviation.*/
 	public void allFrames (Object [][] newData) {
 
 		mean = new ArrayList<Double> ();
@@ -60,8 +84,6 @@ public class Processing2 {
 
 		for (double m : mean) {System.out.println("mean: " + m);}
 		for (double s : standard_deviation) {System.out.println("stndev: " + s);}
-//		this.dataByframe(newData, 0);
-//		this.dataByPillar(newData, 0);	
 	}	
 
 
@@ -91,11 +113,9 @@ public class Processing2 {
 	}
 	
 	
-	/*This method will generate a list of Frame ID, PillarID and Forces relating to a particular Frame */
+	/*This method will generate a list of FrameID, PillarID and Forces relating all pillars across
+	 across a single Frame */
 	public ArrayList <Object> dataByFrame (Object [][] newData, int ID) {
-			
-		//int ID = 1;
-		System.out.println("We are in dataByFrame");
 		
 		ArrayList <Object> dataByFrame = new ArrayList <Object>();
 
@@ -106,19 +126,18 @@ public class Processing2 {
 			if (frameID == ID) {
 
 				Object forces = newData [i][0] + "," + newData [i][1] + "," + newData [i][8];
-				dataByFrame.add(forces);
-					
+				dataByFrame.add(forces);	
 			}	
 		}
+		
 		for (int j =0; j< dataByFrame.size(); j++) {System.out.println("byFrame: " + dataByFrame.get(j));}
 		return dataByFrame;
 	}
 
 
+	/*This method will generate a list of FrameID, PillarID and Forces relating to a single pillar across
+	all the frames*/
 	public ArrayList <Object> dataByPillar (Object [][] newData, int ID) { 
-		
-		//int ID = 2563;
-		System.out.println("We are in dataByPillar");
 		
 		ArrayList <Object> dataByPillar = new ArrayList <Object> ();
 
@@ -129,17 +148,17 @@ public class Processing2 {
 			if (pillarID == ID) {
 
 				Object forces = newData [i][0] + "," + newData [i][1] + "," + newData [i][8];
-				dataByPillar.add(forces);
-					
+				dataByPillar.add(forces);	
 			}	
 		}
+		
 		for (int j =0; j< dataByPillar.size(); j++) {System.out.println("bypillar: " + dataByPillar.get(j));}
 		return dataByPillar;
 	}
 
 	
 	/*This method creates an output file for the average and standard deviation of pillars from AllFrames*/
-	public String outputFile2 () {
+	public String outputFile () {
 
 		String header = ("pillar" + "," + "average" + "," + "stndev" + ",");
 		String body = "";

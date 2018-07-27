@@ -6,9 +6,10 @@ import javax.swing.border.*;
 public class ReportFrame2 extends JFrame {
 
 	private JTextArea displayFile;
+
 	private Processing Process;
 
-	public ReportFrame2 (Processing Process) {	// For testing the output data without having to search for it in the file system - consider changing to a log.
+	public ReportFrame2 (Processing Process) {	
 		
 		this.Process = Process;
 		setDefaultCloseOperation (DISPOSE_ON_CLOSE);
@@ -16,10 +17,10 @@ public class ReportFrame2 extends JFrame {
 		setLocation (1500, 675);
 		setSize (825, 400);
 		setVisible (true);
-		//setResizable (false);
+		setResizable (false);
 		frameComponents ();
 	}
-
+	
 
 	public void frameComponents () {
 
@@ -28,21 +29,26 @@ public class ReportFrame2 extends JFrame {
 		displayFile.setWrapStyleWord (true);
 		displayFile.setFont (new Font ("Courier", Font.PLAIN, 14));	
 		displayFile.setBorder (new EmptyBorder (10,10,10,10));
-		displayFile.setEditable (false);
-		add (displayFile);
-
-		//scrollPane = new JScrollPane (displayFile);
-		//scrollPane.setVerticalScrollBarPolicy (JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		//scrollPane.setPreferredSize (new Dimension (200, 200));
-		//add (scrollPane);
+		displayFile.setEditable (false);;
+		JScrollPane scroll = new JScrollPane (displayFile);
+		add (scroll);
 	}
 
 
 	public void reportFormatter () {
 
-		String header = (String.format("%s %11s %11s %15s %19s %17s %15s", "frame", "pillar", "dx", "dy", "deflection", "nanometers", "picoNewtons")+"\n");
-		String bar = "----------------------------------------------------------------------------------------------------";
-		displayFile.append(header);
+		String header_upper = (String.format("%s %11s %11s %15s %19s %16s %13s", "Frame", "Pillar", "dx", "dy", "Deflection", "Deflection", "Force")+"\n");
+		String header_lower = (String.format("%s %10s %11s %15s %17s %16s %15s", "Index", "Index", " ", " ", "(px)", "(nm)", "(pN)")+"\n");
+//		String [] header = {"Frame", "Pillar", "dx", "dy", "Deflection", "Deflection", "Force" };
+//		String [] header2 = {"Index", "Index", " ", " ", "(px)", "(nm)", "(pN)"};
+		String bar = "--------------------------------------------------------------------------------------------------";
+//		String newline = "\n";
+//		for (String s : header) {displayFile.append(s + "\t");}
+//		displayFile.append(newline);
+//		for (String s : header2) {displayFile.append(s + "\t");}
+//		displayFile.append(newline);
+		displayFile.append(header_upper);
+		displayFile.append(header_lower);
 		displayFile.append (bar+ "\n\n");
 		displayFile.append (Process.outputString());
 	}

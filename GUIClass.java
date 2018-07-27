@@ -24,17 +24,13 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 	private ReportFrame ReportFrame;
 	private ReportFrame2 ReportFrame2;
+	private ReportFrame3 ReportFrame3;
 	private Processing Process;
 	private Processing2 Process2;
 	private DataPlotting DataPlotting;
 	//private FileManager FileManager;
 
 	private ArrayList <String> fileLine;
-
-
-	/*Getters and Setters*/
-	public ArrayList<String> getFileLine() {return fileLine;}
-	public void setFileLine(ArrayList<String> fileLine) {this.fileLine = fileLine;}
 
 
 	/*Constructor*/
@@ -323,7 +319,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 					writer.write(Process.outputFile());
 				}
 				else if (dataset ==1) {
-					writer.write(Process2.outputFile2());	
+					writer.write(Process2.outputFile());	
 				}
 			}
 
@@ -346,8 +342,14 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 		ReportFrame2 = new ReportFrame2 (Process);	
 		ReportFrame2.reportFormatter();
+	
 	}
 
+//	public void displayOutput2 () {
+//		
+//		ReportFrame3 = new ReportFrame3(Process);
+//		ReportFrame3.reportFormatter();
+//	}
 
 	@Override /*ActionPerformed methods for the individual buttons*/
 	public void actionPerformed(ActionEvent e) {
@@ -384,6 +386,10 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			Process.nanoMeters(conversion);
 			Process.forces(youngsM, pillarD, pillarL);
 			Process.newDataArray();
+			//ReportFrame3 = new ReportFrame3(Process);
+			//ReportFrame3 = new ReportFrame3();
+			//ReportFrame3.reportFormatter();
+
 			System.out.println("And if you're seeing this, we did something!");
 		}
 
@@ -423,7 +429,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 						fileWriter (fileName, dataset);
 					}
 
-					if (response == JOptionPane.NO_OPTION) {
+					else if (response == JOptionPane.NO_OPTION) {
 						response = JOptionPane.CLOSED_OPTION;
 					}
 				}
@@ -448,6 +454,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			System.out.println("And if you're seeing this, we did something!");
 		}
 		
+		
 		/*Add*/
 		if (e.getSource() == Button5) {
 
@@ -462,7 +469,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == Button6) {
 
 			System.out.println("We definitely hit button 6");
-			
 			int ID = Integer.parseInt(TF7.getText().trim());
 			Process2 = new Processing2 ();
 			Process2.dataByPillar(Process.getNewData(), ID);
