@@ -39,14 +39,7 @@ public class ReportFrame2 extends JFrame {
 
 		String header_upper = (String.format("%s %11s %11s %15s %19s %16s %13s", "Frame", "Pillar", "dx", "dy", "Deflection", "Deflection", "Force")+"\n");
 		String header_lower = (String.format("%s %10s %11s %15s %17s %16s %15s", "Index", "Index", " ", " ", "(px)", "(nm)", "(pN)")+"\n");
-//		String [] header = {"Frame", "Pillar", "dx", "dy", "Deflection", "Deflection", "Force" };
-//		String [] header2 = {"Index", "Index", " ", " ", "(px)", "(nm)", "(pN)"};
 		String bar = "--------------------------------------------------------------------------------------------------";
-//		String newline = "\n";
-//		for (String s : header) {displayFile.append(s + "\t");}
-//		displayFile.append(newline);
-//		for (String s : header2) {displayFile.append(s + "\t");}
-//		displayFile.append(newline);
 		displayFile.append(header_upper);
 		displayFile.append(header_lower);
 		displayFile.append (bar+ "\n\n");
