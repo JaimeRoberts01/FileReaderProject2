@@ -341,6 +341,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 		ReportFrame2 = new ReportFrame2 (Process);	
 		ReportFrame2.reportFormatter();
+
 	}
 
 	
@@ -350,6 +351,10 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		
 		/*This is the 'Browse' button and enables the user to open a file. A string is passed to the
 		 texfield so the user can see which file has been opened.*/
+		
+//		DataPlotting = new DataPlotting ();
+//		DataPlotting.graph();
+		
 		if (e.getSource() == Button1) {
 			JFC = new JFileChooser ();
 			JFC.setMultiSelectionEnabled(false);
@@ -377,6 +382,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			Process.nanoMeters(conversion);
 			Process.forces(youngsM, pillarD, pillarL);
 			Process.newDataArray();
+			displayOutput();
 		}
 
 
@@ -438,8 +444,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		 or small groups of pillars for statistical analysis.*/
 		if (e.getSource() == Button5) {
 
-			//DataPlotting = new DataPlotting ();
-			//DataPlotting.graph();
 			ReportFrame3 = new ReportFrame3 (Process);
 		}
 
@@ -458,7 +462,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		 for individual pillars across the different frames.*/
 		if (e.getSource() == Button7) {
 
-			displayOutput();
 			Process2 = new Processing2 ();
 			Process2.getPillars(Process.getNewData());
 			Process2.allFrames(Process.getNewData());

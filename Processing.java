@@ -135,8 +135,8 @@ public class Processing {
 	/*This method builds a string for the output file, which is another CSV file.*/
 	public String outputFile () {
 
-		String header = ("frame" + "," + "pillar" + "," + "x" + "," + "y" + ","  + "dx" + ","
-				+ "dy" + "," + "deflection" + "," + "nanometers"+ "," + "picoNewtons" + ",");
+		String header = ("Frame Index" + "," + "Pillar Index" + "," + "x" + "," + "y" + ","  + "dx" + ","
+				+ "dy" + "," + "Deflection (px)" + "," + "Deflection (nm)"+ "," + "Forces (pN)" + ",");
 		String body = "";
 
 		for (int i =0; i<newData.length;i++) {
