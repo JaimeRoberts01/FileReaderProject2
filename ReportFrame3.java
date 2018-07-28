@@ -2,6 +2,8 @@ import java.awt.*;
 //import java.util.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Arrays;
+
 import javax.swing.border.*;
 
 
@@ -19,9 +21,9 @@ public class ReportFrame3 extends JFrame implements ActionListener{
 	private Processing Process;
 	private Processing2 Process2;
 	
-	public ReportFrame3 () {	
+	public ReportFrame3 (Processing Process) {	
 		
-
+		this.Process = Process;
 		setDefaultCloseOperation (DISPOSE_ON_CLOSE);
 		setTitle ("MultiPillar");
 		setLocation (1500, 675);
@@ -91,9 +93,7 @@ public class ReportFrame3 extends JFrame implements ActionListener{
 		if (e.getSource() == Button1) {
 			
 			this.dispose();
-			reportFormatter ();
-			someMethod();
-			
+			multipillarValues ();		
 		}
 		
 		if (e.getSource() == Button2) {
@@ -103,23 +103,27 @@ public class ReportFrame3 extends JFrame implements ActionListener{
 	}
 	
 	
-	public String []  reportFormatter () {
-		System.out.println("We are in ReportFrame3");
-		
+	/*This method gets the pillar values from the MultiPillar TextArea and sends the
+	 values to a method in Processing2 for AVG and SD across all frames*/
+	public String []  multipillarValues () {
+
 		values = displayFile.getText().split(", ");
+		
+		Process2 = new Processing2 ();	
+		Process2.allFrames2(Process.getNewData(), values);
 		
 		for (String s: values) {System.out.println(s);}
 		return values;
 	}
-	
-	
-	public void someMethod () {
 		
-		for (int i = 0; i < values.length; i++) {
-//			Process2 = new Processing2 ();
-//			Process2.allFrames(Process.getNewData(), values);
-			
-		
-	}
-	}
-}// class bracket
+//	/*This method sends the values to a method in Processing2 for getting sorting &
+//     getting the mean and standard deviation for those pillars across all frames.*/
+//	public void someMethod (String [] values) {
+//		
+//		for (int i = 0; i < values.length; i++) {
+//			System.out.println("values: " + Arrays.toString(values));
+//		}
+//			Process2 = new Processing2 ();	
+//			Process2.allFrames2(Process.getNewData(), values);		
+//	}
+}

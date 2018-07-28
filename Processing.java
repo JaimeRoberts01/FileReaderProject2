@@ -43,9 +43,9 @@ public class Processing {
 		for (int i = 0; i < rows; i++) {
 
 			data [i] = fileLine.get(i).split(",");
-			System.out.println(Arrays.toString(data[i]));
+		//	System.out.println(Arrays.toString(data[i]));
 		}
-		System.out.println ("Data length: " + data.length);
+		//System.out.println ("Data length: " + data.length);
 		return data;
 	}
 		
@@ -109,7 +109,7 @@ public class Processing {
 			newData [i][7] = nanometers [i];
 			newData [i][8] = picoNewtons [i];
 
-			System.out.println("Here is newData: " + Arrays.toString (newData[i]));
+		//	System.out.println("Here is newData: " + Arrays.toString (newData[i]));
 		}
 
 		return newData;

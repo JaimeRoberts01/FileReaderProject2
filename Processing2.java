@@ -6,7 +6,7 @@ public class Processing2 {
 	private ArrayList <Double> mean, standard_deviation;
 	private ArrayList <Integer> pillar;
 
-
+	
 	Processing2 () {		
 	}
 	
@@ -85,11 +85,40 @@ public class Processing2 {
 		for (double m : mean) {System.out.println("mean: " + m);}
 		for (double s : standard_deviation) {System.out.println("stndev: " + s);}
 	}	
+	
+	
+	public void allFrames2 (Object [][] newData, String [] values) {
+
+		mean = new ArrayList<Double> ();
+		standard_deviation = new ArrayList<Double> ();
+		
+		System.out.println("We have made it to the String allFrames");
+		ArrayList <Double> pico = new ArrayList <Double> ();
+		int value = 0;
+		
+		for (int i = 0; i < values.length; i++) {
+			value = Integer.parseInt(values [i]);
+		
+			
+		for (int j =0; j< newData.length; j++) {
+			
+			if (value == Integer.parseInt ((String) newData [j][1])) {
+				pico.add((Double) newData [j][8]);
+			}
+		}
+		for (double d: pico) {System.out.println("pico2 : " + d);}
+		statistics(pico);
+		pico.clear();
+		}
+		
+		for (double m : mean) {System.out.println("mean: " + m);}
+		for (double s : standard_deviation) {System.out.println("stndev: " + s);}
+	}
 
 	
 	/*This method calculates the average and standard deviation of the picoNewton values in the data.*/
 	public void statistics (ArrayList<Double> pico) {
-
+		
 		double average = 0.0;
 		double sd = 0.0;
 

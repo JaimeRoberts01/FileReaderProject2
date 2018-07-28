@@ -458,7 +458,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			System.out.println("We definitely hit button 5");
 //			DataPlotting = new DataPlotting ();
 //			DataPlotting.graph();
-			ReportFrame3 = new ReportFrame3 ();
+			ReportFrame3 = new ReportFrame3 (Process);
 			//ReportFrame3.reportFormatter();
 			System.out.println("And if you're seeing this, we did something!");
 		}
