@@ -1,12 +1,16 @@
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 public class Processing2 {
 
+	
+	/*Instance variables*/
 	private ArrayList <Double> mean, standard_deviation;
 	private ArrayList <Integer> pillar;
 
 	
+	/*Constructor*/
 	Processing2 () {		
 	}
 	
@@ -87,61 +91,6 @@ public class Processing2 {
 	}	
 	
 	
-	public void allFrames2 (Object [][] newData, String [] values) {
-
-		mean = new ArrayList<Double> ();
-		standard_deviation = new ArrayList<Double> ();
-		
-		System.out.println("We have made it to the String allFrames");
-		ArrayList <Double> pico = new ArrayList <Double> ();
-		int value = 0;
-		
-		for (int i = 0; i < values.length; i++) {
-			value = Integer.parseInt(values [i]);
-		
-			
-		for (int j =0; j< newData.length; j++) {
-			
-			if (value == Integer.parseInt ((String) newData [j][1])) {
-				pico.add((Double) newData [j][8]);
-			}
-		}
-		for (double d: pico) {System.out.println("pico2 : " + d);}
-		statistics(pico);
-		pico.clear();
-		}
-		
-		for (double m : mean) {System.out.println("mean: " + m);}
-		for (double s : standard_deviation) {System.out.println("stndev: " + s);}
-	}
-
-	
-	/*This method calculates the average and standard deviation of the picoNewton values in the data.*/
-	public void statistics (ArrayList<Double> pico) {
-		
-		double average = 0.0;
-		double sd = 0.0;
-
-		for (double avg : pico) {
-			
-			average += avg;			
-		}
-		
-		average = average/pico.size();
-		mean.add(average);
-		System.out.println("Average: " + average);
-
-		for (double stdev : pico) {
-
-			sd += Math.pow((stdev-average), 2);			
-		}
-		
-		sd = Math.sqrt(sd/pico.size());
-		standard_deviation.add(sd);
-		System.out.println("SD: " + sd);
-	}
-	
-	
 	/*This method will generate a list of FrameID, PillarID and Forces relating all pillars across
 	 across a single Frame */
 	public ArrayList <Object> dataByFrame (Object [][] newData, int ID) {
@@ -185,6 +134,63 @@ public class Processing2 {
 		return dataByPillar;
 	}
 
+	
+	/*This method is for the Multipillar functionality and is similar to the allFrames
+	 method but does not use the pillar ArrayList for ordering the pillars*/
+	public void allFrames2 (Object [][] newData, String [] values) {
+
+		mean = new ArrayList<Double> ();
+		standard_deviation = new ArrayList<Double> ();
+		
+		ArrayList <Double> pico = new ArrayList <Double> ();
+		int value = 0;
+		
+		for (int i = 0; i < values.length; i++) {
+			value = Integer.parseInt(values [i]);
+		
+			
+		for (int j =0; j< newData.length; j++) {
+			
+			if (value == Integer.parseInt ((String) newData [j][1])) {
+				pico.add((Double) newData [j][8]);
+			}
+		}
+		for (double d: pico) {System.out.println("pico2 : " + d);}
+		//for (double d: pico) {System.out.println(d);}
+		statistics(pico);
+		pico.clear();
+		}
+		
+		for (double m : mean) {System.out.println("mean: " + m);}
+		for (double s : standard_deviation) {System.out.println("stndev: " + s);}
+	}
+	
+	
+	/*This method calculates the average and standard deviation of the picoNewton values in the data.*/
+	public void statistics (ArrayList<Double> pico) {
+		
+		double average = 0.0;
+		double sd = 0.0;
+
+		for (double avg : pico) {
+			
+			average += avg;			
+		}
+		
+		average = average/pico.size();
+		mean.add(average);
+		System.out.println("Average: " + average);
+
+		for (double stdev : pico) {
+
+			sd += Math.pow((stdev-average), 2);			
+		}
+		
+		sd = Math.sqrt(sd/pico.size());
+		standard_deviation.add(sd);
+		System.out.println("SD: " + sd);
+	}
+	
 	
 	/*This method creates an output file for the average and standard deviation of pillars from AllFrames*/
 	public String outputFile () {

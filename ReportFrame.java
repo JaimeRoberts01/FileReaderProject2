@@ -8,10 +8,12 @@ import javax.swing.border.*;
 @SuppressWarnings("serial")
 public class ReportFrame extends JFrame {
 
-
+	
+	/*Instance variables*/
 	private JTextArea displayFile;
 
 
+	/*Constructor*/
 	public ReportFrame () {		
 
 		setDefaultCloseOperation (DISPOSE_ON_CLOSE);
@@ -23,7 +25,7 @@ public class ReportFrame extends JFrame {
 		frameComponents ();
 	}
 
-
+	/*GUI layout*/
 	public void frameComponents () {
 
 		displayFile = new JTextArea ();
@@ -37,6 +39,7 @@ public class ReportFrame extends JFrame {
 	}
 
 
+	/*This method prints a copy of the input file into a reader*/
 	public void reportFormatter (String l) {
 		
 		displayFile.append (l + "\n");	

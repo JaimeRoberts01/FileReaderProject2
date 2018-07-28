@@ -1,9 +1,6 @@
 import java.awt.*;
-//import java.util.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.Arrays;
-
 import javax.swing.border.*;
 
 
@@ -15,12 +12,11 @@ public class ReportFrame3 extends JFrame implements ActionListener{
 	private JTextArea displayFile;
 	private JButton Button1, Button2;
 	
-	private String [] values;
-	
-	
 	private Processing Process;
 	private Processing2 Process2;
 	
+	
+	/*Constructor*/
 	public ReportFrame3 (Processing Process) {	
 		
 		this.Process = Process;
@@ -35,6 +31,7 @@ public class ReportFrame3 extends JFrame implements ActionListener{
 	}
 	
 
+	/*GUI layout*/
 	public void frameComponents () {
 					
 		contentPane = this.getContentPane();
@@ -80,14 +77,9 @@ public class ReportFrame3 extends JFrame implements ActionListener{
 		Button2Cons.setX(Spring.sum(Spring.constant(208), displayFileCons.getConstraint(SpringLayout.NORTH)));
 		Button2Cons.setY(Spring.constant(245));
 	}
-	
-	
-
-	public String[] getValues() {return values;}
-	public void setValues(String[] values) {this.values = values;}
 
 
-	@Override
+	@Override /*ActionPerformed methods for the individual buttons*/
 	public void actionPerformed(ActionEvent e) {
 		
 		if (e.getSource() == Button1) {
@@ -107,7 +99,7 @@ public class ReportFrame3 extends JFrame implements ActionListener{
 	 values to a method in Processing2 for AVG and SD across all frames*/
 	public String []  multipillarValues () {
 
-		values = displayFile.getText().split(", ");
+		String [] values = displayFile.getText().split(", ");
 		
 		Process2 = new Processing2 ();	
 		Process2.allFrames2(Process.getNewData(), values);
@@ -115,15 +107,4 @@ public class ReportFrame3 extends JFrame implements ActionListener{
 		for (String s: values) {System.out.println(s);}
 		return values;
 	}
-		
-//	/*This method sends the values to a method in Processing2 for getting sorting &
-//     getting the mean and standard deviation for those pillars across all frames.*/
-//	public void someMethod (String [] values) {
-//		
-//		for (int i = 0; i < values.length; i++) {
-//			System.out.println("values: " + Arrays.toString(values));
-//		}
-//			Process2 = new Processing2 ();	
-//			Process2.allFrames2(Process.getNewData(), values);		
-//	}
 }

@@ -9,6 +9,7 @@ public class ReportFrame2 extends JFrame {
 
 	private Processing Process;
 
+	/*Constructor*/
 	public ReportFrame2 (Processing Process) {	
 		
 		this.Process = Process;
@@ -21,7 +22,8 @@ public class ReportFrame2 extends JFrame {
 		frameComponents ();
 	}
 	
-
+	
+	/*GUI layout*/
 	public void frameComponents () {
 
 		displayFile = new JTextArea ();
@@ -35,6 +37,7 @@ public class ReportFrame2 extends JFrame {
 	}
 
 
+	/*This method formats a display screen for the newData array values (except x and y).*/
 	public void reportFormatter () {
 
 		String header_upper = (String.format("%s %11s %11s %15s %19s %16s %13s", "Frame", "Pillar", "dx", "dy", "Deflection", "Deflection", "Force")+"\n");

@@ -17,11 +17,10 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private JLabel Label1, Label2, Label3, Label4, Label5, Label6, Label7, Label8;
 	private JSeparator S1;
 	private JTextField TF1, TF2, TF3, TF4, TF5, TF6, TF7;
-
 	private JSlider JS1;
 	private JFileChooser JFC;
 	private JButton Button1, Button2, Button3, Button4, Button5, Button6, Button7;
-
+	
 	private ReportFrame ReportFrame;
 	private ReportFrame2 ReportFrame2;
 	private ReportFrame3 ReportFrame3;
@@ -217,7 +216,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Panel5.add(TF7);
 		TF7.setEnabled(true);
 
-		Button5 = new JButton ("Add");
+		Button5 = new JButton ("Multi-Pillar");
 		Button5.setPreferredSize(new Dimension(125,23));
 		Button5.setFont(new Font ("Consolas", Font.PLAIN, 14));
 		Button5.setOpaque(true);
@@ -337,20 +336,14 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 
 	/*This is for displaying the output data in the report frame. It is for testing the output data
-	 is correct and will be deleted at the end - it cannot cope with the whole file.*/
+	 is correct and will be deleted at the end - it cannot cope with the WHOLE file.*/
 	public void displayOutput () {
 
 		ReportFrame2 = new ReportFrame2 (Process);	
 		ReportFrame2.reportFormatter();
-	
 	}
 
-//	public void displayOutput2 () {
-//		
-//		ReportFrame3 = new ReportFrame3(Process);
-//		ReportFrame3.reportFormatter();
-//	}
-
+	
 	@Override /*ActionPerformed methods for the individual buttons*/
 	public void actionPerformed(ActionEvent e) {
 
@@ -366,20 +359,17 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 				File selectedFile =	JFC.getSelectedFile();
 				TF1.setText(selectedFile.toString());
 				String fileName = TF1.getText();
-
-				System.out.println("THIS IS TF1;" + TF1.getText());
 				fileReader(fileName);
-				//				String fileName = TF5.getText();
-				//				System.out.println("THIS IS FILEZ" + fileName);
-				//				FileManager = new FileManager ();
-				//				FileManager.fileReader (fileName);
+				//String fileName = TF5.getText();
+				//System.out.println("THIS IS FILEZ" + fileName);
+				//FileManager = new FileManager ();
+				//FileManager.fileReader (fileName);
 			}
 		}
 
 
 		/*This is the 'Calculate Forces' button and calls methods for calculating the forces.*/
 		if (e.getSource() == Button2) { 
-			System.out.println("We definitely hit button 2");
 			int conversion = Integer.parseInt(TF2.getText().trim());
 			double youngsM = Double.parseDouble(TF3.getText().trim());
 			double pillarD = Double.parseDouble(TF4.getText().trim());
@@ -387,16 +377,12 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			Process.nanoMeters(conversion);
 			Process.forces(youngsM, pillarD, pillarL);
 			Process.newDataArray();
-			System.out.println("And if you're seeing this, we did something!");
 		}
 
 
 		/*This is the 'Save' button. It calls the fileReader and passes it a string for the file name.If
 		 a file with this name exists, the user is given the option to change the name or overwrite.*/
 		if (e.getSource() == Button3) { 
-
-			System.out.println("We definitely hit button 3");	
-			
 
 			Object [] options = {"Force Data", "Stats Data"};
 			String option = (String) JOptionPane.showInputDialog (null, "Choose which data to save", 
@@ -434,44 +420,37 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 				else {
 					fileName = savedFile.toString();
 					fileWriter (fileName, dataset);
-					System.out.println("Here is the filename: " + fileName);
 				}
-
 			}
-			System.out.println("And if you're seeing this, we did something!");	
 		}
 
 
-		/*Get Data - Slider*/
+		/*Get Data - Frame. This button gets the TextField value and passes it to a
+		 method in Processing2 to obtain values.*/
 		if (e.getSource() == Button4) {
 
-			System.out.println("We definitely hit button 4");
 			int ID = Integer.parseInt(TF6.getText().trim());
 			Process2.dataByFrame(Process.getNewData(), ID);
-			System.out.println("And if you're seeing this, we did something!");
 		}
 		
 		
-		/*Add*/
+		/*MultiPillar. This button calls a method in ReportFrame3 to input individual
+		 or small groups of pillars for statistical analysis.*/
 		if (e.getSource() == Button5) {
 
-			System.out.println("We definitely hit button 5");
-//			DataPlotting = new DataPlotting ();
-//			DataPlotting.graph();
+			//DataPlotting = new DataPlotting ();
+			//DataPlotting.graph();
 			ReportFrame3 = new ReportFrame3 (Process);
-			//ReportFrame3.reportFormatter();
-			System.out.println("And if you're seeing this, we did something!");
 		}
 
 
-		/*Get Data - Pillar*/
+		/*Get Data - Pillar. This button gets the TextField value and passes it to a 
+		 * method in Processing2 to obtain values.*/
 		if (e.getSource() == Button6) {
 
-			System.out.println("We definitely hit button 6");
 			int ID = Integer.parseInt(TF7.getText().trim());
 			Process2 = new Processing2 ();
 			Process2.dataByPillar(Process.getNewData(), ID);
-			System.out.println("And if you're seeing this, we did something!");
 		}
 
 
@@ -479,17 +458,15 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		 for individual pillars across the different frames.*/
 		if (e.getSource() == Button7) {
 
-			System.out.println("We definitely hit button AllFrame");
 			displayOutput();
 			Process2 = new Processing2 ();
 			Process2.getPillars(Process.getNewData());
 			Process2.allFrames(Process.getNewData());
-			System.out.println("And if you're seeing this, we did something!");
 		}
 	}
 
 
-	@Override /*State change method for the slider - this will go if I can't find anything to do with it.*/
+	@Override /*State change method for the slider.*/
 	public void stateChanged(ChangeEvent e) {
 
 		if (e.getSource() == JS1) {
