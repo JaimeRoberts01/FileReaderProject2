@@ -80,8 +80,13 @@ public class FileManager {
 
 					writer.write(output);
 				}
+				
+				else if (fileName.equals("lainey.csv")) {
 
-				if (fileName.equals("tanya.csv")) {
+					writer.write(output);
+				}
+
+				else if (fileName.equals("tanya.csv")) {
 
 					writer.write(output);
 				}

@@ -6,7 +6,7 @@ public class Processing2 {
 
 	/*Instance variables*/
 	private ArrayList <Double> mean, standard_deviation; 
-	private ArrayList <Object> dataByPillar, dataByFrame;
+	private ArrayList <Object> dataByPillar, dataByFrame, multipillar;
 	private ArrayList <Integer> pillar;
 
 	private FileManager FileManager;
@@ -122,33 +122,39 @@ public class Processing2 {
 		statistics(pico);
 		outputStringbyPillar();
 		dataByPillar.clear();
-
+		mean.clear();
+		standard_deviation.clear();
 		return dataByPillar;
 	}
 
 
-	/*This method is for the Multipillar functionality and is similar to the allFrames
+	/*This method is for the multipillar functionality and is similar to the allFrames
 	 method but does not use the pillar ArrayList for ordering the pillars*/
-	public void allFrames2 (Object [][] newData, String [] values) {
+	public void multiPillar (Object [][] newData, String [] values) {
 
+		
 		mean = new ArrayList<Double> ();
 		standard_deviation = new ArrayList<Double> ();
 
 		ArrayList <Double> pico = new ArrayList <Double> ();
+		multipillar = new ArrayList <Object> ();
 		int value = 0;
 
 		for (int i = 0; i < values.length; i++) {
 			value = Integer.parseInt(values [i]);
-
+			multipillar.add(value);
 
 			for (int j =0; j< newData.length; j++) {
 
 				if (value == Integer.parseInt ((String) newData [j][1])) {
 					pico.add((Double) newData [j][8]);
+					//Object forces = newData [j][0] + "," + newData [j][1] + "," + newData [j][8];
+					
 				}
 			}
 			for (double d: pico) {System.out.println("pico2 : " + d);}
 			statistics(pico);
+			outputStringMultipillar (values);
 			pico.clear();
 		}
 
@@ -182,7 +188,7 @@ public class Processing2 {
 		System.out.println("SD: " + sd);
 	}
 
-	
+
 	/*This method creates a string from the dataByFrame method and sends it to the FileWriter.*/
 	public String outputStringbyFrame () {
 
@@ -222,6 +228,25 @@ public class Processing2 {
 		String output = SB.toString();
 		System.out.println("output: " + "\n" + output);
 		String fileName = "jemma.csv";
+		FileManager = new FileManager ();
+		FileManager.fileWriter(fileName, output);
+		return output;
+	}
+
+
+	/*This method builds a string for the multipillar method and sends it to the FileWriter*/
+	public String outputStringMultipillar (String[] values) {
+
+		StringBuilder SB = new StringBuilder();
+		SB.append("Pillar Index" + "," + "AVG Force (pN)" + "," + "SD" + "\n");
+		
+		for (int i=0; i<multipillar.size(); i++) {
+			SB.append(values [i] + "," + mean.get(i) + " ," + standard_deviation.get(i) + "\n");
+		}	
+
+		String output = SB.toString();
+		System.out.println("output: " + "\n" + output);
+		String fileName = "lainey.csv";
 		FileManager = new FileManager ();
 		FileManager.fileWriter(fileName, output);
 		return output;

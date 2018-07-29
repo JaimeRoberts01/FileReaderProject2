@@ -32,7 +32,7 @@ public class ReportFrame3 extends JFrame implements ActionListener{
 	
 
 	/*GUI layout*/
-	public void frameComponents () {
+	public void frameComponents () {	
 					
 		contentPane = this.getContentPane();
 		SpringLayout layout = new SpringLayout ();
@@ -102,7 +102,7 @@ public class ReportFrame3 extends JFrame implements ActionListener{
 		String [] values = displayFile.getText().split(", ");
 		
 		Process2 = new Processing2 ();	
-		Process2.allFrames2(Process.getNewData(), values);
+		Process2.multiPillar(Process.getNewData(), values);
 		
 		for (String s: values) {System.out.println(s);}
 		return values;
