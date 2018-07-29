@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -7,33 +8,27 @@ import javax.swing.JOptionPane;
 
 
 public class FileManager {
-	
-	//private GUIClass GUI;
-	private Processing Process;
-	private ReportFrame ReportFrame;
-	
-	
-	
+
 
 	private ArrayList <String> fileLine;
-	
-	
+	private ReportFrame ReportFrame;
+	private Processing Process;
+
+
 	public FileManager() {
-		
 	}
-	
-	
-	public void fileReader (String fileName) { // This should be moved to an IO class. 
+
+
+	public void fileReader (String fileName) { 
 
 		FileReader reader = null;	
 		BufferedReader bufferedReader = null;
 		String file = null;
 		String line = null;
 		ReportFrame = new ReportFrame ();
-		//Process = new Processing ();
 
 		try {
-				
+
 			file = fileName;
 			System.out.println ("WE'RE IN FM: " + file);
 			fileLine = new ArrayList<String>();
@@ -48,11 +43,9 @@ public class FileManager {
 			for (String s : fileLine) {		
 				ReportFrame.reportFormatter(s);	
 			}
-			
-			//Process = new Processing (fileLine);
+
 			Process = new Processing ();
 			Process.data(fileLine);
-			
 
 			reader.close();	
 			bufferedReader.close();
@@ -71,4 +64,38 @@ public class FileManager {
 		}	
 	}
 
+
+	/*FileWriter writes the getByFrame, getByPillar and MultiPillar data to file*/
+	public void fileWriter (String fileName, String output) {
+
+		FileWriter writer = null;
+		String file = null;
+		try {
+
+			try {
+				file = fileName;
+				writer = new FileWriter (file);
+
+				if (fileName.equals("jemma.csv")) {
+
+					writer.write(output);
+				}
+
+				if (fileName.equals("tanya.csv")) {
+
+					writer.write(output);
+				}
+			}
+
+			finally {
+
+				writer.close();	
+			}
+		}
+
+		catch (IOException IOE) {
+
+			IOE.printStackTrace();	
+		}
+	}
 }

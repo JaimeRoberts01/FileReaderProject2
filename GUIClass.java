@@ -19,14 +19,15 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private JTextField TF1, TF2, TF3, TF4, TF5, TF6, TF7;
 	private JSlider JS1;
 	private JFileChooser JFC;
-	private JButton Button1, Button2, Button3, Button4, Button5, Button6, Button7;
+	private JButton Button1, Button2, Button3, Button4, Button5, Button6, Button7, Button8;
 	
 	private ReportFrame ReportFrame;
 	private ReportFrame2 ReportFrame2;
 	private ReportFrame3 ReportFrame3;
+	private ReportFrame4 ReportFrame4;
 	private Processing Process;
 	private Processing2 Process2;
-	//private DataPlotting DataPlotting;
+	private DataPlotting DataPlotting;
 	//private FileManager FileManager;
 
 	private ArrayList <String> fileLine;
@@ -156,6 +157,15 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Panel3.add (Button3);
 		Button3.setEnabled (true);
 
+		Button8 = new JButton ("Statistical Data");
+		Button8.setPreferredSize(new Dimension(125,23));
+		Button8.setFont(new Font ("Consolas", Font.PLAIN, 14));
+		Button8.setOpaque(true);
+		Button8.setBorder(BorderFactory.createLineBorder(Color.black));
+		Button8.addActionListener (this);
+		Panel3.add (Button8);
+		Button8.setEnabled (true);
+
 
 		/*Panel4 contains sliders for obtaining all pillar data for a
 		 given frame (selected by the slider).*/
@@ -167,7 +177,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Label6 = new JLabel ("Get data by frame:");
 		Label6.setFont(new Font ("Consolas", Font.PLAIN, 14));
 		Panel4.add(Label6);
-		
+
 		TF6 = new JTextField(5);
 		TF6.addActionListener (this);
 		TF6.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -301,40 +311,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	}
 
 
-	/*FileWriter saves the data to a new file. This should be in its own class but there are problems
-	 when attempting this.*/
-	public void fileWriter (String fileName, int dataset) {
-
-		FileWriter writer = null;
-		String file = null;
-
-		try {
-
-			try {
-				file = fileName;
-				writer = new FileWriter (file);
-				
-				if (dataset == 0) {	
-					writer.write(Process.outputFile());
-				}
-				else if (dataset ==1) {
-					writer.write(Process2.outputFile());	
-				}
-			}
-
-			finally {
-
-				writer.close();	
-			}
-		}
-
-		catch (IOException IOE) {
-
-			IOE.printStackTrace();	
-		}
-	}
-
-
 	/*This is for displaying the output data in the report frame. It is for testing the output data
 	 is correct and will be deleted at the end - it cannot cope with the WHOLE file.*/
 	public void displayOutput () {
@@ -344,32 +320,31 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 	}
 
-	
+
 	@Override /*ActionPerformed methods for the individual buttons*/
 	public void actionPerformed(ActionEvent e) {
 
-		
+
 		/*This is the 'Browse' button and enables the user to open a file. A string is passed to the
 		 texfield so the user can see which file has been opened.*/
-		
-//		DataPlotting = new DataPlotting ();
-//		DataPlotting.graph();
-		
 		if (e.getSource() == Button1) {
+
 			JFC = new JFileChooser ();
 			JFC.setMultiSelectionEnabled(false);
+			File selectedFile = null;
 			int openVal = JFC.showDialog(null, "Select");
 
 			if (openVal == JFileChooser.APPROVE_OPTION) {
-				File selectedFile =	JFC.getSelectedFile();
-				TF1.setText(selectedFile.toString());
-				String fileName = TF1.getText();
-				fileReader(fileName);
-				//String fileName = TF5.getText();
-				//System.out.println("THIS IS FILEZ" + fileName);
-				//FileManager = new FileManager ();
-				//FileManager.fileReader (fileName);
+				selectedFile =	JFC.getSelectedFile();
 			}
+
+			TF1.setText(selectedFile.toString());
+			String fileName = TF1.getText();
+			fileReader(fileName);
+			//String fileName = TF5.getText();
+			//System.out.println("THIS IS FILEZ" + fileName);
+			//FileManager = new FileManager ();
+			//FileManager.fileReader (fileName);
 		}
 
 
@@ -390,44 +365,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		 a file with this name exists, the user is given the option to change the name or overwrite.*/
 		if (e.getSource() == Button3) { 
 
-			Object [] options = {"Force Data", "Stats Data"};
-			String option = (String) JOptionPane.showInputDialog (null, "Choose which data to save", 
-					"Select an Option...", JOptionPane.PLAIN_MESSAGE, null, options, "Force Data");
-			int dataset = 0;
-			if (option == options [0] ) {
-				dataset = 0;
-			}
-			else if (option == options [1] ) {
-				dataset = 1;
-			}
-
-			JFC = new JFileChooser();
-			String fileName = "";
-			int saveVal = JFC.showSaveDialog(null);
-
-			if (saveVal == JFileChooser.APPROVE_OPTION) {
-
-				File savedFile = JFC.getSelectedFile();
-
-				if (savedFile.exists()) {
-					int response = JOptionPane.showConfirmDialog (null, "FILE ALREADY EXISTS. REPLACE?", 
-							"Select an Option...", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
-
-					if (response == JOptionPane.YES_OPTION) {
-						fileName = savedFile.toString();
-						fileWriter (fileName, dataset);
-					}
-
-					else if (response == JOptionPane.NO_OPTION) {
-						response = JOptionPane.CLOSED_OPTION;
-					}
-				}
-
-				else {
-					fileName = savedFile.toString();
-					fileWriter (fileName, dataset);
-				}
-			}
+			DataPlotting = new DataPlotting ();
+			DataPlotting.graph();
 		}
 
 
@@ -438,8 +377,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			int ID = Integer.parseInt(TF6.getText().trim());
 			Process2.dataByFrame(Process.getNewData(), ID);
 		}
-		
-		
+
+
 		/*MultiPillar. This button calls a method in ReportFrame3 to input individual
 		 or small groups of pillars for statistical analysis.*/
 		if (e.getSource() == Button5) {
@@ -466,6 +405,16 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			Process2.getPillars(Process.getNewData());
 			Process2.allFrames(Process.getNewData());
 		}
+
+		if (e.getSource() == Button8) {
+
+			Process2 = new Processing2 ();
+			Process2.getPillars(Process.getNewData());
+			Process2.allFrames(Process.getNewData());
+			ReportFrame4 = new ReportFrame4 (Process2);
+			ReportFrame4.reportFormatter();
+
+		}
 	}
 
 
@@ -473,7 +422,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	public void stateChanged(ChangeEvent e) {
 
 		if (e.getSource() == JS1) {
-			
+
 			if (JS1.getValueIsAdjusting()) {
 				int slider = JS1.getValue();
 				TF6.setText(Integer.toString(slider));

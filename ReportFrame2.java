@@ -64,7 +64,7 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 		add(Button2);
 	}
 	
-	
+		
 	/*This method formats a display screen for the newData array values (except x and y).*/
 	public void reportFormatter () {
 

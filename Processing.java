@@ -116,7 +116,7 @@ public class Processing {
 	}
 
 
-	/*This method builds a string for the ReportFrame2 to test proper output; it will be deleted eventually.*/
+	/*This method builds a string for the ReportFrame2.*/
 	public String outputString () { 
 
 		StringBuilder SB = new StringBuilder();
@@ -130,8 +130,8 @@ public class Processing {
 		String output = SB.toString();	
 		return output;
 	}
-
-
+	
+	
 	/*This method builds a string for the output file, which is another CSV file.*/
 	public String outputFile () {
 
