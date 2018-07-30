@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.file.Files;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
@@ -23,12 +24,13 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 	private ReportFrame ReportFrame;
 	private ReportFrame2 ReportFrame2;
+	@SuppressWarnings("unused")
 	private ReportFrame3 ReportFrame3;
 	private ReportFrame4 ReportFrame4;
 	private Processing Process;
 	private Processing2 Process2;
 	private DataPlotting DataPlotting;
-	//private FileManager FileManager;
+	private FileManager FileManager;
 
 	private ArrayList <String> fileLine;
 	public static String rootFileName;
@@ -152,15 +154,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Panel3.add (Button2);
 		Button2.setEnabled (true);
 
-		Button3 = new JButton ("Save Data");
-		Button3.setPreferredSize(new Dimension(125,23));
-		Button3.setFont(new Font ("Consolas", Font.PLAIN, 14));
-		Button3.setOpaque(true);
-		Button3.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button3.addActionListener (this);
-		Panel3.add (Button3);
-		Button3.setEnabled (true);
-
 		Button8 = new JButton ("Statistical Data");
 		Button8.setPreferredSize(new Dimension(125,23));
 		Button8.setFont(new Font ("Consolas", Font.PLAIN, 14));
@@ -169,6 +162,15 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Button8.addActionListener (this);
 		Panel3.add (Button8);
 		Button8.setEnabled (true);
+
+		Button3 = new JButton ("Plot Data");
+		Button3.setPreferredSize(new Dimension(125,23));
+		Button3.setFont(new Font ("Consolas", Font.PLAIN, 14));
+		Button3.setOpaque(true);
+		Button3.setBorder(BorderFactory.createLineBorder(Color.black));
+		Button3.addActionListener (this);
+		Panel3.add (Button3);
+		Button3.setEnabled (true);
 
 
 		/*Panel4 contains sliders for obtaining all pillar data for a
@@ -230,15 +232,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Panel5.add(TF7);
 		TF7.setEnabled(true);
 
-		Button5 = new JButton ("Multi-Pillar");
-		Button5.setPreferredSize(new Dimension(125,23));
-		Button5.setFont(new Font ("Consolas", Font.PLAIN, 14));
-		Button5.setOpaque(true);
-		Button5.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button5.addActionListener (this);
-		Panel5.add (Button5);
-		Button5.setEnabled (true);
-
 		Button6 = new JButton ("Get Data");
 		Button6.setPreferredSize(new Dimension(125,23));
 		Button6.setFont(new Font ("Consolas", Font.PLAIN, 14));
@@ -247,6 +240,15 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Button6.addActionListener (this);
 		Panel5.add (Button6);
 		Button6.setEnabled (true);
+
+		Button5 = new JButton ("Multi-Pillar");
+		Button5.setPreferredSize(new Dimension(125,23));
+		Button5.setFont(new Font ("Consolas", Font.PLAIN, 14));
+		Button5.setOpaque(true);
+		Button5.setBorder(BorderFactory.createLineBorder(Color.black));
+		Button5.addActionListener (this);
+		Panel5.add (Button5);
+		Button5.setEnabled (true);
 
 		S1 = new JSeparator(SwingConstants.VERTICAL);
 		S1.setPreferredSize(new Dimension(10,23));
@@ -339,33 +341,48 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			int openVal = JFC.showDialog(null, "Select");
 
 			if (openVal == JFileChooser.APPROVE_OPTION) {
+
 				selectedFile =	JFC.getSelectedFile();
+				TF1.setText(selectedFile.toString());
+				String fileName = TF1.getText();
+
+				if (fileName.contains(".csv")) {
+					fileReader (fileName);
+					//System.out.println("THIS IS FILEZ" + fileName);
+					//FileManager = new FileManager ();
+					//FileManager.fileReader (fileName)
+					rootFileName = fileName.replace(".csv", "");
+				}
+				else {
+					System.out.println("Incorrect Filetype .csv files only");
+				}
 			}
 
-			TF1.setText(selectedFile.toString());
-			String fileName = TF1.getText();
-			fileReader(fileName);
+			else if (openVal == JFileChooser.CANCEL_OPTION) {
 
-			rootFileName();
-			//FileManager = new FileManager(rootFileName);
-
-			//String fileName = TF5.getText();
-			//System.out.println("THIS IS FILEZ" + fileName);
-			//FileManager = new FileManager ();
-			//FileManager.fileReader (fileName);
+				return;
+			}
 		}
 
 
 		/*This is the 'Calculate Forces' button and calls methods for calculating the forces.*/
 		if (e.getSource() == Button2) { 
-			int conversion = Integer.parseInt(TF2.getText().trim());
-			double youngsM = Double.parseDouble(TF3.getText().trim());
-			double pillarD = Double.parseDouble(TF4.getText().trim());
-			double pillarL = Double.parseDouble(TF5.getText().trim());
-			Process.nanoMeters(conversion);
-			Process.forces(youngsM, pillarD, pillarL);
-			Process.newDataArray();
-			displayOutput();
+
+			try {
+
+				int conversion = Integer.parseInt(TF2.getText().trim());
+				double youngsM = Double.parseDouble(TF3.getText().trim());
+				double pillarD = Double.parseDouble(TF4.getText().trim());
+				double pillarL = Double.parseDouble(TF5.getText().trim());
+				Process.nanoMeters(conversion);
+				Process.forces(youngsM, pillarD, pillarL);
+				Process.newDataArray();
+				displayOutput();
+			}
+
+			catch (NumberFormatException NFE) {
+				System.out.println("Incorrect input");
+			}
 		}
 
 
@@ -410,9 +427,9 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		 for individual pillars across the different frames.*/
 		if (e.getSource() == Button7) {
 
-			Process2 = new Processing2 ();
-			Process2.getPillars(Process.getNewData());
-			Process2.allFrames(Process.getNewData());
+			//			Process2 = new Processing2 ();
+			//			Process2.getPillars(Process.getNewData());
+			//			Process2.allFrames(Process.getNewData());
 		}
 
 		if (e.getSource() == Button8) {
@@ -442,10 +459,4 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 	/*This method gets the root filename from the filename bar. the FileWriter uses this String to
 	 save byFrame, byPillar and Multipillar data to file.*/
-	public String rootFileName () {
-
-		rootFileName = TF1.getText().replace(".csv", "");
-		System.out.println(rootFileName);
-		return rootFileName;
-	}
 }

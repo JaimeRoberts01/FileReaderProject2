@@ -10,10 +10,12 @@ public class FileManager {
 	private ArrayList <String> fileLine;
 	private ReportFrame ReportFrame;
 	private Processing Process;
+	//private GUIClass GUI;
 
 
 	/*Constructor*/
 	public FileManager() {
+		
 	}
 
 	/*FileReader for reading in the files - this doesn't yet work.*/
@@ -44,7 +46,7 @@ public class FileManager {
 
 			Process = new Processing ();
 			Process.data(fileLine);
-
+			
 			reader.close();	
 			bufferedReader.close();
 		}
@@ -66,7 +68,8 @@ public class FileManager {
 	/*FileWriter writes the getByFrame, getByPillar and MultiPillar data to file*/
 	public void fileWriter (String identifier, String output) {
 
-		String rootFileName = GUIClass.getRootFileName();		
+		String rootFileName = GUIClass.getRootFileName();	
+		System.out.println("RFN: " + rootFileName);
 		String fileName = null;
 		FileWriter writer = null;
 
