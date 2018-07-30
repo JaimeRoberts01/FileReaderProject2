@@ -77,6 +77,9 @@ public class Processing2 {
 	 across a single Frame */
 	public ArrayList <Object> dataByFrame (Object [][] newData, int ID) {
 
+		mean = new ArrayList<Double> ();
+		standard_deviation = new ArrayList<Double> ();
+
 		dataByFrame = new ArrayList <Object>();
 
 		for (int i = 0; i< newData.length; i++) {
@@ -121,9 +124,6 @@ public class Processing2 {
 		for (int j =0; j< dataByPillar.size(); j++) {System.out.println("bypillar: " + dataByPillar.get(j));}
 		statistics(pico);
 		outputStringbyPillar();
-		dataByPillar.clear();
-		mean.clear();
-		standard_deviation.clear();
 		return dataByPillar;
 	}
 
@@ -132,7 +132,6 @@ public class Processing2 {
 	 method but does not use the pillar ArrayList for ordering the pillars*/
 	public void multiPillar (Object [][] newData, String [] values) {
 
-		
 		mean = new ArrayList<Double> ();
 		standard_deviation = new ArrayList<Double> ();
 
@@ -149,7 +148,7 @@ public class Processing2 {
 				if (value == Integer.parseInt ((String) newData [j][1])) {
 					pico.add((Double) newData [j][8]);
 					//Object forces = newData [j][0] + "," + newData [j][1] + "," + newData [j][8];
-					
+
 				}
 			}
 			for (double d: pico) {System.out.println("pico2 : " + d);}
@@ -176,7 +175,6 @@ public class Processing2 {
 
 		average = average/pico.size();
 		mean.add(average);
-		System.out.println("Average: " + average);
 
 		for (double stdev : pico) {
 
@@ -185,7 +183,6 @@ public class Processing2 {
 
 		sd = Math.sqrt(sd/pico.size());
 		standard_deviation.add(sd);
-		System.out.println("SD: " + sd);
 	}
 
 
@@ -201,9 +198,9 @@ public class Processing2 {
 
 		String output = SB.toString();
 		System.out.println("output: " + "\n" + output);
-		String fileName = "tanya.csv";
+		String identifier = "dataByFrame";
 		FileManager = new FileManager ();
-		FileManager.fileWriter(fileName, output);
+		FileManager.fileWriter(identifier, output);
 		return output;
 	}
 
@@ -226,10 +223,10 @@ public class Processing2 {
 		}
 
 		String output = SB.toString();
-		System.out.println("output: " + "\n" + output);
-		String fileName = "jemma.csv";
+		String identifier = "dataByPillar";
 		FileManager = new FileManager ();
-		FileManager.fileWriter(fileName, output);
+		FileManager.fileWriter(identifier, output);	
+
 		return output;
 	}
 
@@ -239,16 +236,15 @@ public class Processing2 {
 
 		StringBuilder SB = new StringBuilder();
 		SB.append("Pillar Index" + "," + "AVG Force (pN)" + "," + "SD" + "\n");
-		
+
 		for (int i=0; i<multipillar.size(); i++) {
 			SB.append(values [i] + "," + mean.get(i) + " ," + standard_deviation.get(i) + "\n");
 		}	
 
 		String output = SB.toString();
-		System.out.println("output: " + "\n" + output);
-		String fileName = "lainey.csv";
+		String identifier = "multipillar";
 		FileManager = new FileManager ();
-		FileManager.fileWriter(fileName, output);
+		FileManager.fileWriter(identifier, output);
 		return output;
 	}
 
@@ -259,8 +255,8 @@ public class Processing2 {
 		StringBuilder SB = new StringBuilder();
 		for (int i = 0; i <pillar.size(); i++) {
 
-			SB.append(String.format("%9s",pillar.get(i)) + "\t" + String.format("%9.8s",mean.get(i)) + "\t" + String.format("%9.8s",standard_deviation.get(i)) + "\n");
-
+			SB.append(String.format("%9s",pillar.get(i)) + "\t" + String.format("%9.8s",mean.get(i)) + "\t" 
+					+ String.format("%9.8s",standard_deviation.get(i)) + "\n");
 		}
 
 		String output = SB.toString();	
@@ -283,7 +279,6 @@ public class Processing2 {
 		SB.append(header + "\n");
 		SB.append(body);
 		String outputFile = SB.toString();
-		System.out.println(outputFile);
 		return outputFile;
 	}
 }

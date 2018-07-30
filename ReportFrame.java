@@ -8,7 +8,7 @@ import javax.swing.border.*;
 @SuppressWarnings("serial")
 public class ReportFrame extends JFrame {
 
-	
+
 	/*Instance variables*/
 	private JTextArea displayFile;
 
@@ -39,9 +39,9 @@ public class ReportFrame extends JFrame {
 	}
 
 
-	/*This method prints a copy of the input file into a reader*/
+	/*This method prints a copy of the input file into a reader*/	
 	public void reportFormatter (String l) {
-		
+
 		displayFile.append (l + "\n");	
 	}	
 }

@@ -8,17 +8,17 @@ import javax.swing.border.*;
 @SuppressWarnings("serial")
 public class ReportFrame2 extends JFrame implements ActionListener {
 
-	
+
 	/*Instance variables*/
 	private JTextArea displayFile;
 	private JButton Button1, Button2;
 	private JFileChooser JFC;
 	private Processing Process;
 
-	
+
 	/*Constructor*/
 	public ReportFrame2 (Processing Process) {	
-		
+
 		this.Process = Process;
 		setDefaultCloseOperation (DISPOSE_ON_CLOSE);
 		setTitle ("Calculate Forces");
@@ -30,7 +30,7 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 		frameComponents ();
 	}
 
-	
+
 	/*GUI layout*/
 	public void frameComponents () {
 
@@ -63,8 +63,8 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 		Button2.setEnabled(true);
 		add(Button2);
 	}
-	
-		
+
+
 	/*This method formats a display screen for the newData array values (except x and y).*/
 	public void reportFormatter () {
 
@@ -74,10 +74,10 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 		displayFile.append(header_upper);
 		displayFile.append(header_lower);
 		displayFile.append (bar+ "\n\n");
-		displayFile.append (Process.outputString());
+		displayFile.append (Process.outputString());	
 	}
 
-	
+
 	/*FileWriter writes text to a file. The output file is formatted differently from that
 	 displayed on the ReportFrame screen.*/
 	public void fileWriter (String fileName) {
@@ -105,7 +105,7 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 		}
 	}
 
-	
+
 	/*FileChooser allows files to be saved in a particular directory and with a give name.*/
 	public void fileChooser () {
 
@@ -119,7 +119,7 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 
 			if (savedFile.exists()) {
 				int response = JOptionPane.showConfirmDialog (null, "FILE ALREADY EXISTS. REPLACE?", 
-				"Select an Option...", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+						"Select an Option...", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
 
 				if (response == JOptionPane.YES_OPTION) {
 					fileName = savedFile.toString();

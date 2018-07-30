@@ -20,7 +20,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private JSlider JS1;
 	private JFileChooser JFC;
 	private JButton Button1, Button2, Button3, Button4, Button5, Button6, Button7, Button8;
-	
+
 	private ReportFrame ReportFrame;
 	private ReportFrame2 ReportFrame2;
 	private ReportFrame3 ReportFrame3;
@@ -31,6 +31,10 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	//private FileManager FileManager;
 
 	private ArrayList <String> fileLine;
+	public static String rootFileName;
+
+	public static String getRootFileName() {return rootFileName;}
+	public static void setRootFileName(String rootFileName) {GUIClass.rootFileName = rootFileName;}
 
 
 	/*Constructor*/
@@ -341,6 +345,10 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			TF1.setText(selectedFile.toString());
 			String fileName = TF1.getText();
 			fileReader(fileName);
+
+			rootFileName();
+			//FileManager = new FileManager(rootFileName);
+
 			//String fileName = TF5.getText();
 			//System.out.println("THIS IS FILEZ" + fileName);
 			//FileManager = new FileManager ();
@@ -375,6 +383,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == Button4) {
 
 			int ID = Integer.parseInt(TF6.getText().trim());
+			Process2 = new Processing2 ();
 			Process2.dataByFrame(Process.getNewData(), ID);
 		}
 
@@ -412,7 +421,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			Process2.getPillars(Process.getNewData());
 			Process2.allFrames(Process.getNewData());
 			ReportFrame4 = new ReportFrame4 (Process2);
-			ReportFrame4.reportFormatter();
+			ReportFrame4.reportFormatter(null);
 
 		}
 	}
@@ -428,5 +437,15 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 				TF6.setText(Integer.toString(slider));
 			}	
 		}
+	}
+
+
+	/*This method gets the root filename from the filename bar. the FileWriter uses this String to
+	 save byFrame, byPillar and Multipillar data to file.*/
+	public String rootFileName () {
+
+		rootFileName = TF1.getText().replace(".csv", "");
+		System.out.println(rootFileName);
+		return rootFileName;
 	}
 }

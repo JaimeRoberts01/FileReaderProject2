@@ -43,13 +43,13 @@ public class Processing {
 		for (int i = 0; i < rows; i++) {
 
 			data [i] = fileLine.get(i).split(",");
-		//	System.out.println(Arrays.toString(data[i]));
+			//	System.out.println(Arrays.toString(data[i]));
 		}
 		//System.out.println ("Data length: " + data.length);
 		return data;
 	}
-		
-	
+
+
 	/*This method converts pixels into nanometres for the deflection values.*/
 	public double [] nanoMeters (int conversion) {
 
@@ -64,7 +64,7 @@ public class Processing {
 
 		return nanometers;
 	}
-	
+
 
 	/*This method calculates the picoNewton forces from all the values provided .*/
 	public double [] forces (double youngsM, double pillarD, double pillarL) {
@@ -109,7 +109,7 @@ public class Processing {
 			newData [i][7] = nanometers [i];
 			newData [i][8] = picoNewtons [i];
 
-		//	System.out.println("Here is newData: " + Arrays.toString (newData[i]));
+			//	System.out.println("Here is newData: " + Arrays.toString (newData[i]));
 		}
 
 		return newData;
@@ -130,8 +130,8 @@ public class Processing {
 		String output = SB.toString();	
 		return output;
 	}
-	
-	
+
+
 	/*This method builds a string for the output file, which is another CSV file.*/
 	public String outputFile () {
 

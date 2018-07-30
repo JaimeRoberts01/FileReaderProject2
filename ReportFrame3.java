@@ -7,18 +7,18 @@ import javax.swing.border.*;
 @SuppressWarnings("serial")
 public class ReportFrame3 extends JFrame implements ActionListener{
 
-	
+
 	private Container contentPane;
 	private JTextArea displayFile;
 	private JButton Button1, Button2;
-	
+
 	private Processing Process;
 	private Processing2 Process2;
-	
-	
+
+
 	/*Constructor*/
 	public ReportFrame3 (Processing Process) {	
-		
+
 		this.Process = Process;
 		setDefaultCloseOperation (DISPOSE_ON_CLOSE);
 		setTitle ("MultiPillar");
@@ -29,16 +29,16 @@ public class ReportFrame3 extends JFrame implements ActionListener{
 		setLayout(new SpringLayout());
 		frameComponents ();
 	}
-	
+
 
 	/*GUI layout*/
 	public void frameComponents () {	
-					
+
 		contentPane = this.getContentPane();
 		SpringLayout layout = new SpringLayout ();
 		contentPane.setLayout(layout);
 		contentPane.setBackground(Color.lightGray);
-		
+
 		displayFile = new JTextArea ();
 		displayFile.setLineWrap (true);
 		displayFile.setWrapStyleWord (true);
@@ -48,7 +48,7 @@ public class ReportFrame3 extends JFrame implements ActionListener{
 		displayFile.setPreferredSize(new Dimension(396,233));
 		displayFile.setEditable (true);
 		contentPane.add(displayFile);
-		
+
 		Button1 = new JButton("OK");
 		Button1.setPreferredSize(new Dimension(125,23));
 		Button1.setFont(new Font ("Consolas", Font.PLAIN, 14));
@@ -57,7 +57,7 @@ public class ReportFrame3 extends JFrame implements ActionListener{
 		Button1.addActionListener (this);
 		Button1.setEnabled(true);
 		contentPane.add(Button1);
-		
+
 		Button2 = new JButton("Cancel");
 		Button2.setPreferredSize(new Dimension(125,23));
 		Button2.setFont(new Font ("Consolas", Font.PLAIN, 14));
@@ -66,7 +66,7 @@ public class ReportFrame3 extends JFrame implements ActionListener{
 		Button2.addActionListener (this);
 		Button2.setEnabled(true);
 		contentPane.add(Button2);
-		
+
 		SpringLayout.Constraints displayFileCons = layout.getConstraints(displayFile);
 		displayFileCons.setX(Spring.constant(2));
 		displayFileCons.setY(Spring.constant(2));
@@ -81,29 +81,29 @@ public class ReportFrame3 extends JFrame implements ActionListener{
 
 	@Override /*ActionPerformed methods for the individual buttons*/
 	public void actionPerformed(ActionEvent e) {
-		
+
 		if (e.getSource() == Button1) {
-			
+
 			this.dispose();
 			multipillarValues ();		
 		}
-		
+
 		if (e.getSource() == Button2) {
-			
+
 			this.dispose();
 		}
 	}
-	
-	
+
+
 	/*This method gets the pillar values from the MultiPillar TextArea and sends the
 	 values to a method in Processing2 for AVG and SD across all frames*/
 	public String []  multipillarValues () {
 
 		String [] values = displayFile.getText().split(", ");
-		
+
 		Process2 = new Processing2 ();	
 		Process2.multiPillar(Process.getNewData(), values);
-		
+
 		for (String s: values) {System.out.println(s);}
 		return values;
 	}

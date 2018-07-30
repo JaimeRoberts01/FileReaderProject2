@@ -1,24 +1,22 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import javax.swing.JOptionPane;
+import java.io.*; 
+import java.util.*;
+import javax.swing.*;
 
 
 public class FileManager {
 
 
+	/*Instance variables*/
 	private ArrayList <String> fileLine;
 	private ReportFrame ReportFrame;
 	private Processing Process;
 
 
+	/*Constructor*/
 	public FileManager() {
 	}
 
-
+	/*FileReader for reading in the files - this doesn't yet work.*/
 	public void fileReader (String fileName) { 
 
 		FileReader reader = null;	
@@ -66,30 +64,33 @@ public class FileManager {
 
 
 	/*FileWriter writes the getByFrame, getByPillar and MultiPillar data to file*/
-	public void fileWriter (String fileName, String output) {
+	public void fileWriter (String identifier, String output) {
 
+		String rootFileName = GUIClass.getRootFileName();		
+		String fileName = null;
 		FileWriter writer = null;
-		String file = null;
+
+		if (identifier.equals("dataByFrame")) {
+
+			fileName = rootFileName + "_dataByFrame.csv";
+		}
+
+		else if (identifier.equals("dataByPillar")) {
+
+			fileName = rootFileName + "_dataByPillar.csv";
+		}
+
+		else if (identifier.equals("multipillar")) {
+
+			fileName = rootFileName + "_multipillar.csv";
+		}
+
 		try {
 
 			try {
-				file = fileName;
-				writer = new FileWriter (file);
 
-				if (fileName.equals("jemma.csv")) {
-
-					writer.write(output);
-				}
-				
-				else if (fileName.equals("lainey.csv")) {
-
-					writer.write(output);
-				}
-
-				else if (fileName.equals("tanya.csv")) {
-
-					writer.write(output);
-				}
+				writer = new FileWriter (fileName);
+				writer.write(output);
 			}
 
 			finally {

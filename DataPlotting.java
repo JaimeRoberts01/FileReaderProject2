@@ -50,7 +50,7 @@ public class DataPlotting {
 			ChartUtilities.saveChartAsJPEG(new File("chart.jpg"), chart, 500, 300);
 
 		} catch (Exception e) {
-			
+
 			System.out.println("Problem occurred creating chart.jska " + e.getMessage());
 		}
 
