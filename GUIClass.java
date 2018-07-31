@@ -22,10 +22,10 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private JButton Button1, Button2, Button3, Button4, Button5, Button6, Button7, Button8;
 
 	private ReportFrame ReportFrame;
-	//private ReportFrame2 ReportFrame2;
+	private ReportFrame2 ReportFrame2;
 	@SuppressWarnings("unused")
 	private ReportFrame3 ReportFrame3;
-	private ReportFrame4 ReportFrame4;
+	//private ReportFrame4 ReportFrame4;
 	private Processing Process;
 	private Processing2 Process2;
 	private DataPlotting DataPlotting;
@@ -437,8 +437,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			Process2 = new Processing2 ();
 			Process2.getPillars(Process.getNewData());
 			Process2.allFrames(Process.getNewData());
-			ReportFrame4 = new ReportFrame4 (Process2);
-			ReportFrame4.reportFormatter(null);
+			ReportFrame2 = new ReportFrame2 (Process2);
+			ReportFrame2.reportFormatter(null);
 
 		}
 	}
