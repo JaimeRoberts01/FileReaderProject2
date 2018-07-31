@@ -1,5 +1,4 @@
 import java.io.*;
-import java.nio.file.Files;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
@@ -23,13 +22,14 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private JButton Button1, Button2, Button3, Button4, Button5, Button6, Button7, Button8;
 
 	private ReportFrame ReportFrame;
-	private ReportFrame2 ReportFrame2;
+	//private ReportFrame2 ReportFrame2;
 	@SuppressWarnings("unused")
 	private ReportFrame3 ReportFrame3;
 	private ReportFrame4 ReportFrame4;
 	private Processing Process;
 	private Processing2 Process2;
 	private DataPlotting DataPlotting;
+	@SuppressWarnings("unused")
 	private FileManager FileManager;
 
 	private ArrayList <String> fileLine;
@@ -278,7 +278,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		BufferedReader bufferedReader = null;
 		String file = null;
 		String line = null;
-		ReportFrame = new ReportFrame ();
+//		ReportFrame = new ReportFrame ();
 		Process = new Processing();
 
 		try {
@@ -293,9 +293,9 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 				fileLine.add (line);
 			}
 
-			for (String s : fileLine) {
-				ReportFrame.reportFormatter(s);	
-			}
+//			for (String s : fileLine) { - removed
+//				ReportFrame.reportFormatter(s);	
+//			}
 
 			Process.data(fileLine);
 
@@ -321,8 +321,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	 is correct and will be deleted at the end - it cannot cope with the WHOLE file.*/
 	public void displayOutput () {
 
-		ReportFrame2 = new ReportFrame2 (Process);	
-		ReportFrame2.reportFormatter();
+		ReportFrame = new ReportFrame (Process);	
+		ReportFrame.reportFormatter();
 
 	}
 

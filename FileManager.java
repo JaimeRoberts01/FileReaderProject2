@@ -8,7 +8,7 @@ public class FileManager {
 
 	/*Instance variables*/
 	private ArrayList <String> fileLine;
-	private ReportFrame ReportFrame;
+	//private ReportFrame ReportFrame;
 	private Processing Process;
 	//private GUIClass GUI;
 
@@ -25,7 +25,7 @@ public class FileManager {
 		BufferedReader bufferedReader = null;
 		String file = null;
 		String line = null;
-		ReportFrame = new ReportFrame ();
+//		ReportFrame = new ReportFrame ();
 
 		try {
 
@@ -40,9 +40,9 @@ public class FileManager {
 				fileLine.add (line);
 			}
 
-			for (String s : fileLine) {		
-				ReportFrame.reportFormatter(s);	
-			}
+//			for (String s : fileLine) {	- removed	
+//				ReportFrame.reportFormatter(s);	
+//			}
 
 			Process = new Processing ();
 			Process.data(fileLine);

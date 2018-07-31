@@ -1,7 +1,10 @@
-import java.io.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import javax.swing.border.*;
 
 
@@ -9,21 +12,21 @@ import javax.swing.border.*;
 public class ReportFrame2 extends JFrame implements ActionListener {
 
 
-	/*Instance variables*/
 	private JTextArea displayFile;
 	private JButton Button1, Button2;
 	private JFileChooser JFC;
-	private Processing Process;
+
+	private Processing2 Process2;
 
 
 	/*Constructor*/
-	public ReportFrame2 (Processing Process) {	
+	public ReportFrame2 (Processing2 Process2) {	
 
-		this.Process = Process;
+		this.Process2 = Process2;
 		setDefaultCloseOperation (DISPOSE_ON_CLOSE);
-		setTitle ("Calculate Forces");
+		setTitle ("Statistical Data");
 		setLocation (1500, 675);
-		setSize (825, 400);
+		setSize (400, 400);
 		setVisible (true);
 		setResizable (false);
 		setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
@@ -42,7 +45,7 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 		displayFile.setBorder (new EmptyBorder (10,10,10,10));
 		displayFile.setEditable (false);
 		JScrollPane scroll = new JScrollPane (displayFile);
-		scroll.setPreferredSize(new Dimension (825, 345));
+		scroll.setPreferredSize(new Dimension (400, 345));
 		add (scroll);
 
 		Button1 = new JButton("Save");
@@ -66,43 +69,15 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 
 
 	/*This method formats a display screen for the newData array values (except x and y).*/
-	public void reportFormatter () {
+	public void reportFormatter (String output) {	
 
-		String header_upper = (String.format("%s %11s %11s %15s %19s %16s %13s", "Frame", "Pillar", "dx", "dy", "Deflection", "Deflection", "Force")+"\n");
-		String header_lower = (String.format("%s %10s %11s %15s %17s %16s %15s", "Index", "Index", " ", " ", "(px)", "(nm)", "(pN)")+"\n");
-		String bar = "--------------------------------------------------------------------------------------------------";
+		String header_upper = (String.format("%9s %17s %11s", "Pillar", "Average Force", "Stdev")+"\n");
+		String header_lower = (String.format("%9s %13s %11s", "Index", "(pN)", " ")+"\n");
+		String bar = "---------------------------------------------";
 		displayFile.append(header_upper);
 		displayFile.append(header_lower);
 		displayFile.append (bar+ "\n\n");
-		displayFile.append (Process.outputString());	
-	}
-
-
-	/*FileWriter writes text to a file. The output file is formatted differently from that
-	 displayed on the ReportFrame screen.*/
-	public void fileWriter (String fileName) {
-
-		FileWriter writer = null;
-		String file = null;
-
-		try {
-
-			try {
-				file = fileName;
-				writer = new FileWriter (file);
-				writer.write(Process.outputFile());
-			}
-
-			finally {
-
-				writer.close();	
-			}
-		}
-
-		catch (IOException IOE) {
-
-			IOE.printStackTrace();	
-		}
+		displayFile.append (Process2.outputString());
 	}
 
 
@@ -133,8 +108,36 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 
 			else {
 				fileName = savedFile.toString();
-				fileWriter (fileName);
+				fileWriter (fileName);	
 			}
+		}
+	}
+
+	
+	/*FileWriter writes text to a file. The output file is formatted differently from that
+	 displayed on the ReportFrame screen.*/
+	public void fileWriter (String fileName) {
+
+		FileWriter writer = null;
+		String file = null;
+
+		try {
+
+			try {
+				file = fileName;
+				writer = new FileWriter (file);
+				writer.write(Process2.outputFile());
+			}
+
+			finally {
+
+				writer.close();	
+			}
+		}
+
+		catch (IOException IOE) {
+
+			IOE.printStackTrace();	
 		}
 	}
 
