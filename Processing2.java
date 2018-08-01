@@ -10,11 +10,23 @@ public class Processing2 {
 	private ArrayList <Integer> pillar;
 
 	private FileManager FileManager;
-
+	private DataPlotting DataPlotting;
 
 	/*Constructor*/
 	Processing2 () {		
 	}
+
+	
+	
+
+	public ArrayList<Double> getMean() {return mean;}
+	public void setMean(ArrayList<Double> mean) {this.mean = mean;}
+	public ArrayList<Double> getStandard_deviation() {return standard_deviation;}
+	public void setStandard_deviation(ArrayList<Double> standard_deviation) {this.standard_deviation = standard_deviation;}
+	public ArrayList<Integer> getPillar() {return pillar;}
+	public void setPillar(ArrayList<Integer> pillar) {this.pillar = pillar;}
+
+
 
 
 	/*This method creates a list of the pillars in the newData array. It is used for initialising
@@ -175,6 +187,7 @@ public class Processing2 {
 
 		average = average/pico.size();
 		mean.add(average);
+		DataPlotting = new DataPlotting (this);
 
 		for (double stdev : pico) {
 

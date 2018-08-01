@@ -390,7 +390,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		 a file with this name exists, the user is given the option to change the name or overwrite.*/
 		if (e.getSource() == Button3) { 
 
-			DataPlotting = new DataPlotting ();
+			DataPlotting = new DataPlotting (Process2);
 			DataPlotting.graph();
 		}
 

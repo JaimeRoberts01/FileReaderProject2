@@ -1,14 +1,11 @@
 import java.io.*;
-import java.text.NumberFormat;
 import java.awt.*;
+import java.util.*;
 import org.jfree.chart.*;
 import org.jfree.chart.plot.*;
 import org.jfree.chart.axis.*;
-import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.data.statistics.*;
-//import org.jfree.chart.ChartFrame.*;
 import org.jfree.chart.renderer.category.*;
-import org.jfree.chart.renderer.xy.XYErrorRenderer; 
 
 
 public class DataPlotting {
@@ -16,33 +13,44 @@ public class DataPlotting {
 	DefaultStatisticalCategoryDataset bar;
 	CategoryPlot plot;
 
+	private Processing2 Process2;
 
-	public DataPlotting () {
+	public DataPlotting (Processing2 Process2) {
+		this.Process2 = Process2;
 	}
 
-
+	
+	/*This method sets up */
 	public void graph () {
 
+		ArrayList <Double> average = new ArrayList <Double> ();
+		ArrayList <Double> standard_deviation = new ArrayList <Double> ();
+		ArrayList <Integer> pillar_index = new ArrayList <Integer> (); 
+		
+		pillar_index = Process2.getPillar();
+		average = Process2.getMean();
+		standard_deviation = Process2.getStandard_deviation();
+		
 		bar = new DefaultStatisticalCategoryDataset (); 
-
-		double [] mean = {107537.5, 97510, 113415.7, 131559.2, 83028.2};
-		double [] sd = {72662.6, 73122.6, 56713.9, 71039.5, 59956};
-		int [] id = {2559, 2563, 2566, 2570, 2607};
 
 		double avg = 0;
 		double stdv = 0.0;
 		String cat = "";
 		String title = "";
 
-		for (int i = 0; i < mean.length; i++) {
-			avg = mean [i];
-			stdv = sd [i];
+		for (int i = 0; i < average.size(); i++) {
+			avg = average.get(i);
+			stdv = standard_deviation.get(i);
 			cat = "Pillar";
-			title = Integer.toString(id [i]); 
+			title = Integer.toString(pillar_index.get(i)); 
 
 			bar.add (avg, stdv, cat, title);
 		}
-
+		
+		graphLayout();
+	}
+	
+	public void graphLayout () {
 
 		plot = new CategoryPlot(
 				bar,
@@ -59,20 +67,24 @@ public class DataPlotting {
 		plot = chart.getCategoryPlot(); 
 		chart.removeLegend();
 		chart.getPlot().setBackgroundPaint(Color.white );
-
-		Axis axisY = plot.getRangeAxis();
+		
+		NumberAxis axisY = (NumberAxis) plot.getRangeAxis();
 		axisY.setAxisLinePaint(Color.black);
 		axisY.setTickMarkPaint(Color.black); 
 		axisY.setTickLabelFont(new Font ("monspaced", Font.PLAIN, 11));
 		axisY.setLabelFont(new Font ("monspaced", Font.BOLD, 12));
 		axisY.setAxisLineStroke(new BasicStroke(1.2f));
-
-		Axis axisX = plot.getDomainAxis();
+		
+		CategoryAxis axisX = plot.getDomainAxis();
 		axisX.setAxisLinePaint(Color.black);
 		axisX.setTickMarkPaint(Color.black); 
 		axisX.setTickLabelFont(new Font ("monspaced", Font.PLAIN, 11));
 		axisX.setLabelFont(new Font ("monspaced", Font.BOLD, 12));
 		axisX.setAxisLineStroke(new BasicStroke(1.2f));
+//		axisX.setCategoryMargin(0.1);
+		axisX.setLowerMargin(0.01);
+		axisX.setUpperMargin(0.01);
+		
 
 		StatisticalBarRenderer renderer = (StatisticalBarRenderer) plot.getRenderer();
 		GradientPaint gradientpaint = new GradientPaint(0.0F, 0.0F, 
@@ -82,8 +94,9 @@ public class DataPlotting {
 		renderer.setSeriesOutlinePaint(0, Color.black);
 		renderer.setSeriesOutlineStroke(0, new BasicStroke(1));
 		renderer.setErrorIndicatorPaint(Color.black);
+		renderer.setMaximumBarWidth(10);
 		
-	
+		
 		ChartFrame frame = new ChartFrame("I'm having a breakdown", chart);
 		frame.pack();
 		frame.setVisible(true);
@@ -91,7 +104,7 @@ public class DataPlotting {
 
 		try {
 
-			ChartUtilities.saveChartAsJPEG(new File("chart.jpg"), chart, 500, 300);
+			ChartUtilities.saveChartAsJPEG(new File("chart.jpg"), chart, 1200, 800);
 		} 
 		
 		catch (Exception e) {
