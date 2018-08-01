@@ -391,7 +391,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == Button3) { 
 
 			DataPlotting = new DataPlotting (Process2);
-			DataPlotting.graph();
+			DataPlotting.statisticalBarGraph();
+			//DataPlotting.scatterGraph();
 		}
 
 
