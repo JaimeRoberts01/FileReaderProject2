@@ -1,14 +1,16 @@
 import java.io.*;
+import java.util.Arrays;
 import java.awt.*;
 import org.jfree.chart.*;
 import org.jfree.chart.plot.*;
 import org.jfree.chart.axis.*;
 import org.jfree.data.xy.XYSeries;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.statistics.*;
 import org.jfree.chart.renderer.xy.*;
 import org.jfree.chart.renderer.category.*;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.util.ShapeUtilities;
+
 
 
 public class DataPlotting {
@@ -16,7 +18,7 @@ public class DataPlotting {
 	DefaultStatisticalCategoryDataset bar;
 	XYSeriesCollection xy;
 	CategoryPlot plot;
-	JFreeChart chart, chart1;
+	JFreeChart chart, chart1, lineChart;
 
 	private Processing2 Process2;
 
@@ -164,18 +166,69 @@ public class DataPlotting {
 		GradientPaint gradientpaint = new GradientPaint(0.0F, 0.0F, 
 		new Color(5, 5, 140), 0.0F, 0.0F, new Color(209, 16, 196));
 		renderer.setSeriesPaint(0, gradientpaint);
-		Shape diamond = ShapeUtilities.createDiamond(1f);
-		XYDotRenderer seagul = new XYDotRenderer ();
-		seagul.setSeriesShape (0, diamond);
-	
 		
-
 		ChartFrame frame = new ChartFrame("I'm having a breakdown", chart);
 		frame.pack();
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
 	}
 
+	
+	public void lineGraph () {
+		
+		int rows = Process2.getDataByPillarFrame().size();
+		int columns = 3;
+		
+		Object [][] lineChartArray = new Object [rows][columns]; 
+		
+		for (int i = 0; i < rows; i++) {
+
+			lineChartArray [i] = (Process2.getDataByPillarFrame().get(i)).split(",");
+			System.out.println(Arrays.toString(lineChartArray[i]));
+		}
+		
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
+		
+		double y = 0.0;
+		String category = "";
+		String x = "";
+		
+		for (int i =0; i< lineChartArray.length; i++) {
+			
+			y = Double.parseDouble((String) lineChartArray [i][2]);
+			category = (String) lineChartArray [i][1];
+			x = (String) lineChartArray [i][0];
+			dataset.addValue(y, category, x);
+		}
+		
+		chart = ChartFactory.createLineChart("Forces over time", "Frame ID", "Force (pN)", dataset);
+		plot =  chart.getCategoryPlot();
+		chart.removeLegend();
+		
+		Axis axisY = plot.getRangeAxis();
+		axisY.setAxisLinePaint(Color.black);
+		axisY.setTickMarkPaint(Color.black); 
+		axisY.setTickLabelFont(new Font ("monspaced", Font.PLAIN, 11));
+		axisY.setLabelFont(new Font ("monspaced", Font.BOLD, 12));
+		axisY.setAxisLineStroke(new BasicStroke(1.2f));
+
+		CategoryAxis axisX = plot.getDomainAxis();
+		axisX.setAxisLinePaint(Color.black);
+		axisX.setTickMarkPaint(Color.black); 
+		axisX.setTickLabelFont(new Font ("monspaced", Font.PLAIN, 11));
+		axisX.setLabelFont(new Font ("monspaced", Font.BOLD, 12));
+		axisX.setAxisLineStroke(new BasicStroke(1.2f));
+		axisX.setLowerMargin(0.01);
+		axisX.setUpperMargin(0.01);
+		
+		ChartFrame frame = new ChartFrame("I'm having a breakdown", chart);
+		//frame.pack;
+		frame.setSize(new Dimension (1400,1400));
+		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
+
+		saveGraph ();
+	}
 	
 	public void saveGraph () {
 

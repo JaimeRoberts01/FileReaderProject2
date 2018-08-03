@@ -6,14 +6,14 @@ public class Processing {
 	/*Instance variables for the arrays.*/
 	private Object [][] data, newData;
 	private double [] nanometers, picoNewtons;
-//	private GUIClass GUI;
-//	private FileManager FileManager;
+	//	private GUIClass GUI;
+	//	private FileManager FileManager;
 
 
 	/*Constructor*/
 	public Processing () {
-		
-		
+
+
 	}
 
 
@@ -31,14 +31,27 @@ public class Processing {
 	/*This method breaks the ArrayList<String> into a 2D array using "," as the delimiter. It 
 	starts by removing lines that contain the word "NaN"/"Frame Index", which aren't processed*/
 	public Object [][] data (ArrayList<String> fileLine) { 
-		
-		for (int i = 0; i < fileLine.size(); i++) {
 
-			if (fileLine.get(i).contains("NaN") || fileLine.get(i).contains("Frame Index")) {
+		//		for (int i = 0; i < 2; i++) {
+		//
+		//			for (int j =0; j<fileLine.size(); j++) {
+		//				
+		//			if (fileLine.get(j).contains("NaN") ||  fileLine.get(j).contains("Frame Index")) {
+		//
+		//				fileLine.remove(j);
+		//			}
+		//		}
+		//		}
+
+
+		for (int i =0; i<fileLine.size(); i++) {
+
+			if (fileLine.get(i).contains("NaN") ||  fileLine.get(i).contains("Frame Index")) {
+
 				fileLine.remove(i);
 			}
 		}
-
+		
 		int rows = fileLine.size();
 		int columns = 7;
 
@@ -47,9 +60,9 @@ public class Processing {
 		for (int i = 0; i < rows; i++) {
 
 			data [i] = fileLine.get(i).split(",");
-				System.out.println(Arrays.toString(data[i]));
+			System.out.println(Arrays.toString(data[i]));
 		}
-	
+
 		System.out.println ("Data length: " + data.length);
 		return data;
 	}

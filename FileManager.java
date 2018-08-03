@@ -43,7 +43,7 @@ public class FileManager {
 //			for (String s : fileLine) {	- removed	
 //				ReportFrame.reportFormatter(s);	
 //			}
-
+			
 			Process = new Processing ();
 			Process.data(fileLine);
 			

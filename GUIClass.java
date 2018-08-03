@@ -391,8 +391,9 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == Button3) { 
 
 			DataPlotting = new DataPlotting (Process2);
-			DataPlotting.statisticalBarGraph();
+			//DataPlotting.statisticalBarGraph();
 			//DataPlotting.scatterGraph();
+			DataPlotting.lineGraph();
 		}
 
 
@@ -428,15 +429,15 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		 for individual pillars across the different frames.*/
 		if (e.getSource() == Button7) {
 
-			//			Process2 = new Processing2 ();
-			//			Process2.getPillars(Process.getNewData());
-			//			Process2.allFrames(Process.getNewData());
+			Process2.allDataAllFrames(Process.getNewData());
+			
 		}
 
 		if (e.getSource() == Button8) {
 
 			Process2 = new Processing2 ();
 			Process2.getPillars(Process.getNewData());
+			Process2.getFrames(Process.getNewData());
 			Process2.allFrames(Process.getNewData());
 			ReportFrame2 = new ReportFrame2 (Process2);
 			ReportFrame2.reportFormatter(null);
