@@ -195,9 +195,9 @@ public class DataPlotting {
 		
 		for (int i =0; i< lineChartArray.length; i++) {
 			
-			y = Double.parseDouble((String) lineChartArray [i][2]);
-			category = (String) lineChartArray [i][1];
-			x = (String) lineChartArray [i][0];
+			y = Double.parseDouble((String) lineChartArray [i][2]); // force
+			category = (String) lineChartArray [i][1]; // pillar
+			x = (String) lineChartArray [i][0]; // frame
 			dataset.addValue(y, category, x);
 		}
 		

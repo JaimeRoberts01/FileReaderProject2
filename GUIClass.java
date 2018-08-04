@@ -16,10 +16,10 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private JPanel Panel1, Panel2, Panel3, Panel4, Panel5;
 	private JLabel Label1, Label2, Label3, Label4, Label5, Label6, Label7, Label8;
 	private JSeparator S1;
-	private JTextField TF1, TF2, TF3, TF4, TF5, TF6, TF7;
+	private JTextField TF1, TF2, TF3, TF4, TF5, TF6, TF7, TF8;
 	private JSlider JS1;
 	private JFileChooser JFC;
-	private JButton Button1, Button2, Button3, Button4, Button5, Button6, Button7, Button8;
+	private JButton Button1, Button2, Button3, Button4, Button5, Button6, Button7, Button8, Button9;
 
 	private ReportFrame ReportFrame;
 	private ReportFrame2 ReportFrame2;
@@ -171,6 +171,25 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Button3.addActionListener (this);
 		Panel3.add (Button3);
 		Button3.setEnabled (true);
+		
+		TF8 = new JTextField(5);
+		TF8.addActionListener (this);
+		TF8.setBorder(BorderFactory.createLineBorder(Color.black));
+		TF8.setPreferredSize(new Dimension(5,23));
+		TF8.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
+		//TF8.setText(Integer.toString(1));
+		TF8.setEditable(false);
+		Panel3.add(TF8);
+		TF8.setEnabled(true);
+		
+		Button9 = new JButton ("RDP");
+		Button9.setPreferredSize(new Dimension(125,23));
+		Button9.setFont(new Font ("Consolas", Font.PLAIN, 14));
+		Button9.setOpaque(true);
+		Button9.setBorder(BorderFactory.createLineBorder(Color.black));
+		Button9.addActionListener (this);
+		Panel3.add (Button9);
+		Button9.setEnabled (true);
 
 
 		/*Panel4 contains sliders for obtaining all pillar data for a
@@ -402,7 +421,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == Button4) {
 
 			int ID = Integer.parseInt(TF6.getText().trim());
-			Process2 = new Processing2 ();
+			Process2 = new Processing2 (ReportFrame3);
 			Process2.dataByFrame(Process.getNewData(), ID);
 		}
 
@@ -420,7 +439,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == Button6) {
 
 			int ID = Integer.parseInt(TF7.getText().trim());
-			Process2 = new Processing2 ();
+			Process2 = new Processing2 (ReportFrame3);
 			Process2.dataByPillar(Process.getNewData(), ID);
 		}
 
@@ -435,7 +454,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 		if (e.getSource() == Button8) {
 
-			Process2 = new Processing2 ();
+			Process2 = new Processing2 (ReportFrame3);
 			Process2.getPillars(Process.getNewData());
 			Process2.getFrames(Process.getNewData());
 			Process2.allFrames(Process.getNewData());
@@ -443,6 +462,13 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			ReportFrame2.reportFormatter(null);
 
 		}
+		
+		if (e.getSource() == Button9) {
+			int exclusionValue = Integer.parseInt(TF8.getText().trim());
+			System.out.println(exclusionValue);
+
+		}
+		
 	}
 
 

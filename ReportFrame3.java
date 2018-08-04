@@ -11,9 +11,22 @@ public class ReportFrame3 extends JFrame implements ActionListener{
 	private Container contentPane;
 	private JTextArea displayFile;
 	private JButton Button1, Button2;
+	private String [] values;
 
 	private Processing Process;
 	private Processing2 Process2;
+	
+	
+
+
+	public String[] getValues() {
+		return values;
+	}
+
+
+	public void setValues(String[] values) {
+		this.values = values;
+	}
 
 
 	/*Constructor*/
@@ -99,10 +112,12 @@ public class ReportFrame3 extends JFrame implements ActionListener{
 	 values to a method in Processing2 for AVG and SD across all frames*/
 	public String []  multipillarValues () {
 
-		String [] values = displayFile.getText().split(", ");
+		//String [] values = displayFile.getText().split(", ");
+		values = displayFile.getText().split(", ");
 
-		Process2 = new Processing2 ();	
-		Process2.multiPillar(Process.getNewData(), values);
+		Process2 = new Processing2 (this);	
+		//Process2.multiPillar(Process.getNewData(), values);
+		Process2.multiPillar(Process.getNewData());
 
 		for (String s: values) {System.out.println(s);}
 		return values;
