@@ -106,11 +106,9 @@ public class MultipillarInput extends JFrame implements ActionListener{
 		 values to a method in Processing2 for AVG and SD across all frames*/
 	public String []  multipillarValues () {
 
-		//String [] values = displayFile.getText().split(", ");
+		Process2.getPillar();
 		values = displayFile.getText().split(", ");
-
 		Process2 = new Processing2 (this);	
-		//Process2.multiPillar(Process.getNewData(), values);
 		Process2.multiPillar(Process.getNewData());
 
 		for (String s: values) {System.out.println(s);}

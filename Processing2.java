@@ -152,8 +152,9 @@ public class Processing2 {
 		for (int i = 0; i< newData.length; i++) {
 
 			int pillarID = Integer.parseInt((String) newData [i][1]);
+			
 
-			if (pillarID == ID) {
+			if (ID == pillarID) {
 
 				pico.add((double) newData [i][8]);
 //				Object forces = newData [i][0] + "," + newData [i][1] + "," + newData [i][8];

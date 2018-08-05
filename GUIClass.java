@@ -172,7 +172,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Button3.addActionListener (this);
 		Panel3.add (Button3);
 		Button3.setEnabled (true);
-		
+
 		TF8 = new JTextField(5);
 		TF8.addActionListener (this);
 		TF8.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -182,7 +182,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		TF8.setEditable(false);
 		Panel3.add(TF8);
 		TF8.setEnabled(true);
-		
+
 		Button9 = new JButton ("RDP");
 		Button9.setPreferredSize(new Dimension(125,23));
 		Button9.setFont(new Font ("Consolas", Font.PLAIN, 14));
@@ -290,6 +290,39 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	}
 
 
+	public void fileSelection () {
+
+		JFC = new JFileChooser ();
+		JFC.setMultiSelectionEnabled(false);
+		File selectedFile = null;
+		int openVal = JFC.showDialog(null, "Select");
+
+		if (openVal == JFileChooser.APPROVE_OPTION) {
+
+			selectedFile =	JFC.getSelectedFile();
+			TF1.setText(selectedFile.toString());
+			String fileName = TF1.getText();
+
+			if (fileName.contains(".csv")) {
+
+				fileReader (fileName);
+			}
+
+			else {
+
+				System.out.println("Incorrect Filetype");
+				JOptionPane.showMessageDialog (null, "INVALID FILETYPE \n .csv files only", "ERROR", JOptionPane.ERROR_MESSAGE);
+				TF1.setText("");
+			}
+		}
+
+		else if (openVal == JFileChooser.CANCEL_OPTION) {
+
+			return;
+		}
+	}
+
+
 	/*FileReader opens the file and reads the data within it storing the data line by line in an array.
 	 This should be moved to its own class but there are problems when this happens.*/
 	public void fileReader (String fileName) { 
@@ -298,7 +331,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		BufferedReader bufferedReader = null;
 		String file = null;
 		String line = null;
-//		ReportFrame = new ReportFrame ();
+
 		Process = new Processing();
 
 		try {
@@ -312,10 +345,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			while ((line = bufferedReader.readLine()) !=null) {
 				fileLine.add (line);
 			}
-
-//			for (String s : fileLine) { - removed
-//				ReportFrame.reportFormatter(s);	
-//			}
 
 			Process.data(fileLine);
 
@@ -337,16 +366,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	}
 
 
-	/*This is for displaying the output data in the report frame. It is for testing the output data
-	 is correct and will be deleted at the end - it cannot cope with the WHOLE file.*/
-	public void displayOutput () {
-
-		ReportFrame = new ReportFrame (Process);	
-		ReportFrame.reportFormatter();
-
-	}
-
-
 	@Override /*ActionPerformed methods for the individual buttons*/
 	public void actionPerformed(ActionEvent e) {
 
@@ -355,56 +374,41 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		 texfield so the user can see which file has been opened.*/
 		if (e.getSource() == Button1) {
 
-			JFC = new JFileChooser ();
-			JFC.setMultiSelectionEnabled(false);
-			File selectedFile = null;
-			int openVal = JFC.showDialog(null, "Select");
-
-			if (openVal == JFileChooser.APPROVE_OPTION) {
-
-				selectedFile =	JFC.getSelectedFile();
-				TF1.setText(selectedFile.toString());
-				String fileName = TF1.getText();
-
-				if (fileName.contains(".csv")) {
-					fileReader (fileName);
-					//System.out.println("THIS IS FILEZ" + fileName);
-					//FileManager = new FileManager ();
-					//FileManager.fileReader (fileName)
-					rootFileName = fileName.replace(".csv", "");
-				}
-				else {
-					System.out.println("Incorrect Filetype .csv files only");
-				}
-			}
-
-			else if (openVal == JFileChooser.CANCEL_OPTION) {
-
-				return;
-			}
+			fileSelection ();
 		}
 
 
 		/*This is the 'Calculate Forces' button and calls methods for calculating the forces.*/
 		if (e.getSource() == Button2) { 
-
+						
 			try {
-
+			
 				int conversion = Integer.parseInt(TF2.getText().trim());
 				double youngsM = Double.parseDouble(TF3.getText().trim());
 				double pillarD = Double.parseDouble(TF4.getText().trim());
 				double pillarL = Double.parseDouble(TF5.getText().trim());
-				Process.nanoMeters(conversion);
-				Process.forces(youngsM, pillarD, pillarL);
-				Process.newDataArray();
-				displayOutput();
-			}
+				
+				if (conversion == 0 || youngsM == 0 || pillarD == 0 || pillarL == 0) {
 
+					System.out.println("Value contains zero");			
+				}
+
+				else {
+
+					Process.nanoMeters(conversion);
+					Process.forces(youngsM, pillarD, pillarL);
+					Process.newDataArray();
+
+					ReportFrame = new ReportFrame (Process);	
+					ReportFrame.reportFormatter();
+				}
+			}
+			
 			catch (NumberFormatException NFE) {
-				System.out.println("Incorrect input");
+				System.out.println("Invalid input");
 			}
 		}
-
+		
 
 		/*This is the 'Save' button. It calls the fileReader and passes it a string for the file name.If
 		 a file with this name exists, the user is given the option to change the name or overwrite.*/
@@ -454,26 +458,31 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == Button7) {
 
 			Process2.allDataAllFrames(Process.getNewData());
-			
+
 		}
 
 		if (e.getSource() == Button8) {
 
-			Process2 = new Processing2 (MultipillarInput);
-			Process2.getPillars(Process.getNewData());
-			Process2.getFrames(Process.getNewData());
-			Process2.allFrames(Process.getNewData());
-			ReportFrame2 = new ReportFrame2 (Process2);
-			ReportFrame2.reportFormatter(null);
+			try {
 
+				Process2 = new Processing2 (MultipillarInput);
+				Process2.getPillars(Process.getNewData());
+				Process2.getFrames(Process.getNewData());
+				Process2.allFrames(Process.getNewData());
+				ReportFrame2 = new ReportFrame2 (Process2);
+				ReportFrame2.reportFormatter(null);
+			}
+
+			catch (NullPointerException NPE) {
+				System.out.println("No valid data for statistical analysis");
+			}
 		}
-		
+
 		if (e.getSource() == Button9) {
+
 			int exclusionValue = Integer.parseInt(TF8.getText().trim());
 			System.out.println(exclusionValue);
-
 		}
-		
 	}
 
 

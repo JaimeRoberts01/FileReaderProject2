@@ -70,7 +70,7 @@ public class Processing {
 
 	/*This method converts pixels into nanometres for the deflection values.*/
 	public double [] nanoMeters (int conversion) {
-
+	
 		int columns = data.length;
 		nanometers = new double [columns];
 
@@ -79,7 +79,7 @@ public class Processing {
 			double nm =  Double.parseDouble((String) data [i][6]) * conversion;
 			nanometers [i] = nm;
 		}
-
+		
 		return nanometers;
 	}
 
