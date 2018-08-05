@@ -71,8 +71,8 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 	/*This method formats a display screen for the newData array values (except x and y).*/
 	public void reportFormatter (String output) {	
 
-		String header_upper = (String.format("%9s %17s %11s", "Pillar", "Average Force", "Stdev")+"\n");
-		String header_lower = (String.format("%9s %13s %11s", "Index", "(pN)", " ")+"\n");
+		String header_upper = (String.format("%9s %17s %13s", "Pillar", "Average Force", "Standard")+"\n");
+		String header_lower = (String.format("%9s %13s %18s", "Index", "(pN)", "Deviation")+"\n");
 		String bar = "---------------------------------------------";
 		displayFile.append(header_upper);
 		displayFile.append(header_lower);

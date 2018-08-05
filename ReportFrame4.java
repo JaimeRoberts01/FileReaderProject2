@@ -1,7 +1,3 @@
-//import java.awt.*;
-//import javax.swing.*;
-//import java.awt.event.*;
-//import javax.swing.border.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -13,7 +9,7 @@ import javax.swing.border.*;
 
 
 @SuppressWarnings("serial")
-public class ReportFrame3 extends JFrame implements ActionListener {
+public class ReportFrame4 extends JFrame implements ActionListener {
 
 
 	private JTextArea displayFile;
@@ -24,11 +20,11 @@ public class ReportFrame3 extends JFrame implements ActionListener {
 
 
 	/*Constructor*/
-	public ReportFrame3 (Processing2 Process2) {	
+	public ReportFrame4 (Processing2 Process2) {	
 
 		this.Process2 = Process2;
 		setDefaultCloseOperation (DISPOSE_ON_CLOSE);
-		setTitle ("byFrame Data");
+		setTitle ("byPillar Data");
 		setLocation (1500, 675);
 		setSize (400, 400);
 		setVisible (true);
@@ -124,7 +120,7 @@ public class ReportFrame3 extends JFrame implements ActionListener {
 			try {
 				file = fileName;
 				writer = new FileWriter (file);
-				writer.write(Process2.outputByFrame());
+				writer.write(Process2.outputByPillar());
 			}
 
 			finally {

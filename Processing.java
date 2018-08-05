@@ -18,8 +18,8 @@ public class Processing {
 
 
 	/*Getters and Setters*/
-	public Object[][] getData() {return data;}
-	public void setData(Object[][] data) {this.data = data;}
+	//public Object[][] getData() {return data;}
+	//public void setData(Object[][] data) {this.data = data;}
 	public Object[][] getNewData() {return newData;}
 	public void setNewData(Object[][] newData) {this.newData = newData;}
 	public double[] getNanometers() {return nanometers;}
@@ -138,11 +138,12 @@ public class Processing {
 	public String outputString () { 
 
 		StringBuilder SB = new StringBuilder();
+		
 		for (int i = 0; i <newData.length; i++) {
 
 			SB.append(String.format("%3s",newData[i][0]) + "\t" + String.format("%8.4s", newData [i][1])  + "\t"  + String.format("%8.7s", newData [i][4]) + "\t" 
-					+ String.format("%8.7s", newData[i][5]) + "\t"  + String.format("%8.7s", newData [i][6]) + "\t" + String.format("%9.7s", newData [i][7]) 
-					+ "\t" + String.format("%9.8s", newData [i][8]) + "\n");
+			+ String.format("%8.7s", newData[i][5]) + "\t"  + String.format("%8.7s", newData [i][6]) + "\t" + String.format("%9.7s", newData [i][7]) 
+			+ "\t" + String.format("%9.8s", newData [i][8]) + "\n");
 		}
 
 		String output = SB.toString();	

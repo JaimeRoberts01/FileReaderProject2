@@ -10,13 +10,17 @@ public class Processing2 {
 	private ArrayList <String> dataByPillarFrame;
 	private ArrayList <Integer> pillar, frame;	
 
-	private FileManager FileManager;
+	//private FileManager FileManager;
+	//private Processing Process;
 	private ReportFrame3 ReportFrame3;
+	private ReportFrame4 ReportFrame4;
 	private ReportFrame5 ReportFrame5;
+	private MultipillarInput MultipillarInput;
 
+	
 	/*Constructor*/
-	Processing2 (ReportFrame3 ReportFrame3) {	
-		this.ReportFrame3 = ReportFrame3;
+	Processing2 (MultipillarInput MultipillarInput) {	
+		this.MultipillarInput = MultipillarInput;
 	}
 
 
@@ -66,7 +70,7 @@ public class Processing2 {
 			}
 		}
 
-		//Collections.sort(frameCount);
+		Collections.sort(frame);
 
 		for (int i : frame) {System.out.println("frame: " + i);}
 		return frame;
@@ -123,13 +127,14 @@ public class Processing2 {
 
 			if (frameID == ID) {
 
-				Object forces = newData [i][0] + "," + newData [i][1] + "," + newData [i][8];
-				dataByFrame.add(forces);	
+//				Object forces = newData [i][0] + "," + newData [i][1] + "," + newData [i][8];
+//				dataByFrame.add(forces);	
+				dataByFrame.add((double) newData [i][8]);
 			}	
 		}
 
 		for (int j =0; j< dataByFrame.size(); j++) {System.out.println("byFrame: " + dataByFrame.get(j));}
-		outputStringbyFrame ();
+		stringByFrame (ID);
 		return dataByFrame;
 	}
 
@@ -151,21 +156,22 @@ public class Processing2 {
 			if (pillarID == ID) {
 
 				pico.add((double) newData [i][8]);
-				Object forces = newData [i][0] + "," + newData [i][1] + "," + newData [i][8];
-				dataByPillar.add(forces);
+//				Object forces = newData [i][0] + "," + newData [i][1] + "," + newData [i][8];
+//				dataByPillar.add(forces);
+				dataByPillar.add((double) newData [i][8]);
 			}	
 		}
 
 		for (int j =0; j< dataByPillar.size(); j++) {System.out.println("bypillar: " + dataByPillar.get(j));}
 		statistics(pico);
-		StringbyPillar();
+		stringByPillar(ID);
+		pico.clear();
 		return dataByPillar;
 	}
 
 
 	/*This method is for the multipillar functionality and is similar to the allFrames
 	 method but does not use the pillar ArrayList for ordering the pillars*/
-	//	public void multiPillar (Object [][] newData, String [] values) {
 	public void multiPillar (Object [][] newData) {
 
 		mean = new ArrayList<Double> ();
@@ -174,10 +180,11 @@ public class Processing2 {
 		ArrayList <Double> pico = new ArrayList <Double> ();
 		multipillar = new ArrayList <Object> ();
 
-		String [] values = new String [ReportFrame3.getValues().length];
+		int index = MultipillarInput.getValues().length;
+		String [] values = new String [index];
 
-		for (int i =0; i< ReportFrame3.getValues().length; i++) {
-			values = ReportFrame3.getValues();
+		for (int i =0; i< MultipillarInput.getValues().length; i++) {
+			values = MultipillarInput.getValues();
 		}
 
 		int value = 0;
@@ -191,7 +198,6 @@ public class Processing2 {
 
 				if (value == Integer.parseInt ((String) newData [j][1])) {
 					pico.add((Double) newData [j][8]);
-					//Object forces = newData [j][0] + "," + newData [j][1] + "," + newData [j][8];
 				}
 			}
 
@@ -256,34 +262,88 @@ public class Processing2 {
 		return dataByPillarFrame;
 	}
 
-
-
-	/*This method creates a string from the dataByFrame method and sends it to the FileWriter.*/
-	public String outputStringbyFrame () {
-
+	
+	// This is all output-related methods. Consider removing to an output class to tidy Processing2 //
+	
+	
+	public String stringByFrame (int ID) { // needs altering but that has to do with the method.
+		
 		StringBuilder SB = new StringBuilder();
-		String header_upper = (String.format("%9s %17s %13s", "Frame", "Pillar", "Force")+"\n");
-		String header_lower = (String.format("%9s %17s %13s", "Index", "Index", "(pN)")+"\n");
+		String header_upper = (String.format("%9s %15s %15s", "Frame", "Pillar", "Force")+"\n");
+		String header_lower = (String.format("%9s %15s %15s", "Index", "Index", "(pN)")+"\n");
 		String bar = "---------------------------------------------";
 		SB.append(header_upper);
 		SB.append(header_lower);
 		SB.append (bar+ "\n\n");
+		String body = "";
+		
+		for (int i=0; i<dataByFrame.size(); i++) {
+			
+			body += (String.format("%7s", ID) + "\t" + String.format("%17.8s", pillar.get(i)) + "\t" + String.format("%11.8s", dataByFrame.get(i)) + "\n");
+		}
+
+		SB.append(body);
+		
+		String output = SB.toString();
+		System.out.println("output: " + "\n" + output);
+		ReportFrame3 = new ReportFrame3 (this);
+		ReportFrame3.reportFormatter(output);
+		return output;
+	}
+	
+	
+	/*This method creates a string from the dataByFrame method and sends it to the FileWriter.*/
+	public String outputByFrame () {
+
+		StringBuilder SB = new StringBuilder();
+		SB.append("Frame Index" + "," + "Pillar Index" + "," + "Force (pN)" + "\n");
 
 		for (int i=0; i<dataByFrame.size(); i++) {
-			SB.append(dataByFrame.get(i) + "\n");
+			SB.append(frame.get(i) + "," + pillar.get(i) + "," + dataByFrame.get(i) + "\n");
 		}
 
 		String output = SB.toString();
 		System.out.println("output: " + "\n" + output);
-		String identifier = "dataByFrame";
-		ReportFrame5 = new ReportFrame5 (this);
-		ReportFrame5.reportFormatter(output, identifier);
 		return output;
 	}
 
 
 	/*This method creates a string from the dataByPillar method and sends it to the FileWriter.*/
-	public String StringbyPillar () {
+	public String stringByPillar (int ID) { // This needs changing but it's the method
+
+		StringBuilder SB = new StringBuilder();
+		String header_upper = (String.format("%9s %15s %15s", "Frame", "Pillar", "Force")+"\n");
+		String header_lower = (String.format("%9s %15s %15s", "Index", "Index", "(pN)")+"\n");
+		String bar = "---------------------------------------------";
+		SB.append(header_upper);
+		SB.append(header_lower);
+		SB.append (bar+ "\n\n");
+
+		String body = "";
+		
+		for (int i=0; i<dataByPillar.size(); i++) {
+			
+			body += (String.format("%7s", frame.get(i)) + "\t" + String.format("%17.8s", ID) + "\t" + String.format("%11.8s", dataByPillar.get(i)) + "\n");
+
+		}
+		
+		SB.append(body);
+		SB.append("\n");
+
+		for (int j=0; j<mean.size(); j++) {
+			SB.append("Average Force (pN): " + mean.get(j) + "\n");
+			SB.append("Standard deviation: " + standard_deviation.get(j) + "\n");
+		}
+
+		String output = SB.toString();
+		ReportFrame4 = new ReportFrame4 (this);
+		ReportFrame4.reportFormatter(output);
+
+		return output;
+	}
+	
+	
+	public String outputByPillar () {
 
 		StringBuilder SB = new StringBuilder();
 		SB.append("Frame Index" + "," + "Pillar Index" + "," + "Force (pN)" + "\n");
@@ -300,19 +360,18 @@ public class Processing2 {
 		}
 
 		String output = SB.toString();
-		String identifier = "dataByPillar";
-		FileManager = new FileManager ();
-		FileManager.fileWriter(identifier, output);	
+		ReportFrame4 = new ReportFrame4 (this);
+		ReportFrame4.reportFormatter(output);
 
 		return output;
 	}
-
+	
 
 	/*This method builds a string for the multipillar method and sends it to the FileWriter*/
 	//public String outputStringMultipillar (String[] values) {
 	public String StringMultipillar () {
 
-		String [] values = ReportFrame3.getValues();
+		String [] values = MultipillarInput.getValues();
 
 		StringBuilder SB = new StringBuilder();
 
@@ -332,17 +391,17 @@ public class Processing2 {
 
 		SB.append(body);
 		String output = SB.toString();
-		String identifier = "multipillar";
 
 		ReportFrame5 = new ReportFrame5 (this);
-		ReportFrame5.reportFormatter(output, identifier);
+		ReportFrame5.reportFormatter(output);
 
 		return output;
 	}
 
+	
 	public String outputMultipillar () {
 
-		String [] values = ReportFrame3.getValues();
+		String [] values = MultipillarInput.getValues();
 
 		StringBuilder SB = new StringBuilder();
 		SB.append("Pillar Index" + "," + "AVG Force (pN)" + "," + "SD" + "\n");

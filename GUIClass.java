@@ -24,13 +24,14 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private ReportFrame ReportFrame;
 	private ReportFrame2 ReportFrame2;
 	@SuppressWarnings("unused")
-	private ReportFrame3 ReportFrame3;
+	//private ReportFrame3 ReportFrame3;
 	//private ReportFrame4 ReportFrame4;
 	private Processing Process;
 	private Processing2 Process2;
 	private DataPlotting DataPlotting;
 	@SuppressWarnings("unused")
 	private FileManager FileManager;
+	private MultipillarInput MultipillarInput;
 
 	private ArrayList <String> fileLine;
 	public static String rootFileName;
@@ -421,7 +422,9 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == Button4) {
 
 			int ID = Integer.parseInt(TF6.getText().trim());
-			Process2 = new Processing2 (ReportFrame3);
+			Process2 = new Processing2 (MultipillarInput);
+			Process2.getPillars(Process.getNewData());
+			Process2.getFrames(Process.getNewData());
 			Process2.dataByFrame(Process.getNewData(), ID);
 		}
 
@@ -430,7 +433,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		 or small groups of pillars for statistical analysis.*/
 		if (e.getSource() == Button5) {
 
-			ReportFrame3 = new ReportFrame3 (Process);
+			MultipillarInput = new MultipillarInput (Process);
 		}
 
 
@@ -439,7 +442,9 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == Button6) {
 
 			int ID = Integer.parseInt(TF7.getText().trim());
-			Process2 = new Processing2 (ReportFrame3);
+			Process2 = new Processing2 (MultipillarInput);
+			Process2.getPillars(Process.getNewData());
+			Process2.getFrames(Process.getNewData());
 			Process2.dataByPillar(Process.getNewData(), ID);
 		}
 
@@ -454,7 +459,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 		if (e.getSource() == Button8) {
 
-			Process2 = new Processing2 (ReportFrame3);
+			Process2 = new Processing2 (MultipillarInput);
 			Process2.getPillars(Process.getNewData());
 			Process2.getFrames(Process.getNewData());
 			Process2.allFrames(Process.getNewData());
