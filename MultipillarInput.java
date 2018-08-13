@@ -9,7 +9,6 @@ public class MultipillarInput extends JFrame implements ActionListener{
 
 
 	/*Instance Variables*/
-	private Container contentPane;
 	private JTextArea displayFile;
 	private JButton Button1, Button2;
 	private String [] values;
@@ -28,33 +27,28 @@ public class MultipillarInput extends JFrame implements ActionListener{
 
 		this.Process = Process;
 		setDefaultCloseOperation (DISPOSE_ON_CLOSE);
-		setTitle ("MultiPillar");
+		setTitle ("Multipillar Data");
 		setLocation (1500, 675);
-		setSize (400, 300);
+		setSize (400, 400);
 		setVisible (true);
 		setResizable (false);
-		setLayout(new SpringLayout());
+		setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
 		frameComponents ();
 	}
 
 
 	/*GUI layout*/
-	public void frameComponents () {	
-
-		contentPane = this.getContentPane();
-		SpringLayout layout = new SpringLayout ();
-		contentPane.setLayout(layout);
-		contentPane.setBackground(Color.lightGray);
+	public void frameComponents () {
 
 		displayFile = new JTextArea ();
 		displayFile.setLineWrap (true);
 		displayFile.setWrapStyleWord (true);
 		displayFile.setFont (new Font ("Courier", Font.PLAIN, 14));	
-		displayFile.setBorder (new EmptyBorder (10,10,10,10));
 		displayFile.setBorder(BorderFactory.createLineBorder(Color.black));
-		displayFile.setPreferredSize(new Dimension(396,233));
-		displayFile.setEditable (true);
-		contentPane.add(displayFile);
+		displayFile.setBorder (new EmptyBorder (10,10,10,10));
+		JScrollPane scroll = new JScrollPane (displayFile);
+		scroll.setPreferredSize(new Dimension (400, 345));
+		add (scroll);
 
 		Button1 = new JButton("OK");
 		Button1.setPreferredSize(new Dimension(125,23));
@@ -63,8 +57,8 @@ public class MultipillarInput extends JFrame implements ActionListener{
 		Button1.setBorder(BorderFactory.createLineBorder(Color.black));
 		Button1.addActionListener (this);
 		Button1.setEnabled(true);
-		contentPane.add(Button1);
-
+		add (Button1);
+		
 		Button2 = new JButton("Cancel");
 		Button2.setPreferredSize(new Dimension(125,23));
 		Button2.setFont(new Font ("Consolas", Font.PLAIN, 14));
@@ -72,17 +66,7 @@ public class MultipillarInput extends JFrame implements ActionListener{
 		Button2.setBorder(BorderFactory.createLineBorder(Color.black));
 		Button2.addActionListener (this);
 		Button2.setEnabled(true);
-		contentPane.add(Button2);
-
-		SpringLayout.Constraints displayFileCons = layout.getConstraints(displayFile);
-		displayFileCons.setX(Spring.constant(2));
-		displayFileCons.setY(Spring.constant(2));
-		SpringLayout.Constraints Button1Cons = layout.getConstraints(Button1);
-		Button1Cons.setX(Spring.sum(Spring.constant(63), displayFileCons.getConstraint(SpringLayout.NORTH)));
-		Button1Cons.setY(Spring.constant(245));
-		SpringLayout.Constraints Button2Cons = layout.getConstraints(Button2);
-		Button2Cons.setX(Spring.sum(Spring.constant(208), displayFileCons.getConstraint(SpringLayout.NORTH)));
-		Button2Cons.setY(Spring.constant(245));
+		add (Button2);
 	}
 
 
@@ -106,9 +90,9 @@ public class MultipillarInput extends JFrame implements ActionListener{
 		 values to a method in Processing2 for AVG and SD across all frames*/
 	public String []  multipillarValues () {
 
-		Process2.getPillar();
 		values = displayFile.getText().split(", ");
-		Process2 = new Processing2 (this);	
+		Process2 = new Processing2 (this);
+		Process2.getPillar();
 		Process2.multiPillar(Process.getNewData());
 
 		for (String s: values) {System.out.println(s);}
