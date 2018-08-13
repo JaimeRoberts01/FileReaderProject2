@@ -10,12 +10,13 @@ public class FileManager {
 	private ArrayList <String> fileLine;
 	//private ReportFrame ReportFrame;
 	private Processing Process;
+	private Processing2 Process2;
 	//private GUIClass GUI;
 
 
 	/*Constructor*/
-	public FileManager() {
-		
+	public FileManager(Processing2 Process2) {
+		this.Process2 = Process2;
 	}
 
 	/*FileReader for reading in the files - this doesn't yet work.*/
@@ -25,7 +26,7 @@ public class FileManager {
 		BufferedReader bufferedReader = null;
 		String file = null;
 		String line = null;
-//		ReportFrame = new ReportFrame ();
+		//		ReportFrame = new ReportFrame ();
 
 		try {
 
@@ -40,13 +41,13 @@ public class FileManager {
 				fileLine.add (line);
 			}
 
-//			for (String s : fileLine) {	- removed	
-//				ReportFrame.reportFormatter(s);	
-//			}
-			
+			//			for (String s : fileLine) {	- removed	
+			//				ReportFrame.reportFormatter(s);	
+			//			}
+
 			Process = new Processing ();
 			Process.data(fileLine);
-			
+
 			reader.close();	
 			bufferedReader.close();
 		}
@@ -66,34 +67,35 @@ public class FileManager {
 
 
 	/*FileWriter writes the getByFrame, getByPillar and MultiPillar data to file*/
-	public void fileWriter (String identifier, String output) {
+	//public void fileWriter (String identifier, String output) {
+	public void fileWriter (String identifier, String fileName) {
 
-		String rootFileName = GUIClass.getRootFileName();	
-		System.out.println("RFN: " + rootFileName);
-		String fileName = null;
+		//String fileName = null;
 		FileWriter writer = null;
-
-		if (identifier.equals("dataByFrame")) {
-
-			fileName = rootFileName + "_dataByFrame.csv";
-		}
-
-		else if (identifier.equals("dataByPillar")) {
-
-			fileName = rootFileName + "_dataByPillar.csv";
-		}
-
-		else if (identifier.equals("multipillar")) {
-
-			fileName = rootFileName + "_multipillar.csv";
-		}
 
 		try {
 
 			try {
 
 				writer = new FileWriter (fileName);
-				writer.write(output);
+				
+				if (identifier.equals("Frame Data")) {
+
+					//writer = new FileWriter (fileName);
+					writer.write(Process2.outputByFrame());
+				}
+
+				if (identifier.equals("Pillar Data")) {
+
+					//writer = new FileWriter (fileName);
+					writer.write(Process2.outputByPillar());
+				}
+
+				if (identifier.equals("Multipillar Data")) {
+
+					//writer = new FileWriter (fileName);
+					writer.write(Process2.outputMultipillar());
+				}
 			}
 
 			finally {

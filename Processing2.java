@@ -6,15 +6,15 @@ public class Processing2 {
 
 	/*Instance variables*/
 	private ArrayList <Double> mean, standard_deviation; 
-	private ArrayList <Object> dataByPillar, dataByFrame, multipillar;
+	private ArrayList <Object> dataByPillar, outputDataByPillar, dataByFrame, outputDataByFrame, multipillar;
 	private ArrayList <String> dataByPillarFrame;
 	private ArrayList <Integer> pillar, frame;	
 
 	//private FileManager FileManager;
 	//private Processing Process;
 	private ReportFrame3 ReportFrame3;
-	private ReportFrame4 ReportFrame4;
-	private ReportFrame5 ReportFrame5;
+//	private ReportFrame4 ReportFrame4;
+//	private ReportFrame5 ReportFrame5;
 	private MultipillarInput MultipillarInput;
 
 	
@@ -120,6 +120,7 @@ public class Processing2 {
 		standard_deviation = new ArrayList<Double> ();
 
 		dataByFrame = new ArrayList <Object>();
+		outputDataByFrame = new ArrayList <Object>();
 
 		for (int i = 0; i< newData.length; i++) {
 
@@ -127,8 +128,8 @@ public class Processing2 {
 
 			if (frameID == ID) {
 
-//				Object forces = newData [i][0] + "," + newData [i][1] + "," + newData [i][8];
-//				dataByFrame.add(forces);	
+				Object forces = newData [i][0] + "," + newData [i][1] + "," + newData [i][8];
+				outputDataByFrame.add(forces);	
 				dataByFrame.add((double) newData [i][8]);
 			}	
 		}
@@ -147,6 +148,7 @@ public class Processing2 {
 		standard_deviation = new ArrayList<Double> ();
 
 		dataByPillar = new ArrayList <Object> ();
+		outputDataByPillar = new ArrayList <Object> ();
 		ArrayList <Double> pico = new ArrayList <Double> ();
 
 		for (int i = 0; i< newData.length; i++) {
@@ -157,8 +159,8 @@ public class Processing2 {
 			if (ID == pillarID) {
 
 				pico.add((double) newData [i][8]);
-//				Object forces = newData [i][0] + "," + newData [i][1] + "," + newData [i][8];
-//				dataByPillar.add(forces);
+				Object forces = newData [i][0] + "," + newData [i][1] + "," + newData [i][8];
+				outputDataByPillar.add(forces);
 				dataByPillar.add((double) newData [i][8]);
 			}	
 		}
@@ -282,12 +284,14 @@ public class Processing2 {
 			
 			body += (String.format("%7s", ID) + "\t" + String.format("%17.8s", pillar.get(i)) + "\t" + String.format("%11.8s", dataByFrame.get(i)) + "\n");
 		}
-
+		
 		SB.append(body);
 		
 		String output = SB.toString();
 		System.out.println("output: " + "\n" + output);
-		ReportFrame3 = new ReportFrame3 (this);
+		String identifier = "Frame Data";
+		System.out.println("identifier : " + "\n" + identifier);
+		ReportFrame3 = new ReportFrame3 (this, identifier);
 		ReportFrame3.reportFormatter(output);
 		return output;
 	}
@@ -300,7 +304,7 @@ public class Processing2 {
 		SB.append("Frame Index" + "," + "Pillar Index" + "," + "Force (pN)" + "\n");
 
 		for (int i=0; i<dataByFrame.size(); i++) {
-			SB.append(frame.get(i) + "," + pillar.get(i) + "," + dataByFrame.get(i) + "\n");
+			SB.append(outputDataByFrame.get(i) + "\n");
 		}
 
 		String output = SB.toString();
@@ -325,20 +329,20 @@ public class Processing2 {
 		for (int i=0; i<dataByPillar.size(); i++) {
 			
 			body += (String.format("%7s", frame.get(i)) + "\t" + String.format("%17.8s", ID) + "\t" + String.format("%11.8s", dataByPillar.get(i)) + "\n");
-
 		}
 		
 		SB.append(body);
 		SB.append("\n");
 
 		for (int j=0; j<mean.size(); j++) {
-			SB.append("Average Force (pN): " + mean.get(j) + "\n");
-			SB.append("Standard deviation: " + standard_deviation.get(j) + "\n");
+			SB.append("Average Force (pN): " + String.format("%1.8s", mean.get(j)) + "\n");
+			SB.append("Standard deviation: " + String.format("%1.8s",standard_deviation.get(j)) + "\n");
 		}
 
 		String output = SB.toString();
-		ReportFrame4 = new ReportFrame4 (this);
-		ReportFrame4.reportFormatter(output);
+		String identifier = "Pillar Data";
+		ReportFrame3 = new ReportFrame3 (this, identifier);
+		ReportFrame3.reportFormatter(output);
 
 		return output;
 	}
@@ -348,9 +352,9 @@ public class Processing2 {
 
 		StringBuilder SB = new StringBuilder();
 		SB.append("Frame Index" + "," + "Pillar Index" + "," + "Force (pN)" + "\n");
-
+	
 		for (int i=0; i<dataByPillar.size(); i++) {
-			SB.append(dataByPillar.get(i) + "\n");
+			SB.append(outputDataByPillar.get(i) + "\n");
 		}
 
 		SB.append("\n");
@@ -361,9 +365,6 @@ public class Processing2 {
 		}
 
 		String output = SB.toString();
-		ReportFrame4 = new ReportFrame4 (this);
-		ReportFrame4.reportFormatter(output);
-
 		return output;
 	}
 	
@@ -393,8 +394,9 @@ public class Processing2 {
 		SB.append(body);
 		String output = SB.toString();
 
-		ReportFrame5 = new ReportFrame5 (this);
-		ReportFrame5.reportFormatter(output);
+		String identifier = "Multipillar Data";
+		ReportFrame3 = new ReportFrame3 (this, identifier);
+		ReportFrame3.reportFormatter(output);
 
 		return output;
 	}

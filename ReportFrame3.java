@@ -1,13 +1,8 @@
-//import java.awt.*;
-//import javax.swing.*;
-//import java.awt.event.*;
-//import javax.swing.border.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+
 
 import javax.swing.border.*;
 
@@ -19,16 +14,20 @@ public class ReportFrame3 extends JFrame implements ActionListener {
 	private JTextArea displayFile;
 	private JButton Button1, Button2;
 	private JFileChooser JFC;
+	private FileManager FileManager;
 
 	private Processing2 Process2;
+	
+	private String identifier;
 
 
 	/*Constructor*/
-	public ReportFrame3 (Processing2 Process2) {	
+	public ReportFrame3 (Processing2 Process2, String identifier) {	
 
 		this.Process2 = Process2;
+		this.identifier = identifier;
 		setDefaultCloseOperation (DISPOSE_ON_CLOSE);
-		setTitle ("byFrame Data");
+		setTitle (identifier);
 		setLocation (1500, 675);
 		setSize (400, 400);
 		setVisible (true);
@@ -74,8 +73,8 @@ public class ReportFrame3 extends JFrame implements ActionListener {
 
 	/*This method formats a display screen for the newData array values (except x and y).*/
 	public void reportFormatter (String output) {	
-
-		displayFile.append(output);
+		
+			displayFile.append(output);
 	}
 
 
@@ -116,27 +115,9 @@ public class ReportFrame3 extends JFrame implements ActionListener {
 	 displayed on the ReportFrame screen.*/
 	public void fileWriter (String fileName) {
 
-		FileWriter writer = null;
-		String file = null;
-
-		try {
-
-			try {
-				file = fileName;
-				writer = new FileWriter (file);
-				writer.write(Process2.outputByFrame());
-			}
-
-			finally {
-
-				writer.close();	
-			}
-		}
-
-		catch (IOException IOE) {
-
-			IOE.printStackTrace();	
-		}
+		
+		FileManager = new FileManager (Process2);
+		FileManager.fileWriter(identifier, fileName);	
 	}
 
 

@@ -2,8 +2,8 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+//import java.io.FileWriter;
+//import java.io.IOException;
 
 import javax.swing.border.*;
 
@@ -15,6 +15,7 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 	private JTextArea displayFile;
 	private JButton Button1, Button2;
 	private JFileChooser JFC;
+	private FileManager FileManager;
 
 	private Processing2 Process2;
 
@@ -118,27 +119,32 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 	 displayed on the ReportFrame screen.*/
 	public void fileWriter (String fileName) {
 
-		FileWriter writer = null;
-		String file = null;
-
-		try {
-
-			try {
-				file = fileName;
-				writer = new FileWriter (file);
-				writer.write(Process2.outputFile());
-			}
-
-			finally {
-
-				writer.close();	
-			}
-		}
-
-		catch (IOException IOE) {
-
-			IOE.printStackTrace();	
-		}
+//		FileWriter writer = null;
+//		String file = null;
+//
+//		try {
+//
+//			try {
+//				file = fileName;
+//				writer = new FileWriter (file);
+//				writer.write(Process2.outputFile());
+//			}
+//
+//			finally {
+//
+//				writer.close();	
+//			}
+//		}
+//
+//		catch (IOException IOE) {
+//
+//			IOE.printStackTrace();	
+//		}
+		
+		String identifier = "Statistical Data";
+		FileManager = new FileManager (Process2);
+		FileManager.fileWriter(identifier, fileName);
+		
 	}
 
 
