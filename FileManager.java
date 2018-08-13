@@ -15,7 +15,8 @@ public class FileManager {
 
 
 	/*Constructor*/
-	public FileManager(Processing2 Process2) {
+	public FileManager(Processing Process, Processing2 Process2) {
+		this.Process = Process;
 		this.Process2 = Process2;
 	}
 
@@ -70,7 +71,6 @@ public class FileManager {
 	//public void fileWriter (String identifier, String output) {
 	public void fileWriter (String identifier, String fileName) {
 
-		//String fileName = null;
 		FileWriter writer = null;
 
 		try {
@@ -79,21 +79,23 @@ public class FileManager {
 
 				writer = new FileWriter (fileName);
 				
-				if (identifier.equals("Frame Data")) {
-
-					//writer = new FileWriter (fileName);
+				if (identifier.equals("Data")) {
+					writer.write(Process.outputFile());
+				}
+				
+				else if (identifier.equals("Statistical Data")) {
+					writer.write(Process2.outputFile());
+				}
+				
+				else if (identifier.equals("Frame Data")) {
 					writer.write(Process2.outputByFrame());
 				}
 
-				if (identifier.equals("Pillar Data")) {
-
-					//writer = new FileWriter (fileName);
+				else if (identifier.equals("Pillar Data")) {
 					writer.write(Process2.outputByPillar());
 				}
 
-				if (identifier.equals("Multipillar Data")) {
-
-					//writer = new FileWriter (fileName);
+				else if (identifier.equals("Multipillar Data")) {
 					writer.write(Process2.outputMultipillar());
 				}
 			}

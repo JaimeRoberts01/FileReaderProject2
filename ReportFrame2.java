@@ -142,7 +142,7 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 //		}
 		
 		String identifier = "Statistical Data";
-		FileManager = new FileManager (Process2);
+		FileManager = new FileManager (null, Process2);
 		FileManager.fileWriter(identifier, fileName);
 		
 	}

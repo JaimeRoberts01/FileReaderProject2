@@ -23,9 +23,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 	private ReportFrame ReportFrame;
 	private ReportFrame2 ReportFrame2;
-	@SuppressWarnings("unused")
-	//private ReportFrame3 ReportFrame3;
-	//private ReportFrame4 ReportFrame4;
 	private Processing Process;
 	private Processing2 Process2;
 	private DataPlotting DataPlotting;
@@ -34,10 +31,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private MultipillarInput MultipillarInput;
 
 	private ArrayList <String> fileLine;
-	public static String rootFileName;
-
-	public static String getRootFileName() {return rootFileName;}
-	public static void setRootFileName(String rootFileName) {GUIClass.rootFileName = rootFileName;}
 
 
 	/*Constructor*/
@@ -59,7 +52,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 		/*Panel1 contains the JFileChooser for selecting files*/
 		Panel1 = new JPanel ();
-		Panel1.setBackground (Color.lightGray);
 		Panel1.setBorder(new EmptyBorder (12,4,12,4));
 		add (Panel1);
 
@@ -87,7 +79,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 		/*Panel2 contains the JTextFields for calculating force.*/
 		Panel2 = new JPanel ();
-		Panel2.setBackground (Color.lightGray);
 		Panel2.setBorder(new EmptyBorder (12,6,12,6));
 		add (Panel2);
 
@@ -142,7 +133,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 		/*Panel3 contains buttons for calculating force and saving.*/
 		Panel3 = new JPanel ();
-		Panel3.setBackground (Color.lightGray);
 		Panel3.setBorder(new EmptyBorder (12,6,12,7));
 		add (Panel3);
 
@@ -196,7 +186,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		/*Panel4 contains sliders for obtaining all pillar data for a
 		 given frame (selected by the slider).*/
 		Panel4 = new JPanel ();
-		Panel4.setBackground (Color.lightGray);
 		Panel4.setBorder(new EmptyBorder (12,6,12,7));
 		add(Panel4);
 
@@ -236,7 +225,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		/*Panel5 contains the JTextfields and buttons for obtaining pillar
 		 data for a particular pillar.*/
 		Panel5 = new JPanel ();
-		Panel5.setBackground (Color.lightGray);
 		Panel5.setBorder(new EmptyBorder (12,6,12,7));
 		add(Panel5);
 

@@ -116,7 +116,7 @@ public class ReportFrame3 extends JFrame implements ActionListener {
 	public void fileWriter (String fileName) {
 
 		
-		FileManager = new FileManager (Process2);
+		FileManager = new FileManager (null, Process2);
 		FileManager.fileWriter(identifier, fileName);	
 	}
 

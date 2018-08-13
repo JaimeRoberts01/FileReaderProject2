@@ -14,6 +14,7 @@ public class ReportFrame extends JFrame implements ActionListener {
 	private JButton Button1, Button2;
 	private JFileChooser JFC;
 	private Processing Process;
+	private FileManager FileManager;
 
 
 	/*Constructor*/
@@ -80,30 +81,30 @@ public class ReportFrame extends JFrame implements ActionListener {
 
 	/*FileWriter writes text to a file. The output file is formatted differently from that
 	 displayed on the ReportFrame screen.*/
-	public void fileWriter (String fileName) {
-
-		FileWriter writer = null;
-		String file = null;
-
-		try {
-
-			try {
-				file = fileName;
-				writer = new FileWriter (file);
-				writer.write(Process.outputFile());
-			}
-
-			finally {
-
-				writer.close();	
-			}
-		}
-
-		catch (IOException IOE) {
-
-			IOE.printStackTrace();	
-		}
-	}
+//	public void fileWriter (String fileName) {
+//
+//		FileWriter writer = null;
+//		String file = null;
+//
+//		try {
+//
+//			try {
+//				file = fileName;
+//				writer = new FileWriter (file);
+//				writer.write(Process.outputFile());
+//			}
+//
+//			finally {
+//
+//				writer.close();	
+//			}
+//		}
+//
+//		catch (IOException IOE) {
+//
+//			IOE.printStackTrace();	
+//		}
+//	}
 
 
 	/*FileChooser allows files to be saved in a particular directory and with a give name.*/
@@ -138,6 +139,14 @@ public class ReportFrame extends JFrame implements ActionListener {
 		}
 	}
 
+	
+public void fileWriter (String fileName) {
+
+		String identifier = "Data";
+		FileManager = new FileManager (Process, null);
+		FileManager.fileWriter(identifier, fileName);	
+	}
+	
 
 	@Override /*ActionPerformed methods for the individual buttons*/
 	public void actionPerformed(ActionEvent e) {
