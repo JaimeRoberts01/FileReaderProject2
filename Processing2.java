@@ -262,6 +262,7 @@ public class Processing2 {
 		}
 
 		for (Object O : dataByPillarFrame) {System.out.println("dataByPillarFrame: " + O);}
+		System.out.println("DBPF L:" + dataByPillarFrame.size());
 		return dataByPillarFrame;
 	}
 

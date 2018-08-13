@@ -19,8 +19,12 @@ public class DataPlotting {
 	XYSeriesCollection xy;
 	CategoryPlot plot;
 	JFreeChart chart, chart1, lineChart;
+	
+	//private Object [][] newLineChartArray;
 
 	private Processing2 Process2;
+	
+	
 
 	public DataPlotting (Processing2 Process2) {
 		this.Process2 = Process2;
@@ -187,6 +191,32 @@ public class DataPlotting {
 			System.out.println(Arrays.toString(lineChartArray[i]));
 		}
 		
+		// --------------------------------------------------------------------------- //
+		
+//		int filter = 60000;
+//		
+//			newLineChartArray = new Object [rows][columns];
+//			
+//		
+//		for (int i = 0; i < rows; i++) {
+//			double forces = Double.parseDouble((String) lineChartArray [i][2]);
+//			
+//			if (forces <= filter) {
+//				newLineChartArray [i] = null;
+//			}
+//			else {
+//				newLineChartArray [i] = lineChartArray [i]; 
+//				System.out.println("NLC: " + Arrays.toString(newLineChartArray[i]));
+//			}
+//			
+//		}
+//		System.out.println("NLC L: " + newLineChartArray.length);
+		
+		// --------------------------------------------------------------------------- //
+		
+		
+		
+		
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
 		
 		double y = 0.0;
@@ -200,6 +230,23 @@ public class DataPlotting {
 			x = (String) lineChartArray [i][0]; // frame
 			dataset.addValue(y, category, x);
 		}
+		
+		
+//		for (int i =0; i< newLineChartArray.length; i++) {
+//			
+//			if (newLineChartArray [i] != null) {
+//			y = Double.parseDouble((String) newLineChartArray [i][2]); // force
+//			System.out.print("Y: " + y + "\n");
+//			category = (String) newLineChartArray [i][1]; // pillar
+//			System.out.print("Category: " + category + "\n");
+//			x = (String) newLineChartArray [i][0]; // frame
+//			System.out.print("X: " + x + "\n");
+//			dataset.addValue(y, category, x);
+//			}
+//			else {
+//				i++;
+//			}
+//		}
 		
 		chart = ChartFactory.createLineChart("Forces over time", "Frame ID", "Force (pN)", dataset);
 		plot =  chart.getCategoryPlot();

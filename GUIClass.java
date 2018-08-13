@@ -23,6 +23,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 	private ReportFrame ReportFrame;
 	private ReportFrame2 ReportFrame2;
+	private ReportFrame5 ReportFrame5;
 	private Processing Process;
 	private Processing2 Process2;
 	private DataPlotting DataPlotting;
@@ -446,9 +447,12 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == Button7) {
 
 			Process2.allDataAllFrames(Process.getNewData());
-
+			ReportFrame5 = new ReportFrame5 (Process2);
+			ReportFrame5.reportFormatter();
 		}
+		
 
+		/**/
 		if (e.getSource() == Button8) {
 
 			try {
@@ -466,6 +470,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			}
 		}
 
+		
+		/**/
 		if (e.getSource() == Button9) {
 
 			int exclusionValue = Integer.parseInt(TF8.getText().trim());
@@ -485,8 +491,4 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			}	
 		}
 	}
-
-
-	/*This method gets the root filename from the filename bar. the FileWriter uses this String to
-	 save byFrame, byPillar and Multipillar data to file.*/
 }

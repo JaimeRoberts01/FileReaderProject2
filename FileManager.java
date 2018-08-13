@@ -7,11 +7,10 @@ public class FileManager {
 
 
 	/*Instance variables*/
-	private ArrayList <String> fileLine;
-	//private ReportFrame ReportFrame;
 	private Processing Process;
 	private Processing2 Process2;
-	//private GUIClass GUI;
+	
+	private ArrayList <String> fileLine;
 
 
 	/*Constructor*/
@@ -27,7 +26,6 @@ public class FileManager {
 		BufferedReader bufferedReader = null;
 		String file = null;
 		String line = null;
-		//		ReportFrame = new ReportFrame ();
 
 		try {
 
@@ -41,10 +39,6 @@ public class FileManager {
 			while ((line = bufferedReader.readLine()) !=null) {
 				fileLine.add (line);
 			}
-
-			//			for (String s : fileLine) {	- removed	
-			//				ReportFrame.reportFormatter(s);	
-			//			}
 
 			Process = new Processing ();
 			Process.data(fileLine);

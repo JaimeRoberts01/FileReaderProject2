@@ -24,7 +24,7 @@ public class ReportFrame5 extends JFrame implements ActionListener {
 
 		this.Process2 = Process2;
 		setDefaultCloseOperation (DISPOSE_ON_CLOSE);
-		setTitle ("Multipillar Data");
+		setTitle ("All Data All Frames");
 		setLocation (1500, 675);
 		setSize (400, 400);
 		setVisible (true);
@@ -69,11 +69,18 @@ public class ReportFrame5 extends JFrame implements ActionListener {
 
 
 	/*This method formats a display screen for the newData array values (except x and y).*/
-	public void reportFormatter (String output) {	
+	public void reportFormatter () {	
 
-		displayFile.append(output);
+		//displayFile.append(output);
+		int length = Process2.getDataByPillarFrame().size();
+		for (int i = 0; i<length; i++) {
+//			String something = (String) Process2.getDataByPillarFrame().get(i);
+//		}
+		
+		displayFile.append(Process2.getDataByPillarFrame().get(i) + "\n");
+		
 	}
-
+	}
 
 	/*FileChooser allows files to be saved in a particular directory and with a give name.*/
 	public void fileChooser () {
