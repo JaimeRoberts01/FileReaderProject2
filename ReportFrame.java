@@ -7,9 +7,10 @@ import javax.swing.border.*;
 
 @SuppressWarnings("serial")
 public class ReportFrame extends JFrame implements ActionListener {
-	
 
-	/*Instance variables*/
+
+	/**Instance variables*/
+
 	private JTextArea displayFile;
 	private JButton Button1, Button2;
 	private JFileChooser JFC;
@@ -17,12 +18,13 @@ public class ReportFrame extends JFrame implements ActionListener {
 	private FileManager FileManager;
 
 
-	/*Constructor*/
+	/**Constructor*/
+
 	public ReportFrame (Processing Process) {	
 
 		this.Process = Process;
 		setDefaultCloseOperation (DISPOSE_ON_CLOSE);
-		setTitle ("Calculate Forces");
+		setTitle ("Forces Data");
 		setLocation (1500, 675);
 		setSize (825, 400);
 		setVisible (true);
@@ -32,7 +34,8 @@ public class ReportFrame extends JFrame implements ActionListener {
 	}
 
 
-	/*GUI layout*/
+	/**GUI layout*/
+
 	public void frameComponents () {
 
 		displayFile = new JTextArea ();
@@ -66,48 +69,20 @@ public class ReportFrame extends JFrame implements ActionListener {
 	}
 
 
-	/*This method formats a display screen for the newData array values (except x and y).*/
+	/**This method formats a display screen for the newData array. Note that the data
+	 * is a tidier version of the actual output data and is for viewing purposes only.
+	 */
+
 	public void reportFormatter () {
 
-		String header_upper = (String.format("%s %11s %11s %15s %19s %16s %13s", "Frame", "Pillar", "dx", "dy", "Deflection", "Deflection", "Force")+"\n");
-		String header_lower = (String.format("%s %10s %11s %15s %17s %16s %15s", "Index", "Index", " ", " ", "(px)", "(nm)", "(pN)")+"\n");
-		String bar = "--------------------------------------------------------------------------------------------------";
-		displayFile.append(header_upper);
-		displayFile.append(header_lower);
-		displayFile.append (bar+ "\n\n");
 		displayFile.append (Process.outputString());	
 	}
 
 
-	/*FileWriter writes text to a file. The output file is formatted differently from that
-	 displayed on the ReportFrame screen.*/
-//	public void fileWriter (String fileName) {
-//
-//		FileWriter writer = null;
-//		String file = null;
-//
-//		try {
-//
-//			try {
-//				file = fileName;
-//				writer = new FileWriter (file);
-//				writer.write(Process.outputFile());
-//			}
-//
-//			finally {
-//
-//				writer.close();	
-//			}
-//		}
-//
-//		catch (IOException IOE) {
-//
-//			IOE.printStackTrace();	
-//		}
-//	}
+	/**FileChooser allows files to be saved in a particular directory and with a give name.
+	 * The fileName is passed to the FileWriter method for saving the data.
+	 */
 
-
-	/*FileChooser allows files to be saved in a particular directory and with a give name.*/
 	public void fileChooser () {
 
 		JFC = new JFileChooser();
@@ -140,21 +115,27 @@ public class ReportFrame extends JFrame implements ActionListener {
 	}
 
 	
-public void fileWriter (String fileName) {
+	/**The method send the fileName to the the FileWriter in the FileManager class. The 
+	 * FileWriter deals with a number of output files so an identifier is passed to the
+	 * method identifying which dataset has been sent for saving.
+	 */
+
+	public void fileWriter (String fileName) {
 
 		String identifier = "Data";
 		FileManager = new FileManager (Process, null);
 		FileManager.fileWriter(identifier, fileName);	
 	}
-	
 
-	@Override /*ActionPerformed methods for the individual buttons*/
+
+	/**ActionPerformed methods for the individual buttons*/
+	
+	@Override 
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == Button1) {
 
 			this.fileChooser();
-
 		}
 
 		if (e.getSource() == Button2) {

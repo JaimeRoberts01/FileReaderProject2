@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import javax.swing.border.*;
 
+// ---------- WE ARE CURRENTLY USING THIS FOR TESTING THE PILLARFRAME STUFF ---------- //
 
 @SuppressWarnings("serial")
 public class ReportFrame5 extends JFrame implements ActionListener {

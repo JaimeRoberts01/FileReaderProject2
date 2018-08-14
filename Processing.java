@@ -3,23 +3,19 @@ import java.util.*;
 
 public class Processing {
 
-	/*Instance variables for the arrays.*/
+	/**Instance variables for the arrays.*/
+	
 	private Object [][] data, newData;
 	private double [] nanometers, picoNewtons;
-	//	private GUIClass GUI;
-	//	private FileManager FileManager;
 
 
-	/*Constructor*/
+	/**Constructor*/
 	public Processing () {
-
-
 	}
 
 
-	/*Getters and Setters*/
-	//public Object[][] getData() {return data;}
-	//public void setData(Object[][] data) {this.data = data;}
+	/**Getters and Setters*/
+	
 	public Object[][] getNewData() {return newData;}
 	public void setNewData(Object[][] newData) {this.newData = newData;}
 	public double[] getNanometers() {return nanometers;}
@@ -28,8 +24,11 @@ public class Processing {
 	public void setPicoNewtons(double[] picoNewtons) {this.picoNewtons = picoNewtons;}
 
 
-	/*This method breaks the ArrayList<String> into a 2D array using "," as the delimiter. It 
-	starts by removing lines that contain the word "NaN"/"Frame Index", which aren't processed*/
+	/**This method breaks the ArrayList<String> into a 2D array using "," as the delimiter. 
+	 * It starts by removing lines that contain the word "NaN"/"Frame Index", which aren't 
+	 * processed. @author jemmanatasharoberts.
+	 */
+	
 	public Object [][] data (ArrayList<String> fileLine) { 
 
 		//		for (int i = 0; i < 2; i++) {
@@ -68,7 +67,10 @@ public class Processing {
 	}
 
 
-	/*This method converts pixels into nanometres for the deflection values.*/
+	/**This method converts pixels into nanometres for the deflection values.
+	 * @return an array of deflection values in nanometres.
+	 */
+	
 	public double [] nanoMeters (int conversion) {
 	
 		int columns = data.length;
@@ -84,7 +86,10 @@ public class Processing {
 	}
 
 
-	/*This method calculates the picoNewton forces from all the values provided .*/
+	/**This method calculates the picoNewton forces from all the values provided.
+	 * @return an array of forces in piconewtons.
+	 */
+	
 	public double [] forces (double youngsM, double pillarD, double pillarL) {
 
 		int columns = data.length;
@@ -107,7 +112,9 @@ public class Processing {
 	}
 
 
-	/*This method creates a new array with the added nanometres and picoNewton values.*/
+	/**This method creates a new array with the added nanometres and picoNewton values.
+	 * @ returns an array containing all data for the pillars.*/
+	
 	public Object [][] newDataArray () {
 
 		int columns = 9;
@@ -134,10 +141,19 @@ public class Processing {
 	}
 
 
-	/*This method builds a string for the ReportFrame2.*/
+	/**This method builds a string for the ReportFrame.*/ 
+	
 	public String outputString () { 
 
 		StringBuilder SB = new StringBuilder();
+		
+		String header_upper = (String.format("%s %11s %11s %15s %19s %16s %13s", "Frame", "Pillar", "dx", "dy", "Deflection", "Deflection", "Force")+"\n");
+		String header_lower = (String.format("%s %10s %11s %15s %17s %16s %15s", "Index", "Index", " ", " ", "(px)", "(nm)", "(pN)")+"\n");
+		String bar = "--------------------------------------------------------------------------------------------------";
+		
+		SB.append(header_upper);
+		SB.append(header_lower);
+		SB.append (bar+ "\n\n");
 		
 		for (int i = 0; i <newData.length; i++) {
 
@@ -151,7 +167,8 @@ public class Processing {
 	}
 
 
-	/*This method builds a string for the output file, which is another CSV file.*/
+	/**This method builds a string for the output file, which is another csv file.*/
+	
 	public String outputFile () {
 
 		String header = ("Frame Index" + "," + "Pillar Index" + "," + "x" + "," + "y" + ","  + "dx" + ","

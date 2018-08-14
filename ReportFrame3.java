@@ -11,6 +11,8 @@ import javax.swing.border.*;
 public class ReportFrame3 extends JFrame implements ActionListener {
 
 
+	/**Instance Variables*/
+	
 	private JTextArea displayFile;
 	private JButton Button1, Button2, Button3;
 	private JFileChooser JFC;
@@ -23,7 +25,8 @@ public class ReportFrame3 extends JFrame implements ActionListener {
 	private int ID;
 
 
-	/*Constructor*/
+	/**Constructor*/
+	
 	public ReportFrame3 (Processing2 Process2, String identifier, int ID) {	
 
 		this.Process2 = Process2;
@@ -40,7 +43,8 @@ public class ReportFrame3 extends JFrame implements ActionListener {
 	}
 
 
-	/*GUI layout*/
+	/**GUI layout*/
+	
 	public void frameComponents () {
 
 		displayFile = new JTextArea ();
@@ -83,14 +87,20 @@ public class ReportFrame3 extends JFrame implements ActionListener {
 	}
 
 
-	/*This method formats a display screen for the newData array values (except x and y).*/
+	/**This method formats a display screen for the getBy data including. Note that the data
+	 * is a tidier version of the actual output data and is for viewing purposes only.
+	 */
+	
 	public void reportFormatter (String output) {	
 		
 			displayFile.append(output);
 	}
 
 
-	/*FileChooser allows files to be saved in a particular directory and with a give name.*/
+	/**FileChooser allows files to be saved in a particular directory and with a give name.
+	 * The fileName is passed to the FileWriter method for saving the data.
+	 */
+	
 	public void fileChooser () {
 
 		JFC = new JFileChooser();
@@ -123,8 +133,11 @@ public class ReportFrame3 extends JFrame implements ActionListener {
 	}
 
 
-	/*FileWriter writes text to a file. The output file is formatted differently from that
-	 displayed on the ReportFrame screen.*/
+	/**The method send the fileName to the the FileWriter in the FileManager class. The 
+	 * FileWriter deals with a number of output files so an identifier is passed to the
+	 * method identifying which dataset has been sent for saving.
+	 */
+	
 	public void fileWriter (String fileName) {
 
 		
@@ -133,7 +146,9 @@ public class ReportFrame3 extends JFrame implements ActionListener {
 	}
 
 
-	@Override /*ActionPerformed methods for the individual buttons*/
+	/**ActionPerformed methods for the individual buttons*/
+	
+	@Override 
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == Button1) {

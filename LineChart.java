@@ -15,6 +15,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 public class LineChart {
 
+	/**Instance Variables*/
+	
 	private Processing2 Process2;
 	private Processing Process;
 	private JFreeChart lineChart;
@@ -22,15 +24,20 @@ public class LineChart {
 	private Object [][] lineChartArray;
 
 	
+	/**Constructor*/
 	public LineChart (Processing2 Process2, Processing Process) {
 		this.Process2 = Process2;
 		this.Process = Process;
 	}
 
 	
+	/**This method calls the allPillarAllFrames method and creates a new array using that data. 
+	 * An ID is passed to the method so that it can be used to build the line graph.
+	 */
+	
 	public void lineGraphData (int ID) {
 		
-		Process2.allDataAllFrames(Process.getNewData());
+		Process2.allPillarsAllFrames(Process.getNewData());
 		
 		int rows = Process2.getDataByPillarFrame().size();
 		int columns = 3;
@@ -46,6 +53,10 @@ public class LineChart {
 		createLineGraph (ID);
 	}
 
+	/**This method creates the line graph. It uses the ID to run through the array in lineGraphData
+	 * and pull out the data for a particular pillar. This is then plotted on a formatted graph plot
+	 * that can be saved to file.
+	 */
 	
 	public void createLineGraph (int ID) {
 
@@ -72,7 +83,6 @@ public class LineChart {
 		plot =  lineChart.getCategoryPlot();
 		lineChart.removeLegend();
 		
-
 		Axis axisY = plot.getRangeAxis();
 		axisY.setAxisLinePaint(Color.black);
 		axisY.setTickMarkPaint(Color.black); 
@@ -100,6 +110,8 @@ public class LineChart {
 		saveGraph ();
 	}
 
+	
+	/**This method saves the graph to file*/
 	
 	public void saveGraph () {
 
