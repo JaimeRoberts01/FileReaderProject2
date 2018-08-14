@@ -14,15 +14,14 @@ public class ReportFrame3 extends JFrame implements ActionListener {
 	/**Instance Variables*/
 	
 	private JTextArea displayFile;
-	private JButton Button1, Button2, Button3;
-	private JFileChooser JFC;
-	private FileManager FileManager;
-	private Processing Process;
-	private Processing2 Process2;
-	private LineChart LineChart;
+	private JButton Button1, Button2;
 	
 	private String identifier;
+	@SuppressWarnings("unused")
 	private int ID;
+	
+	private FileManager FileManager;
+	private Processing2 Process2;
 
 
 	/**Constructor*/
@@ -75,15 +74,6 @@ public class ReportFrame3 extends JFrame implements ActionListener {
 		Button2.addActionListener (this);
 		Button2.setEnabled(true);
 		add(Button2);
-		
-		Button3 = new JButton("Graph");
-		Button3.setPreferredSize(new Dimension(125,23));
-		Button3.setFont(new Font ("Consolas", Font.PLAIN, 14));
-		Button3.setOpaque(true);
-		Button3.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button3.addActionListener (this);
-		Button3.setEnabled(true);
-		add(Button3);
 	}
 
 
@@ -103,7 +93,7 @@ public class ReportFrame3 extends JFrame implements ActionListener {
 	
 	public void fileChooser () {
 
-		JFC = new JFileChooser();
+		JFileChooser JFC = new JFileChooser();
 		String fileName = "";
 		int saveVal = JFC.showSaveDialog(null);
 
@@ -160,12 +150,6 @@ public class ReportFrame3 extends JFrame implements ActionListener {
 		if (e.getSource() == Button2) {
 
 			this.dispose();
-		}
-		
-		if (e.getSource() == Button3) {
-
-			LineChart = new LineChart (Process2, Process);
-			LineChart.lineGraphData(ID);
 		}
 	}
 }

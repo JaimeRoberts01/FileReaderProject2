@@ -16,9 +16,8 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 	
 	private JTextArea displayFile;
 	private JButton Button1, Button2;
-	private JFileChooser JFC;
+	
 	private FileManager FileManager;
-
 	private Processing2 Process2;
 
 
@@ -89,7 +88,7 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 	
 	public void fileChooser () {
 
-		JFC = new JFileChooser();
+		JFileChooser JFC = new JFileChooser();
 		String fileName = "";
 		int saveVal = JFC.showSaveDialog(null);
 
