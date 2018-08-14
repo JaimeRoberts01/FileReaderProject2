@@ -11,12 +11,14 @@ public class Processing2 {
 	private ArrayList <Integer> pillar, frame;	
 
 	//private FileManager FileManager;
-	//private Processing Process;
+//	private Processing Process;
 	private ReportFrame3 ReportFrame3;
 //	private ReportFrame4 ReportFrame4;
 //	private ReportFrame5 ReportFrame5;
 	private MultipillarInput MultipillarInput;
 
+	Processing2 () {
+	}
 	
 	/*Constructor*/
 	Processing2 (MultipillarInput MultipillarInput) {	
@@ -292,7 +294,7 @@ public class Processing2 {
 		System.out.println("output: " + "\n" + output);
 		String identifier = "Frame Data";
 		System.out.println("identifier : " + "\n" + identifier);
-		ReportFrame3 = new ReportFrame3 (this, identifier);
+		ReportFrame3 = new ReportFrame3 (this, identifier, ID);
 		ReportFrame3.reportFormatter(output);
 		return output;
 	}
@@ -342,7 +344,7 @@ public class Processing2 {
 
 		String output = SB.toString();
 		String identifier = "Pillar Data";
-		ReportFrame3 = new ReportFrame3 (this, identifier);
+		ReportFrame3 = new ReportFrame3 (this, identifier, ID);
 		ReportFrame3.reportFormatter(output);
 
 		return output;
@@ -396,7 +398,7 @@ public class Processing2 {
 		String output = SB.toString();
 
 		String identifier = "Multipillar Data";
-		ReportFrame3 = new ReportFrame3 (this, identifier);
+		ReportFrame3 = new ReportFrame3 (this, identifier, 0);
 		ReportFrame3.reportFormatter(output);
 
 		return output;

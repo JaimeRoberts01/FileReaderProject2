@@ -27,6 +27,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private Processing Process;
 	private Processing2 Process2;
 	private DataPlotting DataPlotting;
+	private LineChart LineChart;
 	@SuppressWarnings("unused")
 	private FileManager FileManager;
 	private MultipillarInput MultipillarInput;
@@ -474,8 +475,11 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		/**/
 		if (e.getSource() == Button9) {
 
-			int exclusionValue = Integer.parseInt(TF8.getText().trim());
-			System.out.println(exclusionValue);
+//			int exclusionValue = Integer.parseInt(TF8.getText().trim());
+//			System.out.println(exclusionValue);
+			int ID = Integer.parseInt(TF7.getText().trim());
+			LineChart = new LineChart (Process2, Process);
+			LineChart.lineGraphData(ID);
 		}
 	}
 
