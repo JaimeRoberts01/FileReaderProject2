@@ -1,4 +1,5 @@
 import java.io.*;
+import java.text.DecimalFormat;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
@@ -6,88 +7,85 @@ import java.awt.event.*;
 
 import org.jfree.chart.*;
 import org.jfree.chart.axis.*;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.data.Range;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
 
-public class LineChart implements ActionListener {
-
+public class ScatterPlot implements ActionListener {
+	
 	
 	/**Instance Variables*/
+	
+	private Object [][] scatterPlotArray;
+	private JFreeChart scatterPlot;
 
 	private Processing2 Process2;
-	private JFreeChart lineChart;
-	private CategoryPlot plot;
-	private Object [][] lineChartArray;
-
-
+	
+	
 	/**Constructor*/
 	
-	public LineChart (Processing2 Process2) {
+	public ScatterPlot (Processing2 Process2) {
 		this.Process2 = Process2;
 	}
-
-
+	
+	
 	/**This method calls the allPillarAllFrames method and creates a new array using that data. 
 	 * An ID is passed to the method so that it can be used to build the line graph.
 	 */
-
-	public void lineChartData (int ID) {
-
-		int rows = Process2.getOutputDataByPillar().size();
+	
+	public void scatterPlotData (int ID) {
+		
+		int rows = Process2.getOutputDataByFrame().size();
 		int columns = 3;
 
-		lineChartArray = new Object [rows][columns]; 
+		scatterPlotArray = new Object [rows][columns]; 
 
 		for (int i = 0; i < rows; i++) {
 
-			lineChartArray [i] = (Process2.getOutputDataByPillar().get(i)).toString().split(",");
-			System.out.println(Arrays.toString(lineChartArray[i]));
+			scatterPlotArray [i] = (Process2.getOutputDataByFrame().get(i)).toString().split(",");
+			System.out.println(Arrays.toString(scatterPlotArray[i]));
 		}
 
-		createLineChart (ID);
+		createScatterPlot (ID);
 	}
-
 	
-	/**This method creates the line graph. It uses the ID to run through the array in lineGraphData
-	 * and pull out the data for a particular pillar. This is then plotted on a formatted graph plot
+	
+	/**This method creates the scatter-plot. It uses the ID to run through the array in scatterPlotData
+	 * and pulls out the data for a particular pillar. This is then plotted on a formatted graph plot
 	 * that can be saved to file.
 	 */
+	
+	public void createScatterPlot (int ID) {
+		
+		XYSeriesCollection dataset = new XYSeriesCollection ();
+		XYSeries series = new XYSeries ("Pillars");
 
-	public void createLineChart (int ID) {
+		for (int i =0; i< scatterPlotArray.length; i++ ) {
 
-		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
-		double y = 0.0;
-		String c = "";
-		String x = "";
-
-		for (int i =0; i< lineChartArray.length; i++) {
-
-			int pillar = Integer.parseInt((String) lineChartArray [i][1]);
-
-			if (ID == pillar) {
-
-				y = Double.parseDouble((String) lineChartArray [i][2]); // force
-				c = (String) lineChartArray [i][1]; // pillar
-				x = (String) lineChartArray [i][0]; // frame
-				dataset.addValue(y, c, x);
-			}
+			int x = Integer.parseInt((String) scatterPlotArray [i][1]); // pillar
+			double y = Double.parseDouble((String) scatterPlotArray [i][2]); // force
+			series.add (x,y);
 		}
+		
+		dataset.addSeries(series);
 
-		lineChart = ChartFactory.createLineChart("Pillar " + ID + ": Forces over time", "Frame ID", "Force (pN)", dataset);
-		plot =  lineChart.getCategoryPlot();
-		lineChart.removeLegend();
+		scatterPlot = ChartFactory.createScatterPlot("Frame " + ID + ": Forces", "Pillar ID", "Force (pN)", dataset);
+		XYPlot plot = (XYPlot) scatterPlot.getPlot();
+		plot.setBackgroundPaint(Color.lightGray);
+		scatterPlot.setBackgroundPaint(Color.white);
+		scatterPlot.removeLegend();
 
-		Axis axisY = plot.getRangeAxis();
+		NumberAxis axisY = (NumberAxis) plot.getRangeAxis();
 		axisY.setAxisLinePaint(Color.black);
 		axisY.setTickMarkPaint(Color.black); 
 		axisY.setTickLabelFont(new Font ("monspaced", Font.PLAIN, 11));
 		axisY.setLabelFont(new Font ("monspaced", Font.BOLD, 12));
-		axisY.setAxisLineStroke(new BasicStroke(1.2f));
+		axisY.setAxisLineStroke(new BasicStroke(1.2f)); 
 
-		CategoryAxis axisX = plot.getDomainAxis();
+		ValueAxis axisX = plot.getDomainAxis();
 		axisX.setAxisLinePaint(Color.black);
 		axisX.setTickMarkPaint(Color.black); 
 		axisX.setTickLabelFont(new Font ("monspaced", Font.PLAIN, 11));
@@ -95,22 +93,29 @@ public class LineChart implements ActionListener {
 		axisX.setAxisLineStroke(new BasicStroke(1.2f));
 		axisX.setLowerMargin(0.01);
 		axisX.setUpperMargin(0.01);
+		//axisX.setAutoRangeMinimumSize(Integer.parseInt((String) scatterPlotArray [0][1]));
+		axisX.setDefaultAutoRange(new Range (Integer.parseInt((String) scatterPlotArray [0][1]),
+				Integer.parseInt((String) scatterPlotArray [scatterPlotArray.length-1][1])));
+		axisX.setMinorTickCount(50);
+		
+		axisX = scatterPlot.getXYPlot().getDomainAxis();
+		DecimalFormat format = new DecimalFormat("####");
+		((NumberAxis) axisX).setNumberFormatOverride(format);
 
-		LineAndShapeRenderer render = (LineAndShapeRenderer) plot.getRenderer();;
+		XYLineAndShapeRenderer render = (XYLineAndShapeRenderer) plot.getRenderer();
 		GradientPaint gradientpaint = new GradientPaint(0.0F, 0.0F, 
 		new Color(5, 5, 140), 0.0F, 0.0F, new Color(209, 16, 196));
 		render.setSeriesPaint(0, gradientpaint);
-		render.setSeriesOutlineStroke(0, new BasicStroke(1));
-
-		frameLayout (ID);
+		
+		frameLayout(ID);
 	}
-
+	
 	
 	/**This method lays out the graph frame*/
 	
 	public void frameLayout (int ID) {
-
-		ChartFrame frame = new ChartFrame("Pillar: " + ID, lineChart);
+		
+		ChartFrame frame = new ChartFrame("Frame: " + ID, scatterPlot);
 
 		JButton Button1 = new JButton ("Save");
 		Button1.setPreferredSize(new Dimension(125,23));
@@ -131,14 +136,14 @@ public class LineChart implements ActionListener {
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
 	}
-
-
+	
+	
 	/**FileChooser allows files to be saved in a particular directory and with a give name.
 	 * The fileName is passed to the FileWriter method for saving the data.
 	 */
-
+	
 	public void fileChooser () {
-
+		
 		JFileChooser JFC = new JFileChooser ();
 		String fileName = "";
 		int saveVal = JFC.showSaveDialog(null);
@@ -153,7 +158,7 @@ public class LineChart implements ActionListener {
 
 				if (response == JOptionPane.YES_OPTION) {
 					fileName = savedFile.toString();
-					saveChart (fileName);
+					savePlot (fileName);
 				}
 
 				else if (response == JOptionPane.NO_OPTION) {
@@ -163,19 +168,19 @@ public class LineChart implements ActionListener {
 
 			else {
 				fileName = savedFile.toString();
-				saveChart (fileName);	
+				savePlot (fileName);	
 			}
 		}
 	}
-
-
+	
+	
 	/**This method saves the graph to file*/
-
-	public void saveChart (String fileName) {
-
+	
+	public void savePlot (String fileName) {
+		
 		try {
 
-			ChartUtilities.saveChartAsJPEG(new File(fileName), lineChart, 1200, 800);
+			ChartUtilities.saveChartAsJPEG(new File(fileName), scatterPlot, 1200, 800);
 		} 
 
 		catch (Exception e) {
@@ -183,7 +188,8 @@ public class LineChart implements ActionListener {
 			System.out.println("Problem occurred creating chart.jska " + e.getMessage());
 		}
 
-		System.out.println("I did well");
+		System.out.println("I did well2");
+		
 	}
 
 
@@ -191,7 +197,7 @@ public class LineChart implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
+		
 		this.fileChooser();
-	}	
+	}
 }

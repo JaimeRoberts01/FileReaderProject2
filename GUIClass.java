@@ -27,6 +27,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private Processing Process;
 	private Processing2 Process2;
 	private DataPlotting DataPlotting;
+	private ScatterPlot ScatterPlot;
 	private LineChart LineChart;
 	@SuppressWarnings("unused")
 	private FileManager FileManager;
@@ -448,6 +449,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			Process2.getPillars(Process.getNewData());
 			Process2.getFrames(Process.getNewData());
 			Process2.dataByFrame(Process.getNewData(), ID);
+			ScatterPlot = new ScatterPlot (Process2);
+			ScatterPlot.scatterPlotData(ID);
 		}
 
 
@@ -471,8 +474,9 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			Process2.getPillars(Process.getNewData());
 			Process2.getFrames(Process.getNewData());
 			Process2.dataByPillar(Process.getNewData(), ID);
-			LineChart = new LineChart (Process2, Process);
-			LineChart.lineGraphData(ID);
+//			LineChart = new LineChart (Process2, Process);
+			LineChart = new LineChart (Process2);
+			LineChart.lineChartData(ID);
 		}
 
 
@@ -512,8 +516,9 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == Button9) {
 
 			int ID = Integer.parseInt(TF7.getText().trim());
-			LineChart = new LineChart (Process2, Process);
-			LineChart.lineGraphData(ID);
+			//LineChart = new LineChart (Process2, Process);
+			LineChart = new LineChart (Process2);
+			LineChart.lineChartData(ID);
 		}
 	}
 

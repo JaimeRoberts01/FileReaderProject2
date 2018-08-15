@@ -40,6 +40,10 @@ public class Processing2 {
 	public void setPillar(ArrayList<Integer> pillar) {this.pillar = pillar;}
 	public ArrayList<String> getDataByPillarFrame() {return dataByPillarFrame;}
 	public void setDataByPillarFrame(ArrayList<String> dataByPillarFrame) {this.dataByPillarFrame = dataByPillarFrame;}
+	public ArrayList<Object> getOutputDataByPillar() {return outputDataByPillar;}
+	public void setOutputDataByPillar(ArrayList<Object> outputDataByPillar) {this.outputDataByPillar = outputDataByPillar;}
+	public ArrayList<Object> getOutputDataByFrame() {return outputDataByFrame;}
+	public void setOutputDataByFrame(ArrayList<Object> outputDataByFrame) {this.outputDataByFrame = outputDataByFrame;}
 
 
 	/**This method creates a list of the pillars in the newData array. 
