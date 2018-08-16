@@ -444,7 +444,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == Button4) {
 
 			int ID = Integer.parseInt(TF6.getText().trim());
-//			Process2 = new Processing2 (MultipillarInput);
 			Process2 = new Processing2 ();
 			Process2.getPillars(Process.getNewData());
 			Process2.getFrames(Process.getNewData());
@@ -460,6 +459,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == Button5) {
 
 			MultipillarInput = new MultipillarInput (Process);
+			
 		}
 
 
@@ -469,12 +469,12 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == Button6) {
 
 			int ID = Integer.parseInt(TF7.getText().trim());
-			//Process2 = new Processing2 (MultipillarInput);
+			
 			Process2 = new Processing2 ();
 			Process2.getPillars(Process.getNewData());
 			Process2.getFrames(Process.getNewData());
 			Process2.dataByPillar(Process.getNewData(), ID);
-//			LineChart = new LineChart (Process2, Process);
+			
 			LineChart = new LineChart (Process2);
 			LineChart.lineChartData(ID);
 		}

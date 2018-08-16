@@ -9,6 +9,7 @@ public class Processing2 {
 	private ArrayList <Double> mean, standard_deviation; 
 	private ArrayList <Object> dataByPillar, outputDataByPillar;
 	private ArrayList <Object> dataByFrame, outputDataByFrame;
+	private ArrayList <Object> pillarFrame;
 	private ArrayList <Object> multipillar;
 	private ArrayList <String> dataByPillarFrame;
 	private ArrayList <Integer> pillar, frame;	
@@ -172,6 +173,7 @@ public class Processing2 {
 		standard_deviation = new ArrayList<Double> ();
 
 		dataByPillar = new ArrayList <Object> ();
+		pillarFrame = new ArrayList <Object> ();
 		outputDataByPillar = new ArrayList <Object> ();
 		ArrayList <Double> pico = new ArrayList <Double> ();
 
@@ -184,7 +186,9 @@ public class Processing2 {
 
 				pico.add((double) newData [i][8]);
 				Object forces = newData [i][0] + "," + newData [i][1] + "," + newData [i][8];
+				Object frames = newData [i][0];
 				outputDataByPillar.add(forces);
+				pillarFrame.add(frames);
 				dataByPillar.add((double) newData [i][8]);
 			}	
 		}
@@ -210,7 +214,8 @@ public class Processing2 {
 		multipillar = new ArrayList <Object> ();
 
 		int index = MultipillarInput.getValues().length;
-		String [] values = new String [index];
+//		String [] values = new String [index];
+		Object [] values = new String [index];
 
 		for (int i =0; i< MultipillarInput.getValues().length; i++) {
 			values = MultipillarInput.getValues();
@@ -220,7 +225,8 @@ public class Processing2 {
 
 		for (int i = 0; i < values.length; i++) {
 
-			value = Integer.parseInt(values [i]);
+//			value = Integer.parseInt(values [i]);
+			value = Integer.parseInt((String)values [i]);
 			multipillar.add(value);
 
 			for (int j =0; j< newData.length; j++) {
@@ -371,7 +377,7 @@ public class Processing2 {
 		
 		for (int i=0; i<dataByPillar.size(); i++) {
 			
-			body += (String.format("%7s", frame.get(i)) + "\t" + String.format("%17.8s", ID) + "\t" + String.format("%11.8s", dataByPillar.get(i)) + "\n");
+			body += (String.format("%7s", pillarFrame.get(i)) + "\t" + String.format("%17.8s", ID) + "\t" + String.format("%11.8s", dataByPillar.get(i)) + "\n");
 		}
 		
 		SB.append(body);
@@ -422,7 +428,8 @@ public class Processing2 {
 	
 	public String StringMultipillar () {
 
-		String [] values = MultipillarInput.getValues();
+//		String [] values = MultipillarInput.getValues();
+		Object [] values = MultipillarInput.getValues();
 
 		StringBuilder SB = new StringBuilder();
 
@@ -457,7 +464,8 @@ public class Processing2 {
 	
 	public String outputMultipillar () {
 
-		String [] values = MultipillarInput.getValues();
+//		String [] values = MultipillarInput.getValues();
+		Object [] values = MultipillarInput.getValues();
 
 		StringBuilder SB = new StringBuilder();
 		SB.append("Pillar Index" + "," + "AVG Force (pN)" + "," + "SD" + "\n");

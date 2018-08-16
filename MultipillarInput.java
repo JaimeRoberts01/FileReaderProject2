@@ -11,16 +11,20 @@ public class MultipillarInput extends JFrame implements ActionListener{
 	/*Instance Variables*/
 	private JTextArea displayFile;
 	private JButton Button1, Button2;
-	private String [] values;
+	private Object [] values;
 
 	private Processing Process;
 	private Processing2 Process2;
+	private BarGraph BarGraph;
 
 
 	/*Getters & Setters*/
-	public String[] getValues() {return values;}
-	public void setValues(String[] values) {this.values = values;}
+	public Object[] getValues() {return values;}
+	public void setValues(Object[] values) {this.values = values;}
 
+	public MultipillarInput () {
+		
+	}
 
 	/*Constructor*/
 	public MultipillarInput (Processing Process) {	
@@ -88,14 +92,22 @@ public class MultipillarInput extends JFrame implements ActionListener{
 
 	/*This method gets the pillar values from the MultiPillar TextArea and sends the
 		 values to a method in Processing2 for AVG and SD across all frames*/
-	public String []  multipillarValues () {
+	public Object []  multipillarValues () {
 
 		values = displayFile.getText().split(", ");
 		Process2 = new Processing2 (this);
-		Process2.getPillar();
+		//Process2.getPillar();
+		Process2.getPillars(Process.getNewData());
 		Process2.multiPillar(Process.getNewData());
-
-		for (String s: values) {System.out.println(s);}
+		
+		int ID = 0;
+		
+		for (Object o: values) { ID = Integer.parseInt((String) o); System.out.println(o); System.out.println ("ID: " + ID);}
+		
+		BarGraph = new BarGraph (Process2, this);
+//		BarGraph.barChartData(values);
+		BarGraph.barChartData();
+		
 		return values;
 	}
 }
