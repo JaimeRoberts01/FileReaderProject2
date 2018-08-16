@@ -34,12 +34,10 @@ public class BarGraph implements ActionListener {
 	private DefaultStatisticalCategoryDataset bar;
 	
 	private Processing2 Process2;
-	private MultipillarInput Multipillar;
 	
 	
-	BarGraph (Processing2 Process2, MultipillarInput Multipillar) {
+	BarGraph (Processing2 Process2) {
 		this.Process2 = Process2;
-		this.Multipillar = Multipillar;
 	}
 	
 
@@ -47,17 +45,15 @@ public class BarGraph implements ActionListener {
 	 * An ID is passed to the method so that it can be used to build the line graph.
 	 */
 	
-	public void barChartData () {
+	public void barChartData () { 
 		
-		int rows = Multipillar.getValues().length;
-		System.out.println("valueslength: " + Multipillar.getValues().length);
-
+		int rows = Process2.getMultipillar().size();
 		int columns = 3;
 
 		barChartArray = new Object [rows][columns];
 
 		for (int i = 0; i < rows; i++) {
-			barChartArray [i][0] = Multipillar.getValues() [i];
+			barChartArray [i][0] = Process2.getMultipillar().get(i);
 			barChartArray [i][1] = Process2.getMean().get(i);
 			barChartArray [i][2] = Process2.getStandard_deviation().get(i);
 		}
@@ -73,7 +69,8 @@ public class BarGraph implements ActionListener {
 			avg = (double) barChartArray [i][1];
 			stdv = (double) barChartArray [i][2];
 			cat = "Pillar";
-			title = (String) barChartArray [i][0];
+			title = Integer.toString((int) barChartArray[i][0]); //(String) barChartArray [i][0];
+			
 			bar.add (avg, stdv, cat, title);
 		}
 		
@@ -94,16 +91,14 @@ public class BarGraph implements ActionListener {
 				new NumberAxis("Average Force (pN)"),
 				new StatisticalBarRenderer());
 
-
-		plot.setOrientation(PlotOrientation.VERTICAL);
-		plot.setBackgroundPaint(Color.white);
-
-		barChart = new JFreeChart("Pillar Data",JFreeChart.DEFAULT_TITLE_FONT,plot,true);
-
-		plot = barChart.getCategoryPlot(); 
+		barChart = new JFreeChart("Average Forces",JFreeChart.DEFAULT_TITLE_FONT,plot,true);
 		barChart.removeLegend();
-		barChart.getPlot().setBackgroundPaint(Color.lightGray );
-
+		barChart.setBackgroundPaint(Color.white);
+		
+		plot.setOrientation(PlotOrientation.VERTICAL);
+		plot.setBackgroundPaint(Color.lightGray);
+		plot = barChart.getCategoryPlot(); 
+		
 		NumberAxis axisY = (NumberAxis) plot.getRangeAxis();
 		axisY.setAxisLinePaint(Color.black);
 		axisY.setTickMarkPaint(Color.black); 
@@ -138,7 +133,7 @@ public class BarGraph implements ActionListener {
 	
 	public void frameLayout () {
 
-		ChartFrame frame = new ChartFrame("Pillar: ", barChart);
+		ChartFrame frame = new ChartFrame("Multipillar Data", barChart);
 
 		JButton Button1 = new JButton ("Save");
 		Button1.setPreferredSize(new Dimension(125,23));

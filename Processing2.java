@@ -10,7 +10,7 @@ public class Processing2 {
 	private ArrayList <Object> dataByPillar, outputDataByPillar;
 	private ArrayList <Object> dataByFrame, outputDataByFrame;
 	private ArrayList <Object> pillarFrame;
-	private ArrayList <Object> multipillar;
+	private ArrayList <Object> multipillar, outputMultipillar;
 	private ArrayList <String> dataByPillarFrame;
 	private ArrayList <Integer> pillar, frame;	
 
@@ -45,6 +45,10 @@ public class Processing2 {
 	public void setOutputDataByPillar(ArrayList<Object> outputDataByPillar) {this.outputDataByPillar = outputDataByPillar;}
 	public ArrayList<Object> getOutputDataByFrame() {return outputDataByFrame;}
 	public void setOutputDataByFrame(ArrayList<Object> outputDataByFrame) {this.outputDataByFrame = outputDataByFrame;}
+	public ArrayList<Object> getMultipillar() {return multipillar;}
+	public void setMultipillar(ArrayList<Object> multipillar) {this.multipillar = multipillar;}
+	public ArrayList<Object> getOutputMultipillar() {return outputMultipillar;}
+	public void setOutputMultipillar(ArrayList<Object> outputMultipillar) {this.outputMultipillar = outputMultipillar;}
 
 
 	/**This method creates a list of the pillars in the newData array. 
@@ -212,9 +216,10 @@ public class Processing2 {
 
 		ArrayList <Double> pico = new ArrayList <Double> ();
 		multipillar = new ArrayList <Object> ();
+		outputMultipillar = new ArrayList <Object> ();
 
 		int index = MultipillarInput.getValues().length;
-//		String [] values = new String [index];
+
 		Object [] values = new String [index];
 
 		for (int i =0; i< MultipillarInput.getValues().length; i++) {
@@ -225,17 +230,19 @@ public class Processing2 {
 
 		for (int i = 0; i < values.length; i++) {
 
-//			value = Integer.parseInt(values [i]);
 			value = Integer.parseInt((String)values [i]);
 			multipillar.add(value);
 
 			for (int j =0; j< newData.length; j++) {
 
 				if (value == Integer.parseInt ((String) newData [j][1])) {
+					
 					pico.add((Double) newData [j][8]);
+					Object forces = newData [j][0] + "," + newData [j][1] + "," + newData [j][8];
+					outputMultipillar.add(forces);
 				}
 			}
-
+			
 			for (double d: pico) {System.out.println("pico2 : " + d);}
 			statistics(pico);
 			pico.clear();

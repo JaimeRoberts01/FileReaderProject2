@@ -34,7 +34,7 @@ public class LineChart implements ActionListener {
 	 * An ID is passed to the method so that it can be used to build the line graph.
 	 */
 
-	public void lineChartData (int ID) {
+	public void lineChartData (int ID) { // getByPillar
 
 		int rows = Process2.getOutputDataByPillar().size();
 		int columns = 3;
@@ -50,7 +50,7 @@ public class LineChart implements ActionListener {
 		createLineChart (ID);
 	}
 
-	
+
 	/**This method creates the line graph. It uses the ID to run through the array in lineGraphData
 	 * and pull out the data for a particular pillar. This is then plotted on a formatted graph plot
 	 * that can be saved to file.
