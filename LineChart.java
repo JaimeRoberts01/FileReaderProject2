@@ -6,9 +6,10 @@ import java.awt.event.*;
 
 import org.jfree.chart.*;
 import org.jfree.chart.axis.*;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.chart.renderer.category.LineAndShapeRenderer;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
 
 public class LineChart implements ActionListener {
@@ -18,7 +19,7 @@ public class LineChart implements ActionListener {
 
 	private Processing2 Process2;
 	private JFreeChart lineChart;
-	private CategoryPlot plot;
+	private XYPlot plot;
 	private Object [][] lineChartArray;
 
 
@@ -56,12 +57,12 @@ public class LineChart implements ActionListener {
 	 */
 
 	public void createLineChart (int ID) {
-
-		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		
+		XYSeriesCollection dataset = new XYSeriesCollection ();
+		XYSeries series = new XYSeries ("Pillars");
 
 		double y = 0.0;
-		String c = "";
-		String x = "";
+		int x = 0;
 
 		for (int i =0; i< lineChartArray.length; i++) {
 
@@ -70,14 +71,15 @@ public class LineChart implements ActionListener {
 			if (ID == pillar) {
 
 				y = Double.parseDouble((String) lineChartArray [i][2]); // force
-				c = (String) lineChartArray [i][1]; // pillar
-				x = (String) lineChartArray [i][0]; // frame
-				dataset.addValue(y, c, x);
+				x = Integer.parseInt((String) lineChartArray [i][0]); // frame
+				series.add(x, y);
 			}
 		}
+		
+		dataset.addSeries(series);
 
-		lineChart = ChartFactory.createLineChart("Pillar " + ID + ": Forces over time", "Frame ID", "Force (pN)", dataset);
-		plot =  lineChart.getCategoryPlot();
+		lineChart = ChartFactory.createXYLineChart("Pillar " + ID + ": Forces over time", "Frame ID", "Force (pN)", dataset);
+		plot = (XYPlot) lineChart.getPlot();
 		lineChart.removeLegend();
 
 		Axis axisY = plot.getRangeAxis();
@@ -87,7 +89,8 @@ public class LineChart implements ActionListener {
 		axisY.setLabelFont(new Font ("monspaced", Font.BOLD, 12));
 		axisY.setAxisLineStroke(new BasicStroke(1.2f));
 
-		CategoryAxis axisX = plot.getDomainAxis();
+		NumberAxis axisX = (NumberAxis) plot.getDomainAxis();
+		axisX.setTickUnit(new NumberTickUnit(5));
 		axisX.setAxisLinePaint(Color.black);
 		axisX.setTickMarkPaint(Color.black); 
 		axisX.setTickLabelFont(new Font ("monspaced", Font.PLAIN, 11));
@@ -96,7 +99,7 @@ public class LineChart implements ActionListener {
 		axisX.setLowerMargin(0.01);
 		axisX.setUpperMargin(0.01);
 
-		LineAndShapeRenderer render = (LineAndShapeRenderer) plot.getRenderer();;
+		XYLineAndShapeRenderer render = (XYLineAndShapeRenderer) plot.getRenderer();
 		GradientPaint gradientpaint = new GradientPaint(0.0F, 0.0F, 
 		new Color(5, 5, 140), 0.0F, 0.0F, new Color(209, 16, 196));
 		render.setSeriesPaint(0, gradientpaint);

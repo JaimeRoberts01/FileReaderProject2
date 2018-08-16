@@ -7,7 +7,6 @@ import java.awt.event.*;
 
 import org.jfree.chart.*;
 import org.jfree.chart.axis.*;
-import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -93,11 +92,6 @@ public class ScatterPlot implements ActionListener {
 		axisX.setAxisLineStroke(new BasicStroke(1.2f));
 		axisX.setLowerMargin(0.01);
 		axisX.setUpperMargin(0.01);
-		//axisX.setAutoRangeMinimumSize(Integer.parseInt((String) scatterPlotArray [0][1]));
-		axisX.setDefaultAutoRange(new Range (Integer.parseInt((String) scatterPlotArray [0][1]),
-				Integer.parseInt((String) scatterPlotArray [scatterPlotArray.length-1][1])));
-		axisX.setMinorTickCount(50);
-		
 		axisX = scatterPlot.getXYPlot().getDomainAxis();
 		DecimalFormat format = new DecimalFormat("####");
 		((NumberAxis) axisX).setNumberFormatOverride(format);
