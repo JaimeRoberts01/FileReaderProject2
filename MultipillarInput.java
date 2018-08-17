@@ -17,6 +17,8 @@ public class MultipillarInput extends JFrame implements ActionListener{
 	private Processing2 Process2;
 	private BarGraph BarGraph;
 	private LineChart2 LineChart2;
+	
+	
 
 
 
@@ -81,8 +83,16 @@ public class MultipillarInput extends JFrame implements ActionListener{
 
 		if (e.getSource() == Button1) {
 
+			try {
+				
 			this.dispose();
-			multipillarValues ();		
+			multipillarValues ();
+			}
+			
+			catch (NullPointerException NPE) {
+				System.err.print("Invalid pillar index. Check values: ");
+				for (Object o : values) {System.err.print(o + " ");}
+			}
 		}
 
 		if (e.getSource() == Button2) {
@@ -97,13 +107,17 @@ public class MultipillarInput extends JFrame implements ActionListener{
 	public Object []  multipillarValues () {
 
 		values = displayFile.getText().split(", ");
+		
+		for (int i = 0; i< values.length; i++) {
+			
+			if (values [i] != Process2.getPillars(Process.getNewData())) {
+				values [i] = null;
+			}
+		}
+		
 		Process2 = new Processing2 (this);
 		Process2.getPillars(Process.getNewData());
 		Process2.multiPillar(Process.getNewData());
-		
-		int ID = 0;
-		
-		for (Object o: values) { ID = Integer.parseInt((String) o); System.out.println(o); System.out.println ("ID: " + ID);}
 		
 		BarGraph = new BarGraph (Process2);
 		BarGraph.barChartData();

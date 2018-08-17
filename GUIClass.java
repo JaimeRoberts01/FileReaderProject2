@@ -26,9 +26,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private ReportFrame5 ReportFrame5;
 	private Processing Process;
 	private Processing2 Process2;
-	private DataPlotting DataPlotting;
-	private ScatterPlot ScatterPlot;
-	private LineChart LineChart;
 	@SuppressWarnings("unused")
 	private FileManager FileManager;
 	private MultipillarInput MultipillarInput;
@@ -406,7 +403,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 				if (conversion == 0 || youngsM == 0 || pillarD == 0 || pillarL == 0) {
 
-					System.out.println("Value contains zero");			
+					System.err.println("Value contains zero");			
 				}
 
 				else {
@@ -421,7 +418,10 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			}
 
 			catch (NumberFormatException NFE) {
-				System.out.println("Invalid input");
+				System.err.println("Invalid input");
+			}
+			catch (NullPointerException NPE) {
+				System.err.println("Invalid input");
 			}
 		}
 
@@ -431,10 +431,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		
 		if (e.getSource() == Button3) { 
 
-			DataPlotting = new DataPlotting (Process2);
-			//DataPlotting.statisticalBarGraph();
-			//DataPlotting.scatterGraph();
-			DataPlotting.lineGraph();
+			
 		}
 
 
@@ -443,13 +440,18 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		
 		if (e.getSource() == Button4) {
 
+			try {
+				
 			int ID = Integer.parseInt(TF6.getText().trim());
 			Process2 = new Processing2 ();
 			Process2.getPillars(Process.getNewData());
 			Process2.getFrames(Process.getNewData());
 			Process2.dataByFrame(Process.getNewData(), ID);
-			ScatterPlot = new ScatterPlot (Process2);
-			ScatterPlot.scatterPlotData(ID);
+			}
+			
+			catch (NullPointerException NPE) {
+				System.err.println("Invalid input");
+			}
 		}
 
 
@@ -468,21 +470,33 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		
 		if (e.getSource() == Button6) {
 
+			try {
+				
 			int ID = Integer.parseInt(TF7.getText().trim());
 			
-//			Object [] ID = new Object [1];
-//			
-//			for (int i = 0; i < ID.length; i++) {
-//				ID [i] = input;
-//			}
+			if (ID == 0) {
+
+				System.out.println("Value contains zero");			
+			}
 			
+			else {
+				
 			Process2 = new Processing2 ();
 			Process2.getPillars(Process.getNewData());
 			Process2.getFrames(Process.getNewData());
 			Process2.dataByPillar(Process.getNewData(), ID);
-			
-			LineChart = new LineChart (Process2);
-			LineChart.lineChartData(ID);
+		
+//			LineChart = new LineChart (Process2);
+//			LineChart.lineChartData(ID);
+			}
+			}
+
+			catch (NumberFormatException NFE) {
+				System.out.println("Invalid input");
+			}
+			catch (NullPointerException NPE) {
+				System.out.println("Invalid input");
+			}
 		}
 
 

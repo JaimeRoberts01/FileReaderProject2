@@ -42,6 +42,9 @@ public class Processing {
 		//		}
 		//		}
 
+		if (fileLine.isEmpty()) {
+			System.out.println("Something is wrong");
+		}
 
 		for (int i =0; i<fileLine.size(); i++) {
 
