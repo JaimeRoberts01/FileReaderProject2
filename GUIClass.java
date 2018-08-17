@@ -470,6 +470,12 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 			int ID = Integer.parseInt(TF7.getText().trim());
 			
+//			Object [] ID = new Object [1];
+//			
+//			for (int i = 0; i < ID.length; i++) {
+//				ID [i] = input;
+//			}
+			
 			Process2 = new Processing2 ();
 			Process2.getPillars(Process.getNewData());
 			Process2.getFrames(Process.getNewData());
@@ -515,10 +521,10 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		
 		if (e.getSource() == Button9) {
 
-			int ID = Integer.parseInt(TF7.getText().trim());
+//			int ID = Integer.parseInt(TF7.getText().trim());
 			//LineChart = new LineChart (Process2, Process);
-			LineChart = new LineChart (Process2);
-			LineChart.lineChartData(ID);
+//			LineChart = new LineChart (Process2);
+//			LineChart.lineChartData(ID);
 		}
 	}
 
