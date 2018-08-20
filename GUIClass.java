@@ -23,12 +23,14 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 	private ReportFrame ReportFrame;
 	private ReportFrame2 ReportFrame2;
-	private ReportFrame5 ReportFrame5;
+	//private ReportFrame5 ReportFrame5;
+	private Test Test;
 	private Processing Process;
 	private Processing2 Process2;
 	@SuppressWarnings("unused")
 	private FileManager FileManager;
 	private MultipillarInput MultipillarInput;
+	private LineChart2 LineChart2;
 
 	private ArrayList <String> fileLine;
 
@@ -431,6 +433,10 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		
 		if (e.getSource() == Button3) { 
 
+			Process2 = new Processing2 ();
+			Process2.getPillars(Process.getNewData());
+			Process2.allPillarsAllFrames(Process.getNewData());
+			
 			
 		}
 
@@ -460,7 +466,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		
 		if (e.getSource() == Button5) {
 
-			MultipillarInput = new MultipillarInput (Process);
+			MultipillarInput = new MultipillarInput (Process, Process2);
 			
 		}
 
@@ -505,9 +511,18 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		
 		if (e.getSource() == Button7) {
 
-			Process2.allPillarsAllFrames(Process.getNewData());
-			ReportFrame5 = new ReportFrame5 (Process2);
-			ReportFrame5.reportFormatter();
+//			Process2.allPillarsAllFrames(Process.getNewData());
+//			ReportFrame5 = new ReportFrame5 (Process2);
+//			ReportFrame5.reportFormatter();
+			
+			Process2 = new Processing2 ();
+			Process2.getPillars(Process.getNewData());
+			Process2.allFrames(Process.getNewData());
+			
+			Test = new Test (Process2);
+			Test.barChartData();
+			
+			
 		}
 
 
@@ -539,6 +554,13 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			//LineChart = new LineChart (Process2, Process);
 //			LineChart = new LineChart (Process2);
 //			LineChart.lineChartData(ID);
+			
+			Process2 = new Processing2 ();
+			Process2.getPillars(Process.getNewData());
+			Process2.allPillarsAllFrames(Process.getNewData());
+			
+			
+			
 		}
 	}
 

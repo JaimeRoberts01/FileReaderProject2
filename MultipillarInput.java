@@ -17,8 +17,8 @@ public class MultipillarInput extends JFrame implements ActionListener{
 	private Processing2 Process2;
 	private BarGraph BarGraph;
 	private LineChart2 LineChart2;
-	
-	
+
+
 
 
 
@@ -27,13 +27,14 @@ public class MultipillarInput extends JFrame implements ActionListener{
 	public void setValues(Object[] values) {this.values = values;}
 
 	public MultipillarInput () {
-		
+
 	}
 
 	/*Constructor*/
-	public MultipillarInput (Processing Process) {	
+	public MultipillarInput (Processing Process, Processing2 Process2) {	
 
 		this.Process = Process;
+		this.Process2 = Process2;
 		setDefaultCloseOperation (DISPOSE_ON_CLOSE);
 		setTitle ("Multipillar Data");
 		setLocation (1500, 675);
@@ -66,7 +67,7 @@ public class MultipillarInput extends JFrame implements ActionListener{
 		Button1.addActionListener (this);
 		Button1.setEnabled(true);
 		add (Button1);
-		
+
 		Button2 = new JButton("Cancel");
 		Button2.setPreferredSize(new Dimension(125,23));
 		Button2.setFont(new Font ("Consolas", Font.PLAIN, 14));
@@ -83,16 +84,8 @@ public class MultipillarInput extends JFrame implements ActionListener{
 
 		if (e.getSource() == Button1) {
 
-			try {
-				
 			this.dispose();
 			multipillarValues ();
-			}
-			
-			catch (NullPointerException NPE) {
-				System.err.print("Invalid pillar index. Check values: ");
-				for (Object o : values) {System.err.print(o + " ");}
-			}
 		}
 
 		if (e.getSource() == Button2) {
@@ -106,25 +99,24 @@ public class MultipillarInput extends JFrame implements ActionListener{
 		 values to a method in Processing2 for AVG and SD across all frames*/
 	public Object []  multipillarValues () {
 
-		values = displayFile.getText().split(", ");
-		
-		for (int i = 0; i< values.length; i++) {
-			
-			if (values [i] != Process2.getPillars(Process.getNewData())) {
-				values [i] = null;
+			if (displayFile.getText().trim().equals("")) {
+				
+				System.err.println("Ivalid input - no valid pillar indices");
+				return null;
 			}
-		}
-		
-		Process2 = new Processing2 (this);
-		Process2.getPillars(Process.getNewData());
-		Process2.multiPillar(Process.getNewData());
-		
-		BarGraph = new BarGraph (Process2);
-		BarGraph.barChartData();
-		
-		LineChart2 = new LineChart2 (Process2);
-		LineChart2.lineChartData(values);
-		
-		return values;
+			
+			values = displayFile.getText().trim().split(", ");
+
+			Process2 = new Processing2 (this);
+			Process2.getPillars(Process.getNewData());
+			Process2.multiPillar(Process.getNewData());
+
+			BarGraph = new BarGraph (Process2);
+			BarGraph.barChartData();
+
+			LineChart2 = new LineChart2 (Process2);
+			LineChart2.lineChartData(values);
+			
+			return values;
 	}
 }

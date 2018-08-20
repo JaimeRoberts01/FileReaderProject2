@@ -1,5 +1,6 @@
 import java.io.*;
 import java.awt.*;
+import java.util.*;
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -10,7 +11,7 @@ import org.jfree.chart.renderer.category.StatisticalBarRenderer;
 import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 
 
-public class BarGraph implements ActionListener {
+public class Test  implements ActionListener {
 
 
 	private CategoryPlot plot;
@@ -18,13 +19,14 @@ public class BarGraph implements ActionListener {
 	private Object [][] barChartArray;
 	private DefaultStatisticalCategoryDataset bar;
 
-	private JFrame frame;
-	private JButton Button1, Button2;
-
 	private Processing2 Process2;
 
+	private JButton Button1, Button2, Button3, Button4;
+	private JTextField TF1;
+	private JFrame frame;
 
-	public BarGraph (Processing2 Process2) {
+
+	public Test (Processing2 Process2) {
 		this.Process2 = Process2;
 	}
 
@@ -35,7 +37,7 @@ public class BarGraph implements ActionListener {
 
 	public void barChartData () { 
 
-		int rows = Process2.getValues().length;//Process2.getMultipillar().size();
+		int rows = Process2.getPillar().size();
 		int columns = 3;
 
 		barChartArray = new Object [rows][columns];
@@ -43,7 +45,7 @@ public class BarGraph implements ActionListener {
 		try {
 
 			for (int i = 0; i < rows; i++) {
-				barChartArray [i][0] = Process2.getValues() [i];//Process2.getMultipillar().get(i);
+				barChartArray [i][0] = Process2.getPillar().get(i);
 				barChartArray [i][1] = Process2.getMean().get(i);
 				barChartArray [i][2] = Process2.getStandard_deviation().get(i);
 			}
@@ -55,18 +57,19 @@ public class BarGraph implements ActionListener {
 			String cat = "";
 			String title = "";
 
+
 			for (int i = 0; i < rows; i++) { 
-				avg = (double) barChartArray [i][1];
-				stdv = (double) barChartArray [i][2];
+
+				avg = (double) barChartArray [i][1]; //newBarChartArray [i][1]; //barChartArray [i][1];
+				stdv = (double) barChartArray [i][2]; //newBarChartArray [i][2]; //barChartArray [i][2];
 				cat = "Pillar";
-				title = (String) barChartArray [i][0];//Integer.toString((int) barChartArray[i][0]); //(String) barChartArray [i][0];
+				title = Integer.toString((int) barChartArray[i][0]); //newBarChartArray[i][0]); //barChartArray[i][0]); //(String) barChartArray [i][0];
 
 				bar.add (avg, stdv, cat, title);
 			}
-
 		}
 		catch (NullPointerException NPE) {
-			System.err.println("Invalid input");
+			System.err.println("Invalid input - barchartdata");
 		}
 
 		createBarChart();
@@ -90,7 +93,7 @@ public class BarGraph implements ActionListener {
 		barChart.getTitle().setFont(new Font ("monspaced", Font.BOLD, 14));
 		barChart.removeLegend();
 		barChart.setBackgroundPaint(Color.white);
-
+		
 		plot.setOrientation(PlotOrientation.VERTICAL);
 		plot.setBackgroundPaint(Color.lightGray);
 		plot = barChart.getCategoryPlot(); 
@@ -128,23 +131,23 @@ public class BarGraph implements ActionListener {
 	/**This method lays out the graph frame*/
 
 	public void frameLayout () {
-
-		frame = new JFrame ();
+		
+		frame = new JFrame ("Test");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setTitle("Average Forces Data - Multipillar");
+		frame.setTitle("Average Forces Data - All Data");
 		frame.setSize(700, 500);
 		frame.setResizable(false);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-		frame.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
-
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        frame.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
+        
 		ChartPanel chartpanel = new ChartPanel(barChart);
 		chartpanel.setBackground(Color.white);
 		chartpanel.setPreferredSize(new Dimension(700,446));
 		chartpanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		chartpanel.setVisible(true);
 		frame.add(chartpanel);
-
+		
 		Button1 = new JButton ("Save");
 		Button1.setPreferredSize(new Dimension(125,23));
 		Button1.setOpaque(true);
@@ -153,8 +156,43 @@ public class BarGraph implements ActionListener {
 		Button1.setBorder(BorderFactory.createLineBorder(Color.black));
 		Button1.addActionListener (this);
 		frame.add(Button1);
-
-		Button2 = new JButton ("Close");
+		
+		Button4 = new JButton ("Close");
+		Button4.setPreferredSize(new Dimension(125,23));
+		Button4.setOpaque(true);
+		Button4.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+		Button4.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		Button4.setBorder(BorderFactory.createLineBorder(Color.black));
+		Button4.addActionListener (this);
+		frame.add(Button4);
+		
+		JSeparator S1 = new JSeparator(SwingConstants.VERTICAL);
+		S1.setPreferredSize(new Dimension(10,23));
+		S1.setBackground(Color.DARK_GRAY);
+		frame.add(S1);
+		
+		JLabel L1 = new JLabel ("Set filter value:");
+		L1.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		frame.add(L1);
+		
+		TF1 = new JTextField (5);
+		TF1.addActionListener (this);
+		TF1.setBorder(BorderFactory.createLineBorder(Color.black));
+		TF1.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
+		TF1.setPreferredSize(new Dimension(5,23));
+		TF1.setEnabled(true);
+		frame.add(TF1);	
+		
+		Button3 = new JButton ("Apply");
+		Button3.setPreferredSize(new Dimension(125,23));
+		Button3.setOpaque(true);
+		Button3.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+		Button3.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		Button3.setBorder(BorderFactory.createLineBorder(Color.black));
+		Button3.addActionListener (this);
+		frame.add(Button3);
+		
+		Button2 = new JButton ("Reset");
 		Button2.setPreferredSize(new Dimension(125,23));
 		Button2.setOpaque(true);
 		Button2.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
@@ -162,6 +200,60 @@ public class BarGraph implements ActionListener {
 		Button2.setBorder(BorderFactory.createLineBorder(Color.black));
 		Button2.addActionListener (this);
 		frame.add(Button2);
+	}
+
+	
+	public void filterValues () {
+
+		int rows = barChartArray.length;
+		int columns = 3;
+
+		Object [][] barChartArray = new Object [rows][columns];
+
+		int filterValue = 0;
+
+		if (TF1.getText().equals("")) {
+			filterValue = 0;
+		}
+		
+		else {
+			filterValue = Integer.parseInt(TF1.getText());
+		}
+
+		for (int i = 0; i < rows; i++) {
+
+			double forces = (double) this.barChartArray [i][1];
+
+			if (forces>filterValue) {
+
+				barChartArray [i] = this.barChartArray [i]; 
+				System.out.println("NLC: " + Arrays.toString(barChartArray[i]));
+			}
+
+		}
+		System.out.println("NLC L: " + barChartArray.length);
+
+		bar = new DefaultStatisticalCategoryDataset (); 
+
+		double avg = 0;
+		double stdv = 0.0;
+		String cat = "";
+		String title = "";
+
+
+		for (int i = 0; i < rows; i++) { 
+
+			if (barChartArray [i][1] != null) {
+				avg = (double) barChartArray [i][1]; 
+				stdv = (double) barChartArray [i][2]; 
+				cat = "Pillar";
+				title = Integer.toString((int) barChartArray[i][0]); 
+
+				bar.add (avg, stdv, cat, title);
+			}
+		}
+
+		plot.setDataset(bar);
 	}
 
 
@@ -210,7 +302,7 @@ public class BarGraph implements ActionListener {
 			ChartUtilities.saveChartAsJPEG(new File(fileName), barChart, 1200, 800);
 		} 
 
-		catch (Exception e) {	
+		catch (Exception e) {
 
 			System.out.println("Problem occurred creating chart.jska " + e.getMessage());
 		}
@@ -224,13 +316,21 @@ public class BarGraph implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-
-		if (e.getSource() == Button1) {
-			this.fileChooser();
+		if (e.getSource()== Button1) {
+			fileChooser();
 		}
-
 		if (e.getSource() == Button2) {
-			frame.dispose();
+
+			TF1.setText("");
+			filterValues ();
+
+		}
+		if (e.getSource() == Button3) {
+			filterValues ();
+		}
+		if (e.getSource() == Button4) {
+			frame.dispose ();
 		}
 	}	
+
 }

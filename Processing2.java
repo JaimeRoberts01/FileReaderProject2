@@ -2,22 +2,26 @@ import java.util.*;
 
 
 public class Processing2 {
-
+	
 
 	/*Instance variables*/
 
 	private ArrayList <Double> mean, standard_deviation; 
 	private ArrayList <Object> dataByPillar, outputDataByPillar;
 	private ArrayList <Object> dataByFrame, outputDataByFrame;
-	private ArrayList <Object> pillarFrame;
+	private ArrayList <Object> pillarFrame, allFrames;
 	private ArrayList <Object> multipillar, outputMultipillar;
+	private Object [] values; //, values2;
 	private ArrayList <String> dataByPillarFrame;
 	private ArrayList <Integer> pillar, frame;	
 
 	private ReportFrame3 ReportFrame3;
 	private MultipillarInput MultipillarInput;
 	private LineChart LineChart;
+	private LineChart2 LineChart2;
+	private LineChart3 LineChart3;
 	private ScatterPlot ScatterPlot;
+	private ScatterPlot2 ScatterPlot2;
 
 
 	/**Default constructor*/
@@ -51,7 +55,14 @@ public class Processing2 {
 	public void setMultipillar(ArrayList<Object> multipillar) {this.multipillar = multipillar;}
 	public ArrayList<Object> getOutputMultipillar() {return outputMultipillar;}
 	public void setOutputMultipillar(ArrayList<Object> outputMultipillar) {this.outputMultipillar = outputMultipillar;}
-
+	public Object[] getValues() {return values;}
+	public void setValues(Object[] values) {this.values = values;}
+//	public Object[] getValues2() {return values2;}
+//	public void setValues2(Object[] values2) {this.values = values2;}
+	public ArrayList<Object> getAllFrames() {return allFrames;}
+	public void setAllFrames(ArrayList<Object> allFrames) {this.allFrames = allFrames;}
+	
+	
 
 	/**This method creates a list of the pillars in the newData array. 
 	 * It is used for initialising the first pillar value and sets up 
@@ -112,6 +123,7 @@ public class Processing2 {
 		mean = new ArrayList<Double> ();
 		standard_deviation = new ArrayList<Double> ();
 
+		allFrames = new ArrayList <Object> ();
 		ArrayList <Double> pico = new ArrayList <Double> ();
 
 		for (int j = 0; j < pillar.size(); j++) {
@@ -126,6 +138,8 @@ public class Processing2 {
 				if (pillarIndex == pillarArray) {
 
 					pico.add ((double) newData [k][8]);
+//					Object forces = newData [k][0] + "," + newData [k][1] + "," + newData [k][8];
+//					allFrames.add(forces);
 				}
 			}
 
@@ -133,9 +147,19 @@ public class Processing2 {
 			statistics (pico);
 			pico.clear();
 		}
-
-		for (double m : mean) {System.out.println("mean: " + m);}
-		for (double s : standard_deviation) {System.out.println("stndev: " + s);}
+		
+		Object [] values = new Object [pillar.size()];
+		
+		for (int i = 0; i < values.length; i++) {
+			
+			values [i] = pillar.get(i);
+		}
+		
+		for (double m : mean) {System.out.println("mean P2: " + m);}
+		for (double s : standard_deviation) {System.out.println("stndev P2: " + s);}
+		
+		ScatterPlot2 = new ScatterPlot2 (this);
+		ScatterPlot2.scatterPlotData(values);
 	}	
 
 
@@ -164,10 +188,10 @@ public class Processing2 {
 		}
 
 		for (int j =0; j< dataByFrame.size(); j++) {System.out.println("byFrame: " + dataByFrame.get(j));}
-		
+
 		ScatterPlot = new ScatterPlot (this);
 		ScatterPlot.scatterPlotData(ID);
-		
+
 		stringByFrame (ID);
 		return dataByFrame;
 	}
@@ -185,9 +209,8 @@ public class Processing2 {
 		dataByPillar = new ArrayList <Object> ();
 		pillarFrame = new ArrayList <Object> ();
 		outputDataByPillar = new ArrayList <Object> ();
-		
-		ArrayList <Double> pico = new ArrayList <Double> ();
 
+		ArrayList <Double> pico = new ArrayList <Double> ();
 
 		for (int i = 0; i< newData.length; i++) {
 
@@ -207,12 +230,12 @@ public class Processing2 {
 		statistics (pico);
 
 		if (pico.isEmpty()) {
-			
+
 			return dataByPillar;
 		}
-		
+
 		else {
-			
+
 			stringByPillar (ID);
 			pico.clear ();
 		}
@@ -230,45 +253,42 @@ public class Processing2 {
 
 	public void multiPillar (Object [][] newData) {
 
+
 		mean = new ArrayList<Double> ();
 		standard_deviation = new ArrayList<Double> ();
 
 		ArrayList <Double> pico = new ArrayList <Double> ();
-		multipillar = new ArrayList <Object> ();
+
 		outputMultipillar = new ArrayList <Object> ();
 
-		int index = MultipillarInput.getValues().length;
-
-		Object [] values = new String [index];
+		values = new String [MultipillarInput.getValues().length];
 
 		for (int i =0; i< MultipillarInput.getValues().length; i++) {
 			values = MultipillarInput.getValues();
 		}
 
-		int value = 0;
-
 		for (int i = 0; i < values.length; i++) {
 
-			value = Integer.parseInt((String)values [i]);
-			multipillar.add(value);
+			int value = Integer.parseInt((String)values [i]);
 
 			for (int j =0; j< newData.length; j++) {
 
 				if (value == Integer.parseInt ((String) newData [j][1])) {
 
 					pico.add((Double) newData [j][8]);
-					Object forces = newData [j][0] + "," + newData [j][1] + "," + newData [j][8];
-					outputMultipillar.add(forces);
+					Object output = newData [j][0] + "," + newData [j][1] + "," + newData [j][8];
+					outputMultipillar.add(output); 
 				}
 			}
-
+			
 			for (double d: pico) {System.out.println("pico2 : " + d);}
+			
 			statistics(pico);
 			pico.clear();
 		}
 
 		StringMultipillar ();
-
+		
 		for (double m : mean) {System.out.println("mean: " + m);}
 		for (double s : standard_deviation) {System.out.println("stndev: " + s);}
 	}
@@ -278,11 +298,11 @@ public class Processing2 {
 
 	public void statistics (ArrayList<Double> pico) {
 
-		if (pico.isEmpty()) {
-
-			System.out.println("Invalid pillar index");
-			return;
-		}
+//		if (pico.isEmpty()) { // If this goes in then I get out-of-bounds errors for avg and sd in the strings
+//
+//			System.out.println("Invalid pillar index - pico");
+//			return;
+//		}
 
 		double average = 0.0;
 		double sd = 0.0;
@@ -329,12 +349,36 @@ public class Processing2 {
 				}
 			}
 		}
+		
+		Object [] values = new Object [pillar.size()];
+		
+		for (int i = 0; i < values.length; i++) {
+			
+			values [i] = pillar.get(i);
+		}
 
+		LineChart3 = new LineChart3 (this);
+		LineChart3.lineChartData(values);
+//		LineChart2 = new LineChart2 (this);
+//		LineChart2.lineChartData2(values);
+		
 		for (Object O : dataByPillarFrame) {System.out.println("dataByPillarFrame: " + O);}
 		return dataByPillarFrame;
 	}
 
 
+	
+//	values2 = new Object [pillar.size()];
+//	
+//	for (int i = 0; i < values2.length; i++) {
+//		
+//		values2 [i] = pillar.get(i);
+//	}
+//	
+//	ScatterPlot2 = new ScatterPlot2 (this);
+//	ScatterPlot2.scatterPlotData(values2);
+	
+	
 	// ---------- This is all output-related methods. Consider removing to an output class to tidy Processing2 ---------- //
 
 
@@ -460,9 +504,6 @@ public class Processing2 {
 
 	public String StringMultipillar () {
 
-		//		String [] values = MultipillarInput.getValues();
-		Object [] values = MultipillarInput.getValues();
-
 		StringBuilder SB = new StringBuilder();
 
 		String header_upper = (String.format("%9s %17s %13s", "Pillar", "Average Force", "Standard")+"\n");
@@ -475,7 +516,7 @@ public class Processing2 {
 
 		String body = "";
 
-		for (int i=0; i<multipillar.size(); i++) {
+		for (int i=0; i<values.length; i++) {
 			body += (String.format("%9s", values [i]) + "\t" + String.format("%9.8s", mean.get(i)) + "\t" + String.format("%9.8s", standard_deviation.get(i)) + "\n");
 		}	
 
@@ -497,12 +538,13 @@ public class Processing2 {
 	public String outputMultipillar () {
 
 		//		String [] values = MultipillarInput.getValues();
-		Object [] values = MultipillarInput.getValues();
+		//Object [] values = MultipillarInput.getValues();
 
 		StringBuilder SB = new StringBuilder();
 		SB.append("Pillar Index" + "," + "AVG Force (pN)" + "," + "SD" + "\n");
 
-		for (int i=0; i<multipillar.size(); i++) {
+		//for (int i=0; i<multipillar.size(); i++) {
+		for (int i=0; i<values.length; i++) {
 			SB.append(values [i] + "," + mean.get(i) + "," + standard_deviation.get(i) + "\n");
 		}	
 

@@ -14,17 +14,20 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
 public class LineChart implements ActionListener {
 
-	
+
 	/**Instance Variables*/
 
 	private Processing2 Process2;
 	private JFreeChart lineChart;
 	private XYPlot plot;
 	private Object [][] lineChartArray;
+	private JFrame frame;
+	private JButton Button1, Button2;
 
-	
+
+
 	/**Constructor*/
-	
+
 	public LineChart (Processing2 Process2) {
 		this.Process2 = Process2;
 	}
@@ -46,21 +49,21 @@ public class LineChart implements ActionListener {
 			lineChartArray [i] = (Process2.getOutputDataByPillar().get(i)).toString().split(",");
 			System.out.println(Arrays.toString(lineChartArray[i]));
 		}	
-		
+
 		createLineChart (ID);
 	}
-	
-	
+
+
 	/**This method creates the line graph. It uses the ID to run through the array in lineGraphData
 	 * and pull out the data for a particular pillar. This is then plotted on a formatted graph plot
 	 * that can be saved to file.
 	 */	
 
 	public void createLineChart (int ID) {
-		
+
 		XYSeriesCollection dataset = new XYSeriesCollection ();
 		XYSeries series = new XYSeries ("Pillars");
-		
+
 		double y = 0.0;
 		int x = 0;
 
@@ -75,10 +78,11 @@ public class LineChart implements ActionListener {
 				series.add(x, y);
 			}
 		}
-		
+
 		dataset.addSeries(series);
-		
-		lineChart = ChartFactory.createXYLineChart("Pillar " + ID + ": Forces over time", "Frame ID", "Force (pN)", dataset);
+
+		lineChart = ChartFactory.createXYLineChart("Forces Over Time: Pillar " + ID, "Frame ID", "Force (pN)", dataset);
+		lineChart.getTitle().setFont(new Font ("monspaced", Font.BOLD, 14));
 		plot = (XYPlot) lineChart.getPlot();
 		lineChart.removeLegend();
 
@@ -98,23 +102,38 @@ public class LineChart implements ActionListener {
 		axisX.setAxisLineStroke(new BasicStroke(1.2f));
 		axisX.setLowerMargin(0.01);
 		axisX.setUpperMargin(0.01);
+		axisX.setAutoTickUnitSelection(true);
 
 		XYLineAndShapeRenderer render = (XYLineAndShapeRenderer) plot.getRenderer();
-		
+
 		render.setSeriesPaint(0, new Color (5,5,140));
 		render.setSeriesOutlineStroke(0, new BasicStroke(1));
 
 		frameLayout (ID);
 	}
 
-	
+
 	/**This method lays out the graph frame*/
-	
+
 	public void frameLayout (int ID) {
 
-		ChartFrame frame = new ChartFrame("Pillar: " + ID, lineChart);
+		frame = new JFrame ();
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setTitle("Pillar: " + ID);
+		frame.setSize(700, 500);
+		frame.setResizable(false);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+		frame.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
 
-		JButton Button1 = new JButton ("Save");
+		ChartPanel chartpanel = new ChartPanel(lineChart);
+		chartpanel.setBackground(Color.white);
+		chartpanel.setPreferredSize(new Dimension(700,446));
+		chartpanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		chartpanel.setVisible(true);
+		frame.add(chartpanel);
+
+		Button1 = new JButton ("Save");
 		Button1.setPreferredSize(new Dimension(125,23));
 		Button1.setOpaque(true);
 		Button1.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
@@ -122,16 +141,15 @@ public class LineChart implements ActionListener {
 		Button1.setBorder(BorderFactory.createLineBorder(Color.black));
 		Button1.addActionListener (this);
 		frame.add(Button1);
-			
-		SpringLayout layout = new SpringLayout ();
-		frame.setLayout(layout);
-		SpringLayout.Constraints button1Cons = layout.getConstraints(Button1);
-		button1Cons.setX(Spring.constant(5));
-		button1Cons.setY(Spring.constant(5));
 
-		frame.pack();
-		frame.setVisible(true);
-		frame.setLocationRelativeTo(null);
+		Button2 = new JButton ("Close");
+		Button2.setPreferredSize(new Dimension(125,23));
+		Button2.setOpaque(true);
+		Button2.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+		Button2.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		Button2.setBorder(BorderFactory.createLineBorder(Color.black));
+		Button2.addActionListener (this);
+		frame.add(Button2);
 	}
 
 
@@ -190,10 +208,16 @@ public class LineChart implements ActionListener {
 
 
 	/**ActionPerformed method for the save button*/
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		this.fileChooser();
+		if (e.getSource() == Button1) {
+			this.fileChooser();
+		}
+		
+		if (e.getSource() == Button2) {
+			frame.dispose();
+		}
 	}	
 }
