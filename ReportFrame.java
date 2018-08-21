@@ -15,9 +15,10 @@ public class ReportFrame extends JFrame implements ActionListener {
 	private JButton Button1, Button2;
 
 	private Processing Process;
+	private OutputData OutputData;
 	private FileManager FileManager;
 
-
+	
 	/**Constructor*/
 
 	public ReportFrame (Processing Process) {	
@@ -73,9 +74,9 @@ public class ReportFrame extends JFrame implements ActionListener {
 	 * is a tidier version of the actual output data and is for viewing purposes only.
 	 */
 
-	public void reportFormatter () {
+	public void reportFormatter (String output) {
 
-		displayFile.append (Process.outputString());	
+		displayFile.append (output);	
 	}
 
 
@@ -123,7 +124,7 @@ public class ReportFrame extends JFrame implements ActionListener {
 	public void fileWriter (String fileName) {
 
 		String identifier = "Data";
-		FileManager = new FileManager (Process, null);
+		FileManager = new FileManager (Process, null, OutputData);
 		FileManager.fileWriter(identifier, fileName);	
 	}
 

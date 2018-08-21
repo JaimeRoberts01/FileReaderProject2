@@ -7,6 +7,7 @@ public class Processing {
 	
 	private Object [][] data, newData;
 	private double [] nanometers, picoNewtons;
+	private OutputData OutputData;
 
 
 	/**Constructor*/
@@ -76,7 +77,7 @@ public class Processing {
 	 * @return an array of deflection values in nanometres.
 	 */
 	
-	public double [] nanoMeters (int conversion) {
+	public double [] nanoMeters (int conversion) {	
 	
 		int columns = data.length;
 		nanometers = new double [columns];
@@ -142,56 +143,58 @@ public class Processing {
 			//	System.out.println("Here is newData: " + Arrays.toString (newData[i]));
 		}
 
+		OutputData = new OutputData (null, this);
+		OutputData.outputString();
 		return newData;
 	}
 
 
-	/**This method builds a string for the ReportFrame.*/ 
-	
-	public String outputString () { 
-
-		StringBuilder SB = new StringBuilder();
-		
-		String header_upper = (String.format("%s %11s %11s %15s %19s %16s %13s", "Frame", "Pillar", "dx", "dy", "Deflection", "Deflection", "Force")+"\n");
-		String header_lower = (String.format("%s %10s %11s %15s %17s %16s %15s", "Index", "Index", " ", " ", "(px)", "(nm)", "(pN)")+"\n");
-		String bar = "--------------------------------------------------------------------------------------------------";
-		
-		SB.append(header_upper);
-		SB.append(header_lower);
-		SB.append (bar+ "\n\n");
-		
-		for (int i = 0; i <newData.length; i++) {
-
-			SB.append(String.format("%3s",newData[i][0]) + "\t" + String.format("%8.4s", newData [i][1])  + "\t"  + String.format("%8.7s", newData [i][4]) + "\t" 
-			+ String.format("%8.7s", newData[i][5]) + "\t"  + String.format("%8.7s", newData [i][6]) + "\t" + String.format("%9.7s", newData [i][7]) 
-			+ "\t" + String.format("%9.8s", newData [i][8]) + "\n");
-		}
-
-		String output = SB.toString();	
-		return output;
-	}
-
-
-	/**This method builds a string for the output file, which is another csv file.*/
-	
-	public String outputFile () {
-
-		String header = ("Frame Index" + "," + "Pillar Index" + "," + "x" + "," + "y" + ","  + "dx" + ","
-				+ "dy" + "," + "Deflection (px)" + "," + "Deflection (nm)"+ "," + "Forces (pN)" + ",");
-		String body = "";
-
-		for (int i =0; i<newData.length;i++) {
-
-			body += Arrays.toString(newData[i]) +"\n";
-		}
-
-		StringBuilder SB = new StringBuilder();
-		SB.append(header + "\n");
-		SB.append(body);
-		String outputFile = SB.toString();
-		outputFile = outputFile.replace("[", "");
-		outputFile = outputFile.replace("]", "");
-
-		return outputFile;
-	}
+//	/**This method builds a string for the ReportFrame.*/ 
+//	
+//	public String outputString () { 
+//
+//		StringBuilder SB = new StringBuilder();
+//		
+//		String header_upper = (String.format("%s %11s %11s %15s %19s %16s %13s", "Frame", "Pillar", "dx", "dy", "Deflection", "Deflection", "Force")+"\n");
+//		String header_lower = (String.format("%s %10s %11s %15s %17s %16s %15s", "Index", "Index", " ", " ", "(px)", "(nm)", "(pN)")+"\n");
+//		String bar = "--------------------------------------------------------------------------------------------------";
+//		
+//		SB.append(header_upper);
+//		SB.append(header_lower);
+//		SB.append (bar+ "\n\n");
+//		
+//		for (int i = 0; i <newData.length; i++) {
+//
+//			SB.append(String.format("%3s",newData[i][0]) + "\t" + String.format("%8.4s", newData [i][1])  + "\t"  + String.format("%8.7s", newData [i][4]) + "\t" 
+//			+ String.format("%8.7s", newData[i][5]) + "\t"  + String.format("%8.7s", newData [i][6]) + "\t" + String.format("%9.7s", newData [i][7]) 
+//			+ "\t" + String.format("%9.8s", newData [i][8]) + "\n");
+//		}
+//
+//		String output = SB.toString();	
+//		return output;
+//	}
+//
+//
+//	/**This method builds a string for the output file, which is another csv file.*/
+//	
+//	public String outputFile () {
+//
+//		String header = ("Frame Index" + "," + "Pillar Index" + "," + "x" + "," + "y" + ","  + "dx" + ","
+//				+ "dy" + "," + "Deflection (px)" + "," + "Deflection (nm)"+ "," + "Forces (pN)" + ",");
+//		String body = "";
+//
+//		for (int i =0; i<newData.length;i++) {
+//
+//			body += Arrays.toString(newData[i]) +"\n";
+//		}
+//
+//		StringBuilder SB = new StringBuilder();
+//		SB.append(header + "\n");
+//		SB.append(body);
+//		String outputFile = SB.toString();
+//		outputFile = outputFile.replace("[", "");
+//		outputFile = outputFile.replace("]", "");
+//
+//		return outputFile;
+//	}
 }

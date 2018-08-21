@@ -22,6 +22,7 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 	
 	private FileManager FileManager;
 	private Processing2 Process2;
+	private OutputData OutputData;
 
 
 	/**Constructor*/
@@ -128,7 +129,7 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 			}
 		}
 	}
-
+	
 
 	/**The method send the fileName to the the FileWriter in the FileManager class. The 
 	 * FileWriter deals with a number of output files so an identifier is passed to the
@@ -138,7 +139,7 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 	public void fileWriter (String fileName) {
 
 		
-		FileManager = new FileManager (null, Process2);
+		FileManager = new FileManager (null, Process2, OutputData);
 		FileManager.fileWriter(identifier, fileName);	
 	}
 

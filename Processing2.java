@@ -15,11 +15,10 @@ public class Processing2 {
 	private ArrayList <String> dataByPillarFrame;
 	private ArrayList <Integer> pillar, frame;	
 
-	private ReportFrame2 ReportFrame2;
 	private MultipillarInput MultipillarInput;
 	private LineChart LineChart;
 	private ScatterPlot ScatterPlot;
-	private BarGraph BarGraph;
+	private OutputData OutputData;
 	
 
 	/**Default constructor*/
@@ -48,6 +47,10 @@ public class Processing2 {
 	public Object[] getValues() {return values;}
 	public ArrayList<Object> getAllFrames() {return allFrames;}
 	public ArrayList<Integer> getFrame() {return frame;}
+	public ArrayList<Object> getDataByPillar() {return dataByPillar;}
+	public ArrayList<Object> getDataByFrame() {return dataByFrame;}
+	public ArrayList<Object> getPillarFrame() {return pillarFrame;}
+
 
 
 	/**This method creates a list of the pillars in the newData array. 
@@ -138,7 +141,8 @@ public class Processing2 {
 //		BarGraph = new BarGraph (this); 
 //		BarGraph.barChartData_AllData();
 		
-		stringStatistics();
+		OutputData = new OutputData (this, null);
+		OutputData.stringStatistics();
 	}	
 
 
@@ -169,7 +173,8 @@ public class Processing2 {
 		ScatterPlot = new ScatterPlot (this);
 		ScatterPlot.scatterPlotData_byFrame (ID);
 
-		stringByFrame (ID);
+		OutputData = new OutputData (this, null);
+		OutputData.stringByFrame (ID);
 		return dataByFrame;
 	}
 
@@ -212,7 +217,8 @@ public class Processing2 {
 
 		else {
 
-			stringByPillar (ID);
+			OutputData = new OutputData (this, null);
+			OutputData.stringByPillar (ID);
 			pico.clear ();
 		}
 		
@@ -263,12 +269,13 @@ public class Processing2 {
 			pico.clear();
 		}
 
-		StringMultipillar ();
+		OutputData = new OutputData (this, null);
+		OutputData.StringMultipillar ();
 		
 		for (double m : mean) {System.out.println("mean: " + m);}
 		for (double s : standard_deviation) {System.out.println("stndev: " + s);}
 	}
-
+	
 
 	/**This method calculates the average and standard deviation of the picoNewton values in the data.*/
 
@@ -331,229 +338,5 @@ public class Processing2 {
 		
 		for (Object O : dataByPillarFrame) {System.out.println("dataByPillarFrame: " + O);}
 		return dataByPillarFrame;
-	}
-	
-	
-	// ---------- This is all output-related methods. Consider removing to an output class to tidy Processing2 ---------- //
-
-
-	/**This method creates a String output for the dataByFrame method and displays
-	 * it it in a ReportFrame. Note, it is a tidier version of the output file used 
-	 * for viewing the data only.
-	 */
-
-	public String stringByFrame (int ID) { 
-
-		StringBuilder SB = new StringBuilder();
-		String header_upper = (String.format("%9s %15s %15s", "Frame", "Pillar", "Force")+"\n");
-		String header_lower = (String.format("%9s %15s %15s", "Index", "Index", "(pN)")+"\n");
-		String bar = "---------------------------------------------";
-		SB.append(header_upper);
-		SB.append(header_lower);
-		SB.append (bar+ "\n\n");
-		String body = "";
-
-		for (int i=0; i<dataByFrame.size(); i++) {
-
-			body += (String.format("%7s", ID) + "\t" + String.format("%17.8s", pillar.get(i)) + "\t" + String.format("%11.8s", dataByFrame.get(i)) + "\n");
-		}
-
-		SB.append(body);
-
-		String output = SB.toString();
-		System.out.println("output: " + "\n" + output);
-		String identifier = "Frame Data";
-		System.out.println("identifier : " + "\n" + identifier);
-		ReportFrame2 = new ReportFrame2 (this, identifier, ID);
-		ReportFrame2.reportFormatter(output);
-		return output;
-	}
-
-
-	/**This method creates a String output for the dataByFrame method and is 
-	 * called by the FileWriter. It is formatted as csv compatible.
-	 */
-
-	public String outputByFrame () {
-
-		StringBuilder SB = new StringBuilder();
-		SB.append("Frame Index" + "," + "Pillar Index" + "," + "Force (pN)" + "\n");
-
-		for (int i=0; i<dataByFrame.size(); i++) {
-			SB.append(outputDataByFrame.get(i) + "\n");
-		}
-
-		String output = SB.toString();
-		System.out.println("output: " + "\n" + output);
-		return output;
-	}
-
-
-	/**This method creates a string from the dataByPillar method and displays it 
-	 * in a ReportFrame. Note, it is a tidier version of the output file used for 
-	 * viewing the data only.
-	 */
-
-	public String stringByPillar (int ID) {
-
-		StringBuilder SB = new StringBuilder();
-		String header_upper = (String.format("%9s %15s %15s", "Frame", "Pillar", "Force")+"\n");
-		String header_lower = (String.format("%9s %15s %15s", "Index", "Index", "(pN)")+"\n");
-		String bar = "---------------------------------------------";
-		SB.append(header_upper);
-		SB.append(header_lower);
-		SB.append (bar+ "\n\n");
-
-		String body = "";
-
-		for (int i=0; i<dataByPillar.size(); i++) {
-
-			body += (String.format("%7s", pillarFrame.get(i)) + "\t" + String.format("%17.8s", ID) + "\t" + String.format("%11.8s", dataByPillar.get(i)) + "\n");
-		}
-
-		SB.append(body);
-		SB.append("\n");
-
-		for (int j=0; j<mean.size(); j++) {
-			SB.append("Average Force (pN): " + String.format("%1.8s", mean.get(j)) + "\n");
-			SB.append("Standard deviation: " + String.format("%1.8s",standard_deviation.get(j)) + "\n");
-		}
-
-		String output = SB.toString();
-		String identifier = "Pillar Data";
-		ReportFrame2 = new ReportFrame2 (this, identifier, ID);
-		ReportFrame2.reportFormatter(output);
-
-		return output;
-	}
-
-
-	/**This method creates a String output for the dataByPillar method and is 
-	 * called by the FileWriter. It is formatted as csv compatible.
-	 */
-
-	public String outputByPillar () {
-
-		StringBuilder SB = new StringBuilder();
-		SB.append("Frame Index" + "," + "Pillar Index" + "," + "Force (pN)" + "\n");
-
-		for (int i=0; i<dataByPillar.size(); i++) {
-			SB.append(outputDataByPillar.get(i) + "\n");
-		}
-
-		SB.append("\n");
-
-		for (int j=0; j<mean.size(); j++) {
-			SB.append("AVG Force (pN): " + "," + " ," + mean.get(j) + "\n");
-			SB.append("SD: " + "," + " ," + standard_deviation.get(j) + "\n");
-		}
-
-		String output = SB.toString();
-		return output;
-	}
-
-
-	/**This method builds a String for the multipillar method and displays it in a ReportFrame. 
-	 * Note, it is a tidier version of the output file used for viewing the data only.
-	 */
-
-	public String StringMultipillar () {
-
-		StringBuilder SB = new StringBuilder();
-
-		String header_upper = (String.format("%9s %17s %13s", "Pillar", "Average Force", "Standard")+"\n");
-		String header_lower = (String.format("%9s %13s %18s", "Index", "(pN)", "Deviation")+"\n");
-		String bar = "---------------------------------------------";
-
-		SB.append(header_upper);
-		SB.append(header_lower);
-		SB.append (bar+ "\n\n");
-
-		String body = "";
-
-		for (int i=0; i<values.length; i++) {
-			body += (String.format("%9s", values [i]) + "\t" + String.format("%9.8s", mean.get(i)) + "\t" + String.format("%9.8s", standard_deviation.get(i)) + "\n");
-		}	
-
-		SB.append(body);
-		String output = SB.toString();
-
-		String identifier = "Multipillar Data";
-		ReportFrame2 = new ReportFrame2 (this, identifier, 0);
-		ReportFrame2.reportFormatter(output);
-
-		return output;
-	}
-
-
-	/**This method creates a String output for the multipillar method and is called
-	 * by the FileWriter. It is formatted as csv compatible.
-	 */
-
-	public String outputMultipillar () {
-
-		StringBuilder SB = new StringBuilder();
-		SB.append("Pillar Index" + "," + "AVG Force (pN)" + "," + "SD" + "\n");
-
-		for (int i=0; i<values.length; i++) {
-			SB.append(values [i] + "," + mean.get(i) + "," + standard_deviation.get(i) + "\n");
-		}	
-
-		String output = SB.toString();
-		return output;
-	}
-
-
-	/**This method builds a String output for the average and standard deviation and displays it in 
-	 * a ReportFrame. Note, it is a tidier version of the output file used for viewing the data only.
-	 */
-
-	public String stringStatistics () { 
-
-		StringBuilder SB = new StringBuilder();
-
-		String header_upper = (String.format("%9s %17s %13s", "Pillar", "Average Force", "Standard")+"\n");
-		String header_lower = (String.format("%9s %13s %18s", "Index", "(pN)", "Deviation")+"\n");
-		String bar = "---------------------------------------------";
-
-		SB.append(header_upper);
-		SB.append(header_lower);
-		SB.append (bar+ "\n\n");
-
-		for (int i = 0; i <pillar.size(); i++) {
-
-			SB.append(String.format("%9s",pillar.get(i)) + "\t" + String.format("%9.8s",mean.get(i)) + "\t" 
-					+ String.format("%9.8s",standard_deviation.get(i)) + "\n");
-		}
-
-		String output = SB.toString();
-		
-		String identifier = "Statistical Data";
-		ReportFrame2 = new ReportFrame2 (this, identifier, 0);
-		ReportFrame2.reportFormatter(output);
-		
-		return output;
-	}
-
-
-	/**This method creates a String output file for the average and standard deviation and
-	 * is called by the FileWriter. It is formatted as csv compatible. 
-	 */
-
-	public String outputStatistics () {
-
-		String header = ("Pillar Index" + "," + "Average Force (pN)" + "," + "Stndev" + ",");
-		String body = "";
-
-		for (int i =0; i<pillar.size();i++) {
-
-			body += (pillar.get(i) + "," + mean.get(i) + "," + standard_deviation.get(i) + "\n");
-		}
-
-		StringBuilder SB = new StringBuilder();
-		SB.append(header + "\n");
-		SB.append(body);
-		String outputFile = SB.toString();
-		return outputFile;
 	}
 }

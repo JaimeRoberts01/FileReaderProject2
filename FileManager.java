@@ -10,6 +10,7 @@ public class FileManager {
 	private Processing Process;
 	private Processing2 Process2;
 	private GUIClass GUI;
+	private OutputData OutputData;
 	
 	private ArrayList <String> fileLine;
 	private String fileName;
@@ -20,9 +21,10 @@ public class FileManager {
 	}
 	
 	/*Constructor*/
-	public FileManager(Processing Process, Processing2 Process2) {
+	public FileManager(Processing Process, Processing2 Process2, OutputData OutputData) {
 		this.Process = Process;
 		this.Process2 = Process2;
+		this.OutputData = OutputData;
 	}
 
 	public String getFileName() {
@@ -114,6 +116,7 @@ public class FileManager {
 	public void fileWriter (String identifier, String fileName) {
 
 		FileWriter writer = null;
+		OutputData = new OutputData (Process2, Process);
 
 		try {
 
@@ -122,23 +125,24 @@ public class FileManager {
 				writer = new FileWriter (fileName);
 				
 				if (identifier.equals("Data")) {
-					writer.write(Process.outputFile());
+					writer.write(OutputData.outputFile());
 				}
 				
 				else if (identifier.equals("Statistical Data")) {
-					writer.write(Process2.outputStatistics());
+					writer.write(OutputData.outputStatistics());
 				}
 				
 				else if (identifier.equals("Frame Data")) {
-					writer.write(Process2.outputByFrame());
+					writer.write(OutputData.outputByFrame());
 				}
 
 				else if (identifier.equals("Pillar Data")) {
-					writer.write(Process2.outputByPillar());
+					
+					writer.write(OutputData.outputByPillar());
 				}
 
 				else if (identifier.equals("Multipillar Data")) {
-					writer.write(Process2.outputMultipillar());
+					writer.write(OutputData.outputMultipillar());
 				}
 			}
 

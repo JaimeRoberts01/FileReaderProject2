@@ -18,6 +18,7 @@ public class ReportFrame5 extends JFrame implements ActionListener {
 	private JFileChooser JFC;
 
 	private Processing2 Process2;
+	private OutputData OutputData;
 
 
 	/*Constructor*/
@@ -128,7 +129,7 @@ public class ReportFrame5 extends JFrame implements ActionListener {
 			try {
 				file = fileName;
 				writer = new FileWriter (file);
-				writer.write(Process2.outputMultipillar());
+				writer.write(OutputData.outputMultipillar());
 			}
 
 			finally {

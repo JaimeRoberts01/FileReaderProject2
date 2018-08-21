@@ -20,12 +20,11 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private JComboBox <String> JCB1;
 	private JButton Button1, Button2, Button3, Button4, Button5, Button6, Button7, Button8;
 		
-	private ReportFrame ReportFrame;
-	//private ReportFrame2 ReportFrame2;
 	private Processing Process;
 	private Processing2 Process2;
 	@SuppressWarnings("unused")
 	private FileManager FileManager;
+	ReportFrame5 ReportFrame5;
 	@SuppressWarnings("unused")
 	private MultipillarInput MultipillarInput;
 	
@@ -369,7 +368,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			reader.close();	
 			bufferedReader.close();
 		}
-		
+			
 		catch (IOException IOE) {
 
 			JOptionPane.showMessageDialog (null, "FILE NOT FOUND", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -429,9 +428,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 					Process.nanoMeters(conversion);
 					Process.forces(youngsM, pillarD, pillarL);
 					Process.newDataArray();
-
-					ReportFrame = new ReportFrame (Process);	
-					ReportFrame.reportFormatter();
 				}
 			}
 
@@ -496,7 +492,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		}
 		
 		
-
 		/*Plot Data*/
 		if (e.getSource() == Button4) { 
 
@@ -514,8 +509,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 				Process2.getPillars(Process.getNewData());
 				Process2.allFrames(Process.getNewData());
 				ScatterPlot ScatterPlot = new ScatterPlot (Process2);
-				ScatterPlot.scatterPlotData_AllFrames ();
-							
+				ScatterPlot.scatterPlotData_AllFrames ();			
 			}
 			
 			if (JCB1.getSelectedIndex() == 3) {
@@ -533,14 +527,14 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		if (e.getSource() == Button5) {
 
 			try {
-				
-			int ID = Integer.parseInt(TF6.getText().trim());
-			Process2 = new Processing2 ();
-			Process2.getPillars(Process.getNewData());
-			Process2.getFrames(Process.getNewData());
-			Process2.dataByFrame(Process.getNewData(), ID);
+
+				int ID = Integer.parseInt(TF6.getText().trim());
+				Process2 = new Processing2 ();
+				Process2.getPillars(Process.getNewData());
+				Process2.getFrames(Process.getNewData());
+				Process2.dataByFrame(Process.getNewData(), ID);
 			}
-			
+
 			catch (NullPointerException NPE) {
 				System.err.println("Invalid input");
 			}
@@ -590,7 +584,9 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			
 			Process2 = new Processing2 ();
 			Process2.getPillars(Process.getNewData());
-			Process2.allPillarsAllFrames(Process.getNewData());		
+			Process2.allPillarsAllFrames(Process.getNewData());
+			ReportFrame5 = new ReportFrame5 (Process2);
+			ReportFrame5.reportFormatter();
 		}
 	}
 
