@@ -4,31 +4,29 @@ import java.util.*;
 public class Processing2 {
 	
 
-	/*Instance variables*/
+	/**Instance variables*/
 
 	private ArrayList <Double> mean, standard_deviation; 
 	private ArrayList <Object> dataByPillar, outputDataByPillar;
 	private ArrayList <Object> dataByFrame, outputDataByFrame;
 	private ArrayList <Object> pillarFrame, allFrames;
 	private ArrayList <Object> multipillar, outputMultipillar;
-	private Object [] values; //, values2;
+	private Object [] values; 
 	private ArrayList <String> dataByPillarFrame;
 	private ArrayList <Integer> pillar, frame;	
 
-	private ReportFrame3 ReportFrame3;
+	private ReportFrame2 ReportFrame2;
 	private MultipillarInput MultipillarInput;
 	private LineChart LineChart;
-	private LineChart2 LineChart2;
-	private LineChart3 LineChart3;
 	private ScatterPlot ScatterPlot;
-	private ScatterPlot2 ScatterPlot2;
-
+	private BarGraph BarGraph;
+	
 
 	/**Default constructor*/
 
 	Processing2 () {
 	}
-
+	
 
 	/**Constructor*/
 
@@ -37,32 +35,20 @@ public class Processing2 {
 	}
 
 
-	/**Getters & Setters*/
+	/**Getters*/
 
 	public ArrayList<Double> getMean() {return mean;}
-	public void setMean(ArrayList<Double> mean) {this.mean = mean;}
 	public ArrayList<Double> getStandard_deviation() {return standard_deviation;}
-	public void setStandard_deviation(ArrayList<Double> standard_deviation) {this.standard_deviation = standard_deviation;}
 	public ArrayList<Integer> getPillar() {return pillar;}
-	public void setPillar(ArrayList<Integer> pillar) {this.pillar = pillar;}
 	public ArrayList<String> getDataByPillarFrame() {return dataByPillarFrame;}
-	public void setDataByPillarFrame(ArrayList<String> dataByPillarFrame) {this.dataByPillarFrame = dataByPillarFrame;}
 	public ArrayList<Object> getOutputDataByPillar() {return outputDataByPillar;}
-	public void setOutputDataByPillar(ArrayList<Object> outputDataByPillar) {this.outputDataByPillar = outputDataByPillar;}
 	public ArrayList<Object> getOutputDataByFrame() {return outputDataByFrame;}
-	public void setOutputDataByFrame(ArrayList<Object> outputDataByFrame) {this.outputDataByFrame = outputDataByFrame;}
 	public ArrayList<Object> getMultipillar() {return multipillar;}
-	public void setMultipillar(ArrayList<Object> multipillar) {this.multipillar = multipillar;}
 	public ArrayList<Object> getOutputMultipillar() {return outputMultipillar;}
-	public void setOutputMultipillar(ArrayList<Object> outputMultipillar) {this.outputMultipillar = outputMultipillar;}
 	public Object[] getValues() {return values;}
-	public void setValues(Object[] values) {this.values = values;}
-//	public Object[] getValues2() {return values2;}
-//	public void setValues2(Object[] values2) {this.values = values2;}
 	public ArrayList<Object> getAllFrames() {return allFrames;}
-	public void setAllFrames(ArrayList<Object> allFrames) {this.allFrames = allFrames;}
-	
-	
+	public ArrayList<Integer> getFrame() {return frame;}
+
 
 	/**This method creates a list of the pillars in the newData array. 
 	 * It is used for initialising the first pillar value and sets up 
@@ -89,9 +75,7 @@ public class Processing2 {
 	}
 
 
-	/** This method creates a list of the frames in the newData array.
-	 * It is used for ....
-	 */
+	/** This method creates a list of the frames in the newData array.*/
 
 	public ArrayList <Integer> getFrames (Object [][] newData) {
 
@@ -113,13 +97,12 @@ public class Processing2 {
 	}
 
 
-	/**This method loops through the pillar ArrayList identifying pillars of the same ID
-	 * from all the frames in the dataset. Pillars of the same ID are added to a temporary
-	 * ArrayList, which is used for averages and standard deviation.
+	/**This method loops through the pillar ArrayList identifying pillars of the same ID from all the frames in the dataset. 
+	 * Pillars of the same ID are added to a temporary ArrayList, which is used to calculate averages and standard deviation.
 	 */
 
 	public void allFrames (Object [][] newData) {
-
+		
 		mean = new ArrayList<Double> ();
 		standard_deviation = new ArrayList<Double> ();
 
@@ -138,8 +121,6 @@ public class Processing2 {
 				if (pillarIndex == pillarArray) {
 
 					pico.add ((double) newData [k][8]);
-//					Object forces = newData [k][0] + "," + newData [k][1] + "," + newData [k][8];
-//					allFrames.add(forces);
 				}
 			}
 
@@ -147,25 +128,21 @@ public class Processing2 {
 			statistics (pico);
 			pico.clear();
 		}
-		
-		Object [] values = new Object [pillar.size()];
-		
-		for (int i = 0; i < values.length; i++) {
-			
-			values [i] = pillar.get(i);
-		}
-		
+				
 		for (double m : mean) {System.out.println("mean P2: " + m);}
 		for (double s : standard_deviation) {System.out.println("stndev P2: " + s);}
 		
-		ScatterPlot2 = new ScatterPlot2 (this);
-		ScatterPlot2.scatterPlotData(values);
+//		ScatterPlot = new ScatterPlot (this);
+//		ScatterPlot.scatterPlotData_AllFrames ();
+//		
+//		BarGraph = new BarGraph (this); 
+//		BarGraph.barChartData_AllData();
+		
+		stringStatistics();
 	}	
 
 
-	/**This method will generate a list of FrameID, PillarID and Forces relating all 
-	 * pillars across a single Frame 
-	 */
+	/**This method generates a list of FrameID, PillarID and Forces relating all pillars across a single Frame*/
 
 	public ArrayList <Object> dataByFrame (Object [][] newData, int ID) {
 
@@ -190,16 +167,14 @@ public class Processing2 {
 		for (int j =0; j< dataByFrame.size(); j++) {System.out.println("byFrame: " + dataByFrame.get(j));}
 
 		ScatterPlot = new ScatterPlot (this);
-		ScatterPlot.scatterPlotData(ID);
+		ScatterPlot.scatterPlotData_byFrame (ID);
 
 		stringByFrame (ID);
 		return dataByFrame;
 	}
 
 
-	/**This method will generate a list of FrameID, PillarID and Forces relating to
-	 *  a single pillar across all the frames
-	 */
+	/**This method generates a list of FrameID, PillarID and Forces relating to a single pillar across all the frames*/
 
 	public ArrayList <Object> dataByPillar (Object [][] newData, int ID) { 
 
@@ -223,6 +198,7 @@ public class Processing2 {
 				Object frames = newData [i][0];
 				outputDataByPillar.add(forces);
 				pillarFrame.add(frames);
+				System.out.println ("pillarFrame: " + pillarFrame);
 				dataByPillar.add((double) newData [i][8]);
 			}	
 		}
@@ -239,10 +215,10 @@ public class Processing2 {
 			stringByPillar (ID);
 			pico.clear ();
 		}
-
+		
 		LineChart = new LineChart (this);
-		LineChart.lineChartData(ID);
-
+		LineChart.lineChartData_byPillar (ID);
+	
 		return dataByPillar;
 	}
 
@@ -261,10 +237,10 @@ public class Processing2 {
 
 		outputMultipillar = new ArrayList <Object> ();
 
-		values = new String [MultipillarInput.getValues().length];
+		values = new String [MultipillarInput.getID().length];
 
-		for (int i =0; i< MultipillarInput.getValues().length; i++) {
-			values = MultipillarInput.getValues();
+		for (int i =0; i< MultipillarInput.getID().length; i++) {
+			values = MultipillarInput.getID();
 		}
 
 		for (int i = 0; i < values.length; i++) {
@@ -279,7 +255,7 @@ public class Processing2 {
 					Object output = newData [j][0] + "," + newData [j][1] + "," + newData [j][8];
 					outputMultipillar.add(output); 
 				}
-			}
+			}	
 			
 			for (double d: pico) {System.out.println("pico2 : " + d);}
 			
@@ -325,7 +301,7 @@ public class Processing2 {
 	}
 
 
-	/**This method collects all the data for a single pillar across all the frames. 
+	/**This method collects all the data for all pillars across all the frames. 
 	 * It is used for the LineChart plotting pillar forces across time.
 	 */
 
@@ -350,33 +326,12 @@ public class Processing2 {
 			}
 		}
 		
-		Object [] values = new Object [pillar.size()];
-		
-		for (int i = 0; i < values.length; i++) {
-			
-			values [i] = pillar.get(i);
-		}
-
-		LineChart3 = new LineChart3 (this);
-		LineChart3.lineChartData(values);
-//		LineChart2 = new LineChart2 (this);
-//		LineChart2.lineChartData2(values);
+		LineChart = new LineChart (this);
+		LineChart.lineChartData_AllData();
 		
 		for (Object O : dataByPillarFrame) {System.out.println("dataByPillarFrame: " + O);}
 		return dataByPillarFrame;
 	}
-
-
-	
-//	values2 = new Object [pillar.size()];
-//	
-//	for (int i = 0; i < values2.length; i++) {
-//		
-//		values2 [i] = pillar.get(i);
-//	}
-//	
-//	ScatterPlot2 = new ScatterPlot2 (this);
-//	ScatterPlot2.scatterPlotData(values2);
 	
 	
 	// ---------- This is all output-related methods. Consider removing to an output class to tidy Processing2 ---------- //
@@ -409,8 +364,8 @@ public class Processing2 {
 		System.out.println("output: " + "\n" + output);
 		String identifier = "Frame Data";
 		System.out.println("identifier : " + "\n" + identifier);
-		ReportFrame3 = new ReportFrame3 (this, identifier, ID);
-		ReportFrame3.reportFormatter(output);
+		ReportFrame2 = new ReportFrame2 (this, identifier, ID);
+		ReportFrame2.reportFormatter(output);
 		return output;
 	}
 
@@ -466,8 +421,8 @@ public class Processing2 {
 
 		String output = SB.toString();
 		String identifier = "Pillar Data";
-		ReportFrame3 = new ReportFrame3 (this, identifier, ID);
-		ReportFrame3.reportFormatter(output);
+		ReportFrame2 = new ReportFrame2 (this, identifier, ID);
+		ReportFrame2.reportFormatter(output);
 
 		return output;
 	}
@@ -524,8 +479,8 @@ public class Processing2 {
 		String output = SB.toString();
 
 		String identifier = "Multipillar Data";
-		ReportFrame3 = new ReportFrame3 (this, identifier, 0);
-		ReportFrame3.reportFormatter(output);
+		ReportFrame2 = new ReportFrame2 (this, identifier, 0);
+		ReportFrame2.reportFormatter(output);
 
 		return output;
 	}
@@ -537,13 +492,9 @@ public class Processing2 {
 
 	public String outputMultipillar () {
 
-		//		String [] values = MultipillarInput.getValues();
-		//Object [] values = MultipillarInput.getValues();
-
 		StringBuilder SB = new StringBuilder();
 		SB.append("Pillar Index" + "," + "AVG Force (pN)" + "," + "SD" + "\n");
 
-		//for (int i=0; i<multipillar.size(); i++) {
 		for (int i=0; i<values.length; i++) {
 			SB.append(values [i] + "," + mean.get(i) + "," + standard_deviation.get(i) + "\n");
 		}	
@@ -557,7 +508,7 @@ public class Processing2 {
 	 * a ReportFrame. Note, it is a tidier version of the output file used for viewing the data only.
 	 */
 
-	public String outputString () { 
+	public String stringStatistics () { 
 
 		StringBuilder SB = new StringBuilder();
 
@@ -575,7 +526,12 @@ public class Processing2 {
 					+ String.format("%9.8s",standard_deviation.get(i)) + "\n");
 		}
 
-		String output = SB.toString();	
+		String output = SB.toString();
+		
+		String identifier = "Statistical Data";
+		ReportFrame2 = new ReportFrame2 (this, identifier, 0);
+		ReportFrame2.reportFormatter(output);
+		
 		return output;
 	}
 
@@ -584,7 +540,7 @@ public class Processing2 {
 	 * is called by the FileWriter. It is formatted as csv compatible. 
 	 */
 
-	public String outputFile () {
+	public String outputStatistics () {
 
 		String header = ("Pillar Index" + "," + "Average Force (pN)" + "," + "Stndev" + ",");
 		String body = "";

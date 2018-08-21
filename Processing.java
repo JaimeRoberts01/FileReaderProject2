@@ -16,6 +16,8 @@ public class Processing {
 
 	/**Getters and Setters*/
 	
+	public Object[][] getData() {return data;}
+	public void setData(Object[][] data) {this.data = data;}
 	public Object[][] getNewData() {return newData;}
 	public void setNewData(Object[][] newData) {this.newData = newData;}
 	public double[] getNanometers() {return nanometers;}

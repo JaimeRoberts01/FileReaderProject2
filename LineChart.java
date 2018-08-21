@@ -25,67 +25,178 @@ public class LineChart implements ActionListener {
 	private JButton Button1, Button2;
 
 
-
 	/**Constructor*/
 
 	public LineChart (Processing2 Process2) {
 		this.Process2 = Process2;
 	}
 
-
-	/**This method calls the allPillarAllFrames method and creates a new array using that data. 
-	 * An ID is passed to the method so that it can be used to build the line graph.
+	
+	/**This method retrieves data for the Multipillar method and creates a dataset array.
+	 * IDs are passed to it from MultipillarInput in the form of an ID array for tracking
+	 * all the individual pillar indexes when creating XYSeries data.
 	 */
+	
+	public void lineChartData_Multipillar (Object[] IDs) { 
 
-	public void lineChartData (int ID) { // Pillar
+
+		int rows = Process2.getOutputMultipillar().size();
+		int columns = 3;
+
+		lineChartArray = new Object [rows][columns]; 
+		int [] ID = null;
+		
+		try {
+
+		for (int i = 0; i < rows; i++) {
+
+			lineChartArray [i] = (Process2.getOutputMultipillar().get(i)).toString().split(",");
+			System.out.println("LineChart2: " + Arrays.toString(lineChartArray[i]));
+		}
+
+		ID = new int [IDs.length];
+
+		for (int i = 0; i < IDs.length; i++) { 
+
+			ID [i] = Integer.parseInt((String) IDs [i]);	
+		}
+		
+		}
+		catch (NullPointerException NPE) {
+			System.err.println("Invalid input");
+		}
+
+		String identifier = "Multipillar";
+		createLineChart (ID, identifier);	
+	}
+	
+	
+	/**This method retrieves data from the allPillarsAllFrames method and creates a dataset array.
+	 * IDs are created from the pillar ArrayList and turned into an ID array for tracking all the
+	 * individual pillar indexes when creating XYSeries data.
+	 */
+	
+	public void lineChartData_AllData () { 
+
+		int rows = Process2.getDataByPillarFrame().size();
+		int columns = 3;
+
+		lineChartArray = new Object [rows][columns]; 
+		int [] ID = null;
+
+		try {
+
+			for (int i = 0; i < rows; i++) {
+
+				lineChartArray [i] = (Process2.getDataByPillarFrame().get(i)).toString().split(","); 
+				System.out.println(Arrays.toString(lineChartArray[i]));
+			}	
+
+			ID = new int [Process2.getPillar().size()];
+
+			for (int i = 0; i< Process2.getPillar().size(); i++) {
+				ID [i] = Process2.getPillar().get(i);
+				System.out.println("APAF ID: " + ID [i]);
+			}
+		}
+
+		catch (NullPointerException NPE) {
+			System.err.println("Invalid input");
+		}
+
+		String identifier = "AllData";
+		createLineChart (ID, identifier);
+	}
+	
+	
+	/**This method retrieves data from the byPillar method and creates a dataset array. An ID is
+	 * passed from Processing2 and turned into an ID array for tracking the pillar index across
+	 * the individual frames.
+	 */
+	
+	public void lineChartData_byPillar (int pillarID) { 
 
 		int rows = Process2.getOutputDataByPillar().size();
 		int columns = 3;
 
 		lineChartArray = new Object [rows][columns]; 
+		int [] ID = null;
 
-		for (int i = 0; i < rows; i++) {
+		try {
 
-			lineChartArray [i] = (Process2.getOutputDataByPillar().get(i)).toString().split(",");
-			System.out.println(Arrays.toString(lineChartArray[i]));
-		}	
+			for (int i = 0; i < rows; i++) {
 
-		createLineChart (ID);
+				lineChartArray [i] = (Process2.getOutputDataByPillar().get(i)).toString().split(",");
+				System.out.println(Arrays.toString(lineChartArray[i]));
+			}	
+
+			ID = new int [1];
+
+			for (int i = 0; i < ID.length; i++) { 
+				
+				ID [i] = pillarID;	
+				System.out.println ("pillar ID: " + ID [i]);
+			}
+			
+		}
+		catch (NullPointerException NPE) {
+			System.err.println("Invalid input");
+		}
+
+		String identifier = "ByPillar";
+		createLineChart (ID, identifier);
 	}
 
 
-	/**This method creates the line graph. It uses the ID to run through the array in lineGraphData
-	 * and pull out the data for a particular pillar. This is then plotted on a formatted graph plot
-	 * that can be saved to file.
-	 */	
-
-	public void createLineChart (int ID) {
+	/**This method creates the series data from the lineChart array */
+	
+	public void createLineChart (int [] ID, String identifier) {
 
 		XYSeriesCollection dataset = new XYSeriesCollection ();
-		XYSeries series = new XYSeries ("Pillars");
 
-		double y = 0.0;
-		int x = 0;
+		for (int i = 0; i< ID.length; i++) {
 
-		for (int i =0; i< lineChartArray.length; i++) {
+			XYSeries series = new XYSeries (ID[i]);
+			int inputID = ID[i];
 
-			int pillar = Integer.parseInt((String) lineChartArray [i][1]);
+			for (int j =0; j< lineChartArray.length; j++) {
 
-			if (ID == pillar) {
+				int pillar = Integer.parseInt((String) lineChartArray [j][1]);
 
-				y = Double.parseDouble((String) lineChartArray [i][2]); // force
-				x = Integer.parseInt((String) lineChartArray [i][0]); // frame
-				series.add(x, y);
+				if (inputID == pillar) {
+					
+					int x = Integer.parseInt((String) lineChartArray [j][0]); // frame
+					double y = Double.parseDouble((String) lineChartArray [j][2]); // force
+					series.add(x, y);
+				}
 			}
+
+			dataset.addSeries(series);
+		}
+		
+		formatLineChart(ID, dataset, identifier);
+	}
+		
+	
+	/**This method formats the LineChart.*/
+	
+	public void formatLineChart (int[] ID, XYSeriesCollection dataset, String identifier) {
+		
+		if (identifier.equals("Multipillar") || identifier.equals("ByPillar")) {
+
+			lineChart = ChartFactory.createXYLineChart("Forces Over Time", "Frame ID", "Force (pN)", dataset);
+			lineChart.getTitle().setFont(new Font ("monspaced", Font.BOLD, 14));
+			plot =  lineChart.getXYPlot();
 		}
 
-		dataset.addSeries(series);
-
-		lineChart = ChartFactory.createXYLineChart("Forces Over Time: Pillar " + ID, "Frame ID", "Force (pN)", dataset);
-		lineChart.getTitle().setFont(new Font ("monspaced", Font.BOLD, 14));
-		plot = (XYPlot) lineChart.getPlot();
-		lineChart.removeLegend();
-
+		else if (identifier.equals("AllData")) {
+			lineChart = ChartFactory.createXYLineChart("Forces Over Time", "Frame ID", "Force (pN)", dataset);
+			lineChart.getTitle().setFont(new Font ("monspaced", Font.BOLD, 14));
+			lineChart.removeLegend();
+			plot =  lineChart.getXYPlot();
+		}
+		
+		
 		Axis axisY = plot.getRangeAxis();
 		axisY.setAxisLinePaint(Color.black);
 		axisY.setTickMarkPaint(Color.black); 
@@ -94,7 +205,6 @@ public class LineChart implements ActionListener {
 		axisY.setAxisLineStroke(new BasicStroke(1.2f));
 
 		NumberAxis axisX = (NumberAxis) plot.getDomainAxis();
-		axisX.setTickUnit(new NumberTickUnit(5));
 		axisX.setAxisLinePaint(Color.black);
 		axisX.setTickMarkPaint(Color.black); 
 		axisX.setTickLabelFont(new Font ("monspaced", Font.PLAIN, 11));
@@ -102,24 +212,34 @@ public class LineChart implements ActionListener {
 		axisX.setAxisLineStroke(new BasicStroke(1.2f));
 		axisX.setLowerMargin(0.01);
 		axisX.setUpperMargin(0.01);
+		axisX.setLowerBound(0.0);
 		axisX.setAutoTickUnitSelection(true);
 
 		XYLineAndShapeRenderer render = (XYLineAndShapeRenderer) plot.getRenderer();
-
-		render.setSeriesPaint(0, new Color (5,5,140));
+				
+		render.setSeriesPaint(0, new Color (5, 5, 140));
+		render.setSeriesPaint(1, new Color (209, 16, 196));
+		render.setSeriesPaint(2, new Color(204, 0, 0));
+		render.setSeriesPaint(3, new Color(9, 224, 2));
+		render.setSeriesPaint(4, new Color(249, 245, 7));
+		
 		render.setSeriesOutlineStroke(0, new BasicStroke(1));
-
+		render.setSeriesOutlineStroke(1, new BasicStroke(1));
+		render.setSeriesOutlineStroke(2, new BasicStroke(1));
+		render.setSeriesOutlineStroke(3, new BasicStroke(1));
+		render.setSeriesOutlineStroke(4, new BasicStroke(1));
+		
 		frameLayout (ID);
 	}
 
 
 	/**This method lays out the graph frame*/
 
-	public void frameLayout (int ID) {
+	public void frameLayout (int [] ID) {
 
 		frame = new JFrame ();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setTitle("Pillar: " + ID);
+		frame.setTitle("Linechart Data - Forces Over Time");
 		frame.setSize(700, 500);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
@@ -149,12 +269,12 @@ public class LineChart implements ActionListener {
 		Button2.setFont(new Font ("SansSerif", Font.PLAIN, 14));
 		Button2.setBorder(BorderFactory.createLineBorder(Color.black));
 		Button2.addActionListener (this);
-		frame.add(Button2);
-	}
+		frame.add(Button2);	
+		}
 
 
-	/**FileChooser allows files to be saved in a particular directory and with a give name.
-	 * The fileName is passed to the FileWriter method for saving the data.
+	/**FileChooser allows files to be saved in a particular directory and with a given name.
+	 * The fileName is passed to the saveChart method for saving the linechart as an image.
 	 */
 
 	public void fileChooser () {
@@ -213,7 +333,7 @@ public class LineChart implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == Button1) {
-			this.fileChooser();
+			fileChooser();
 		}
 		
 		if (e.getSource() == Button2) {

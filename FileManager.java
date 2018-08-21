@@ -9,15 +9,63 @@ public class FileManager {
 	/*Instance variables*/
 	private Processing Process;
 	private Processing2 Process2;
+	private GUIClass GUI;
 	
 	private ArrayList <String> fileLine;
+	private String fileName;
 
 
+	public FileManager () {
+		
+	}
+	
 	/*Constructor*/
 	public FileManager(Processing Process, Processing2 Process2) {
 		this.Process = Process;
 		this.Process2 = Process2;
 	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	
+	public void fileSelection () {
+
+		JFileChooser JFC = new JFileChooser ();
+		JFC.setMultiSelectionEnabled(false);
+		File selectedFile = null;
+		int openVal = JFC.showDialog(null, "Select");
+
+		if (openVal == JFileChooser.APPROVE_OPTION) {
+
+			selectedFile =	JFC.getSelectedFile();
+			fileName = selectedFile.toString();
+
+			if (fileName.contains(".csv")) {
+
+				GUI = new GUIClass ();
+				GUI.fileReader (fileName);
+			}
+
+			else {
+
+				System.out.println("Incorrect Filetype");
+				JOptionPane.showMessageDialog (null, "INVALID FILETYPE \n .csv files only", "ERROR", JOptionPane.ERROR_MESSAGE);
+				fileName = null;
+			}
+		}
+
+		else if (openVal == JFileChooser.CANCEL_OPTION) {
+
+			return;
+		}
+	}
+
+	
 
 	/*FileReader for reading in the files - this doesn't yet work.*/
 	public void fileReader (String fileName) { 
@@ -78,7 +126,7 @@ public class FileManager {
 				}
 				
 				else if (identifier.equals("Statistical Data")) {
-					writer.write(Process2.outputFile());
+					writer.write(Process2.outputStatistics());
 				}
 				
 				else if (identifier.equals("Frame Data")) {

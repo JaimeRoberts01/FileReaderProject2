@@ -1,5 +1,6 @@
 import java.io.*;
 import java.awt.*;
+import java.util.*;
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -19,7 +20,8 @@ public class BarGraph implements ActionListener {
 	private DefaultStatisticalCategoryDataset bar;
 
 	private JFrame frame;
-	private JButton Button1, Button2;
+	private JButton Button1, Button2, Button3, Button4;
+	private JTextField TF1;
 
 	private Processing2 Process2;
 
@@ -29,13 +31,14 @@ public class BarGraph implements ActionListener {
 	}
 
 
-	/**This method calls the allPillarAllFrames method and creates a new array using that data. 
-	 * An ID is passed to the method so that it can be used to build the line graph.
+	/**This method retrieves data from the Multipillar method and creates a dataset array. It uses
+	 * pillar indices from Processing2 that are passed from MultipillarInput as well as average 
+	 * and standard deviation values generated in Processing2.
 	 */
 
-	public void barChartData () { 
+	public void barChartData_Multipillar () { 
 
-		int rows = Process2.getValues().length;//Process2.getMultipillar().size();
+		int rows = Process2.getValues().length;
 		int columns = 3;
 
 		barChartArray = new Object [rows][columns];
@@ -43,23 +46,18 @@ public class BarGraph implements ActionListener {
 		try {
 
 			for (int i = 0; i < rows; i++) {
-				barChartArray [i][0] = Process2.getValues() [i];//Process2.getMultipillar().get(i);
+				barChartArray [i][0] = Process2.getValues() [i];
 				barChartArray [i][1] = Process2.getMean().get(i);
 				barChartArray [i][2] = Process2.getStandard_deviation().get(i);
 			}
 
 			bar = new DefaultStatisticalCategoryDataset (); 
 
-			double avg = 0;
-			double stdv = 0.0;
-			String cat = "";
-			String title = "";
-
 			for (int i = 0; i < rows; i++) { 
-				avg = (double) barChartArray [i][1];
-				stdv = (double) barChartArray [i][2];
-				cat = "Pillar";
-				title = (String) barChartArray [i][0];//Integer.toString((int) barChartArray[i][0]); //(String) barChartArray [i][0];
+				double avg = (double) barChartArray [i][1];
+				double stdv = (double) barChartArray [i][2];
+				String cat = "Pillar";
+				String title = (String) barChartArray [i][0];
 
 				bar.add (avg, stdv, cat, title);
 			}
@@ -69,16 +67,57 @@ public class BarGraph implements ActionListener {
 			System.err.println("Invalid input");
 		}
 
-		createBarChart();
+		String identifier = "Multipillar";
+		createBarChart(identifier);
 	}
 
 
-	/**This method creates the bar-chart. It uses the ID to run through the array in scatterPlotData
-	 * and pulls out the data for a particular pillar. This is then plotted on a formatted graph plot
-	 * that can be saved to file.
+	/**This method retrieves data from the AllFrames method and creates a dataset array. It uses
+	 * pillar indices from Processing2 as well as average and standard deviation values.
+	 */
+	
+	public void barChartData_AllData () { //alldata
+
+		int rows = Process2.getPillar().size();
+		int columns = 3;
+
+		barChartArray = new Object [rows][columns];
+
+		try {
+
+			for (int i = 0; i < rows; i++) {
+				barChartArray [i][0] = Process2.getPillar().get(i);
+				barChartArray [i][1] = Process2.getMean().get(i);
+				barChartArray [i][2] = Process2.getStandard_deviation().get(i);
+			}
+
+			bar = new DefaultStatisticalCategoryDataset (); 
+
+			for (int i = 0; i < rows; i++) { 
+
+				double avg = (double) barChartArray [i][1]; 
+				double stdv = (double) barChartArray [i][2]; 
+				String cat = "Pillar";
+				String title = Integer.toString((int) barChartArray[i][0]);
+
+				bar.add (avg, stdv, cat, title);
+			}
+		}
+		catch (NullPointerException NPE) {
+			System.err.println("Invalid input - barchartdata");
+		}
+
+		String identifier = "AllData";
+		createBarChart(identifier);
+	}
+
+
+
+	/**This method creates the barchart. It uses the ID to run through the array in scatterPlotData and 
+	 * pulls out the data for a particular pillar. This is then plotted on a formatted graph plot.
 	 */
 
-	public void createBarChart () {
+	public void createBarChart (String identifier) {
 
 		plot = new CategoryPlot(
 				bar,
@@ -113,7 +152,7 @@ public class BarGraph implements ActionListener {
 
 		StatisticalBarRenderer renderer = (StatisticalBarRenderer) plot.getRenderer();
 		GradientPaint gradientpaint = new GradientPaint(0.0F, 0.0F, 
-				new Color(5, 5, 140), 0.0F, 0.0F, new Color(209, 16, 196));
+		new Color(5, 5, 140), 0.0F, 0.0F, new Color(209, 16, 196));
 		renderer.setSeriesPaint(0, gradientpaint);
 		renderer.setDrawBarOutline(true);
 		renderer.setSeriesOutlinePaint(0, Color.black);
@@ -121,17 +160,17 @@ public class BarGraph implements ActionListener {
 		renderer.setErrorIndicatorPaint(Color.black);
 		renderer.setMaximumBarWidth(10);
 
-		frameLayout();
+		frameLayout(identifier);
 	}
 
 
 	/**This method lays out the graph frame*/
 
-	public void frameLayout () {
+	public void frameLayout (String identifier) {
 
 		frame = new JFrame ();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setTitle("Average Forces Data - Multipillar");
+		frame.setTitle("Barchart Data - Average Forces");
 		frame.setSize(700, 500);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
@@ -162,6 +201,98 @@ public class BarGraph implements ActionListener {
 		Button2.setBorder(BorderFactory.createLineBorder(Color.black));
 		Button2.addActionListener (this);
 		frame.add(Button2);
+
+		if (identifier.contentEquals("AllData")) {
+			
+			JSeparator S1 = new JSeparator(SwingConstants.VERTICAL);
+			S1.setPreferredSize(new Dimension(10,23));
+			S1.setBackground(Color.DARK_GRAY);
+			frame.add(S1);
+
+			JLabel L1 = new JLabel ("Set filter value:");
+			L1.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+			frame.add(L1);
+
+			TF1 = new JTextField (5);
+			TF1.addActionListener (this);
+			TF1.setBorder(BorderFactory.createLineBorder(Color.black));
+			TF1.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
+			TF1.setPreferredSize(new Dimension(5,23));
+			TF1.setEnabled(true);
+			frame.add(TF1);	
+
+			Button3 = new JButton ("Apply");
+			Button3.setPreferredSize(new Dimension(125,23));
+			Button3.setOpaque(true);
+			Button3.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+			Button3.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+			Button3.setBorder(BorderFactory.createLineBorder(Color.black));
+			Button3.addActionListener (this);
+			frame.add(Button3);
+
+			Button4 = new JButton ("Reset");
+			Button4.setPreferredSize(new Dimension(125,23));
+			Button4.setOpaque(true);
+			Button4.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+			Button4.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+			Button4.setBorder(BorderFactory.createLineBorder(Color.black));
+			Button4.addActionListener (this);
+			frame.add(Button4);
+		}
+	}
+
+
+	public void filterValues () {
+
+		int rows = barChartArray.length;
+		int columns = 3;
+
+		Object [][] barChartArray = new Object [rows][columns];
+
+		int filterValue = 0;
+
+		if (TF1.getText().equals("")) {
+			filterValue = 0;
+		}
+
+		else {
+			filterValue = Integer.parseInt(TF1.getText());
+		}
+
+		for (int i = 0; i < rows; i++) {
+
+			double forces = (double) this.barChartArray [i][1];
+
+			if (forces>filterValue) {
+
+				barChartArray [i] = this.barChartArray [i]; 
+				System.out.println("NLC: " + Arrays.toString(barChartArray[i]));
+			}
+
+		}
+		System.out.println("NLC L: " + barChartArray.length);
+
+		bar = new DefaultStatisticalCategoryDataset (); 
+
+		double avg = 0;
+		double stdv = 0.0;
+		String cat = "";
+		String title = "";
+
+
+		for (int i = 0; i < rows; i++) { 
+
+			if (barChartArray [i][1] != null) {
+				avg = (double) barChartArray [i][1]; 
+				stdv = (double) barChartArray [i][2]; 
+				cat = "Pillar";
+				title = Integer.toString((int) barChartArray[i][0]); 
+
+				bar.add (avg, stdv, cat, title);
+			}
+		}
+
+		plot.setDataset(bar);
 	}
 
 
@@ -226,11 +357,20 @@ public class BarGraph implements ActionListener {
 
 
 		if (e.getSource() == Button1) {
-			this.fileChooser();
+			fileChooser();
 		}
 
 		if (e.getSource() == Button2) {
 			frame.dispose();
+		}
+
+		if (e.getSource() == Button3) {
+			filterValues ();
+		}
+
+		if (e.getSource() == Button4) {
+			TF1.setText("");
+			filterValues ();
 		}
 	}	
 }

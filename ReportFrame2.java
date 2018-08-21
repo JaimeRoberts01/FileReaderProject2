@@ -2,8 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.File;
-//import java.io.FileWriter;
-//import java.io.IOException;
+
 
 import javax.swing.border.*;
 
@@ -17,17 +16,30 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 	private JTextArea displayFile;
 	private JButton Button1, Button2;
 	
+	private String identifier;
+	@SuppressWarnings("unused")
+	private int ID;
+	
 	private FileManager FileManager;
 	private Processing2 Process2;
 
 
 	/**Constructor*/
 	
-	public ReportFrame2 (Processing2 Process2) {	
+	public ReportFrame2 (Processing2 Process2, String identifier, int ID) {	
 
 		this.Process2 = Process2;
+		this.identifier = identifier;
+		this.ID = ID;
 		setDefaultCloseOperation (DISPOSE_ON_CLOSE);
-		setTitle ("Statistical Data");
+		
+		if (ID == 0) {
+			setTitle  (identifier); 
+		}
+		else {
+			setTitle (identifier + " " + ID);
+		}
+		
 		setLocation (1500, 675);
 		setSize (400, 400);
 		setVisible (true);
@@ -72,13 +84,13 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 	}
 
 
-	/**This method formats a display screen for the statistics data. Note that the data
+	/**This method formats a display screen for the getBy data including. Note that the data
 	 * is a tidier version of the actual output data and is for viewing purposes only.
 	 */
 	
 	public void reportFormatter (String output) {	
-
-		displayFile.append (Process2.outputString());
+		
+			displayFile.append(output);
 	}
 
 
@@ -117,28 +129,27 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 		}
 	}
 
-	
+
 	/**The method send the fileName to the the FileWriter in the FileManager class. The 
 	 * FileWriter deals with a number of output files so an identifier is passed to the
 	 * method identifying which dataset has been sent for saving.
 	 */
 	
 	public void fileWriter (String fileName) {
+
 		
-		String identifier = "Statistical Data";
 		FileManager = new FileManager (null, Process2);
-		FileManager.fileWriter(identifier, fileName);
-		
+		FileManager.fileWriter(identifier, fileName);	
 	}
 
 
-	 /**ActionPerformed methods for the individual buttons*/
+	/**ActionPerformed methods for the individual buttons*/
 	
-	@Override
+	@Override 
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == Button1) {
-
+   
 			this.fileChooser();
 
 		}

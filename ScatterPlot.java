@@ -4,7 +4,6 @@ import java.text.*;
 import java.util.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.awt.geom.GeneralPath;
 
 import org.jfree.chart.*;
 import org.jfree.chart.axis.*;
@@ -15,36 +14,41 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
 
 public class ScatterPlot implements ActionListener {
-	
-	
+
+
 	/**Instance Variables*/
-	
+
 	private Object [][] scatterPlotArray;
 	private JFreeChart scatterPlot;
-	
+	private XYSeriesCollection dataset;
+	private XYSeries series;
+	XYPlot plot;
+
 	private JFrame frame;
-	private JButton Button1, Button2;
+	private JButton Button1, Button2, Button3, Button4;
+	private JTextField TF1;
 
 	private Processing2 Process2;
-	
-	
+
+
 	/**Constructor*/
-	
+
 	public ScatterPlot (Processing2 Process2) {
 		this.Process2 = Process2;
 	}
-	
-	
-	/**This method calls the allPillarAllFrames method and creates a new array using that data. 
-	 * An ID is passed to the method so that it can be used to build the line graph.
+
+
+	/**This method retrieves data from the byFrame method and creates a dataset array. An 
+	 * ID is passed from Processing2 and turned into an ID array for tracking the frame.
 	 */
-	
-	public void scatterPlotData (int ID) {
-		
+
+	public void scatterPlotData_byFrame (int frameID) {
+
 		int rows = Process2.getOutputDataByFrame().size();
 		int columns = 3;
 
 		scatterPlotArray = new Object [rows][columns]; 
+		int [] ID = null;
 
 		for (int i = 0; i < rows; i++) {
 
@@ -52,35 +56,105 @@ public class ScatterPlot implements ActionListener {
 			System.out.println(Arrays.toString(scatterPlotArray[i]));
 		}
 
-		createScatterPlot (ID);
+		ID = new int [1];
+
+		for (int i = 0; i < ID.length; i++) { 
+
+			ID [i] = frameID;	
+			System.out.println ("frame ID: " + ID [i]);
+		}
+
+		String identifier = "ByFrame";
+		createScatterPlot (ID, identifier);
 	}
-	
-	
+
+
+
+	public void scatterPlotData_AllFrames () { // AllFrames data
+
+		int rows = Process2.getMean().size();
+		int columns = 3;
+
+		scatterPlotArray = new Object [rows][columns]; 
+		int [] ID = null;
+
+		try {
+
+			ID = new int [Process2.getPillar().size()];
+
+			for (int i = 0; i< Process2.getPillar().size(); i++) {
+				ID [i] = Process2.getPillar().get(i);
+				System.out.println("APAF ID: " + ID [i]);
+			}
+
+			for (int i = 0; i < rows; i++) {
+
+				scatterPlotArray [i][0] = ID [i]; 
+				scatterPlotArray [i][1] = Process2.getMean().get(i);
+				scatterPlotArray [i][2] = Process2.getStandard_deviation().get(i);
+
+				System.out.println("Scatterplot2: " + Arrays.toString(scatterPlotArray[i]));
+			}
+		}
+
+		catch (NullPointerException NPE) {
+			System.err.println("Invalid input");
+		}
+
+		String identifier = "AllData";
+		createScatterPlot (ID, identifier);
+	}
+
+
 	/**This method creates the scatter-plot. It uses the ID to run through the array in scatterPlotData
-	 * and pulls out the data for a particular pillar. This is then plotted on a formatted graph plot
-	 * that can be saved to file.
+	 * and pulls out the data for a particular pillar. This is then plotted on a formatted graph plot.
+	 * @param identifier 
 	 */
-	
-	public void createScatterPlot (int ID) {
-		
-		XYSeriesCollection dataset = new XYSeriesCollection ();
-		XYSeries series = new XYSeries ("Pillars");
+
+	public void createScatterPlot (int[] ID, String identifier) {
+
+		dataset = new XYSeriesCollection ();
+		series = new XYSeries ("Pillars");
 
 		for (int i =0; i< scatterPlotArray.length; i++ ) {
 
-			int x = Integer.parseInt((String) scatterPlotArray [i][1]); // pillar
-			double y = Double.parseDouble((String) scatterPlotArray [i][2]); // force
-			series.add (x,y);
+			if (identifier.equals("ByFrame")) {
+				int x = Integer.parseInt((String) scatterPlotArray [i][1]);
+				double y = Double.parseDouble((String) scatterPlotArray [i][2]); 
+				series.add (x,y);
+			}
+			
+			else if (identifier.equals("AllData")) {
+				int x = (int) scatterPlotArray [i][0];
+				double y = (double) scatterPlotArray [i][1]; 
+				series.add (x,y);
+			}
+		}
+
+		dataset.addSeries(series);
+		formatScatterPlot (ID, dataset, identifier);
+	}
+
+
+	/**This method formats the scatter-plot*/
+
+	public void formatScatterPlot (int[] ID, XYSeriesCollection dataset, String identifier) {		
+
+		if (identifier.equals("ByFrame")) {
+			
+			String frameID = Arrays.toString(ID);
+			frameID = frameID.replace("[", ""); frameID = frameID.replace("]","");
+			scatterPlot = ChartFactory.createScatterPlot("Pillar Forces: Frame " + frameID, "Pillar ID", "Force (pN)", dataset);
 		}
 		
-		dataset.addSeries(series);
-
-		scatterPlot = ChartFactory.createScatterPlot("Pillar Forces: Frame " + ID, "Pillar ID", "Force (pN)", dataset);
+		else {
+			scatterPlot = ChartFactory.createScatterPlot("Pillar Forces", "Pillar ID", "Force (pN)", dataset);
+		}
+		
 		scatterPlot.getTitle().setFont(new Font ("monspaced", Font.BOLD, 14));
 		scatterPlot.setBackgroundPaint(Color.white);
 		scatterPlot.removeLegend();
-		
-		XYPlot plot = (XYPlot) scatterPlot.getPlot();
+		plot = (XYPlot) scatterPlot.getPlot();
 		plot.setBackgroundPaint(Color.lightGray);
 
 		NumberAxis axisY = (NumberAxis) plot.getRangeAxis();
@@ -107,39 +181,24 @@ public class ScatterPlot implements ActionListener {
 		GradientPaint gradientpaint = new GradientPaint(0.0F, 0.0F, 
 		new Color(5, 5, 140), 0.0F, 0.0F, new Color(209, 16, 196));
 		render.setSeriesPaint(0, gradientpaint);
-		GeneralPath cross = new GeneralPath();
-		cross.moveTo(-1.0f, -3.0f);
-		cross.lineTo(1.0f, -3.0f);
-		cross.lineTo(1.0f, -1.0f);
-		cross.lineTo(3.0f, -1.0f);
-		cross.lineTo(3.0f, 1.0f);
-		cross.lineTo(1.0f, 1.0f);
-		cross.lineTo(1.0f, 3.0f);
-		cross.lineTo(-1.0f, 3.0f);
-		cross.lineTo(-1.0f, 1.0f);
-		cross.lineTo(-3.0f, 1.0f);
-		cross.lineTo(-3.0f, -1.0f);
-		cross.lineTo(-1.0f, -1.0f);
-		cross.closePath();
-		render.setSeriesShape(0, cross);
-		
-		frameLayout(ID);
+	
+		frameLayout(ID, identifier);
 	}
-	
-	
+
+
 	/**This method lays out the graph frame*/
-	
-	public void frameLayout (int ID) {
-		
+
+	public void frameLayout (int[] ID, String identifier) {
+
 		frame = new JFrame ();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setTitle("Frame: " + ID);
+		frame.setTitle("Scatterplot Data - Pillar Forces");
 		frame.setSize(700, 500);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
-
+	
 		ChartPanel chartpanel = new ChartPanel(scatterPlot);
 		chartpanel.setBackground(Color.white);
 		chartpanel.setPreferredSize(new Dimension(700,446));
@@ -164,15 +223,103 @@ public class ScatterPlot implements ActionListener {
 		Button2.setBorder(BorderFactory.createLineBorder(Color.black));
 		Button2.addActionListener (this);
 		frame.add(Button2);
+
+		if (identifier.contentEquals("AllData")) {
+
+			JSeparator S1 = new JSeparator(SwingConstants.VERTICAL);
+			S1.setPreferredSize(new Dimension(10,23));
+			S1.setBackground(Color.DARK_GRAY);
+			frame.add(S1);
+
+			JLabel L1 = new JLabel ("Set filter value:");
+			L1.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+			frame.add(L1);
+
+			TF1 = new JTextField (5);
+			TF1.addActionListener (this);
+			TF1.setBorder(BorderFactory.createLineBorder(Color.black));
+			TF1.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
+			TF1.setPreferredSize(new Dimension(5,23));
+			TF1.setEnabled(true);
+			frame.add(TF1);	
+
+			Button3 = new JButton ("Apply");
+			Button3.setPreferredSize(new Dimension(125,23));
+			Button3.setOpaque(true);
+			Button3.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+			Button3.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+			Button3.setBorder(BorderFactory.createLineBorder(Color.black));
+			Button3.addActionListener (this);
+			frame.add(Button3);
+
+			Button4 = new JButton ("Reset");
+			Button4.setPreferredSize(new Dimension(125,23));
+			Button4.setOpaque(true);
+			Button4.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+			Button4.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+			Button4.setBorder(BorderFactory.createLineBorder(Color.black));
+			Button4.addActionListener (this);
+			frame.add(Button4);
+		}
 	}
-	
-	
+
+
+	public void filterValues () {
+
+		int rows = this.scatterPlotArray.length;
+		int columns = 3;
+
+		Object [][] scatterPlotArray = new Object [rows][columns];
+
+		int filterValue = 0;
+
+		if (TF1.getText().equals("")) {
+			filterValue = 0;
+		}
+
+		else {
+
+			filterValue = Integer.parseInt(TF1.getText());
+		}
+
+		for (int i = 0; i < rows; i++) {
+
+			double forces = (double) this.scatterPlotArray [i][1];
+
+			if (forces>filterValue) {
+
+				scatterPlotArray [i] = this.scatterPlotArray [i]; 
+				System.out.println("NLC: " + Arrays.toString(scatterPlotArray [i]));
+			}	
+		}
+
+		System.out.println("NLC L: " + scatterPlotArray.length);
+
+		dataset = new XYSeriesCollection (); 
+		series = new XYSeries ("Pillars");
+
+		for (int i = 0; i < rows; i++) { 
+
+			if (scatterPlotArray [i][1] != null) {
+
+				int x = (int) scatterPlotArray [i][0];
+				double y =  (double) scatterPlotArray [i][1];
+
+				series.add (x,y);
+			}
+		}
+		dataset.addSeries(series);
+
+		plot.setDataset(dataset);
+	}
+
+
 	/**FileChooser allows files to be saved in a particular directory and with a give name.
 	 * The fileName is passed to the FileWriter method for saving the data.
 	 */
-	
+
 	public void fileChooser () {
-		
+
 		JFileChooser JFC = new JFileChooser ();
 		String fileName = "";
 		int saveVal = JFC.showSaveDialog(null);
@@ -201,12 +348,12 @@ public class ScatterPlot implements ActionListener {
 			}
 		}
 	}
-	
-	
+
+
 	/**This method saves the graph to file*/
-	
+
 	public void savePlot (String fileName) {
-		
+
 		try {
 
 			ChartUtilities.saveChartAsJPEG(new File(fileName), scatterPlot, 1200, 800);
@@ -218,21 +365,31 @@ public class ScatterPlot implements ActionListener {
 		}
 
 		System.out.println("I did well2");
-		
+
 	}
 
 
 	/**ActionPerformed method for the save button*/
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+
 		if (e.getSource() == Button1) {
-			this.fileChooser();
+			fileChooser();
 		}
-		
+
 		if (e.getSource() == Button2) {
 			frame.dispose();
+		}
+
+		if (e.getSource() == Button3) {
+			filterValues ();
+
+		}
+
+		if (e.getSource() == Button4) {
+			TF1.setText("");
+			filterValues ();
 		}
 	}
 }
