@@ -27,22 +27,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	ReportFrame5 ReportFrame5;
 	@SuppressWarnings("unused")
 	private MultipillarInput MultipillarInput;
-	
-
 	private ArrayList <String> fileLine;
-	
-	
-	
-
-
-	public JTextField getTF1() {
-		return TF1;
-	}
-
-
-	public void setTF1(JTextField tF1) {
-		TF1 = tF1;
-	}
 
 
 	/**Constructor*/
@@ -53,7 +38,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		setFont(new Font ("SansSerif", Font.PLAIN, 14));
 		setTitle ("PillarTracker File Reader");
 		setSize (700, 300);
-		setLocation (1500,0);
+		setLocationRelativeTo(null);
 		setResizable (false);
 		setLayout (new GridLayout (5,1));
 		GUIComponents ();
@@ -318,7 +303,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			TF1.setText(fileName);
 
 			if (fileName.contains(".csv")) {
-
+				
 				fileReader (fileName);
 			}
 
@@ -469,6 +454,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 				Process2.allFrames(Process.getNewData());
 				//ReportFrame2 = new ReportFrame2 (Process2);
 				//ReportFrame2.reportFormatter(null);
+				OutputData OutputData = new OutputData (Process2, null);
+				OutputData.stringStatistics();
 			}
 
 			catch (NullPointerException NPE) {
@@ -501,6 +488,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 				Process2.getPillars(Process.getNewData());
 				Process2.allFrames(Process.getNewData());
 				Process2.allPillarsAllFrames(Process.getNewData());
+				LineChart LineChart = new LineChart (Process2);
+				LineChart.lineChartData_AllData();
 			}
 			
 			if (JCB1.getSelectedIndex() == 2) {

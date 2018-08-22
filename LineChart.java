@@ -22,13 +22,13 @@ public class LineChart implements ActionListener {
 	private XYPlot plot;
 	private Object [][] lineChartArray;
 	private JFrame frame;
-	private JButton Button1, Button2;
+	private JButton Button1, Button2, Button3;
 
 
 	/**Constructor*/
 
 	public LineChart (Processing2 Process2) {
-		this.Process2 = Process2;
+		this.Process2 = Process2;	
 	}
 
 	
@@ -229,13 +229,13 @@ public class LineChart implements ActionListener {
 		render.setSeriesOutlineStroke(3, new BasicStroke(1));
 		render.setSeriesOutlineStroke(4, new BasicStroke(1));
 		
-		frameLayout (ID);
+		frameLayout (ID, identifier);
 	}
 
 
 	/**This method lays out the graph frame*/
 
-	public void frameLayout (int [] ID) {
+	public void frameLayout (int [] ID, String identifier) {
 
 		frame = new JFrame ();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -270,6 +270,18 @@ public class LineChart implements ActionListener {
 		Button2.setBorder(BorderFactory.createLineBorder(Color.black));
 		Button2.addActionListener (this);
 		frame.add(Button2);	
+		
+		if (identifier.equals("Multipillar")) {
+			
+			Button3 = new JButton ("Bar Chart");
+			Button3.setPreferredSize(new Dimension(125,23));
+			Button3.setOpaque(true);
+			Button3.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+			Button3.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+			Button3.setBorder(BorderFactory.createLineBorder(Color.black));
+			Button3.addActionListener (this);
+			frame.add(Button3);	
+		}
 		}
 
 
@@ -338,6 +350,10 @@ public class LineChart implements ActionListener {
 		
 		if (e.getSource() == Button2) {
 			frame.dispose();
+		}
+		if (e.getSource() == Button3) {
+			BarGraph BarGraph = new BarGraph (Process2);
+			BarGraph.barChartData_Multipillar ();
 		}
 	}	
 }

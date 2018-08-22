@@ -41,7 +41,7 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 			setTitle (identifier + " " + ID);
 		}
 		
-		setLocation (1500, 675);
+		setLocationRelativeTo(null);
 		setSize (400, 400);
 		setVisible (true);
 		setResizable (false);
@@ -57,7 +57,7 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 		displayFile = new JTextArea ();
 		displayFile.setLineWrap (true);
 		displayFile.setWrapStyleWord (true);
-		displayFile.setFont (new Font ("Courier", Font.PLAIN, 14));	
+		displayFile.setFont (new Font ("SansSerif", Font.PLAIN, 14));	
 		displayFile.setBorder(BorderFactory.createLineBorder(Color.black));
 		displayFile.setBorder (new EmptyBorder (10,10,10,10));
 		displayFile.setEditable (false);
@@ -67,7 +67,7 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 
 		Button1 = new JButton("Save");
 		Button1.setPreferredSize(new Dimension(125,23));
-		Button1.setFont(new Font ("Consolas", Font.PLAIN, 14));
+		Button1.setFont(new Font ("SansSerif", Font.PLAIN, 14));
 		Button1.setOpaque(true);
 		Button1.setBorder(BorderFactory.createLineBorder(Color.black));
 		Button1.addActionListener (this);
@@ -76,7 +76,7 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 
 		Button2 = new JButton("Close");
 		Button2.setPreferredSize(new Dimension(125,23));
-		Button2.setFont(new Font ("Consolas", Font.PLAIN, 14));
+		Button2.setFont(new Font ("SansSerif", Font.PLAIN, 14));
 		Button2.setOpaque(true);
 		Button2.setBorder(BorderFactory.createLineBorder(Color.black));
 		Button2.addActionListener (this);
@@ -89,7 +89,7 @@ public class ReportFrame2 extends JFrame implements ActionListener {
 	 * is a tidier version of the actual output data and is for viewing purposes only.
 	 */
 	
-	public void reportFormatter (String output) {	
+	public void reportFormatter (String output) {
 		
 			displayFile.append(output);
 	}

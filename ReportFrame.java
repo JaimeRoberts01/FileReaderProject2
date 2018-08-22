@@ -26,7 +26,7 @@ public class ReportFrame extends JFrame implements ActionListener {
 		this.Process = Process;
 		setDefaultCloseOperation (DISPOSE_ON_CLOSE);
 		setTitle ("Forces Data");
-		setLocation (1500, 675);
+		setLocationRelativeTo(null);
 		setSize (825, 400);
 		setVisible (true);
 		setResizable (false);
@@ -42,7 +42,7 @@ public class ReportFrame extends JFrame implements ActionListener {
 		displayFile = new JTextArea ();
 		displayFile.setLineWrap (true);
 		displayFile.setWrapStyleWord (true);
-		displayFile.setFont (new Font ("Courier", Font.PLAIN, 14));	
+		displayFile.setFont (new Font ("SansSerif", Font.PLAIN, 14));	
 		displayFile.setBorder(BorderFactory.createLineBorder(Color.black));
 		displayFile.setBorder (new EmptyBorder (10,10,10,10));
 		displayFile.setEditable (false);
@@ -52,7 +52,7 @@ public class ReportFrame extends JFrame implements ActionListener {
 
 		Button1 = new JButton("Save");
 		Button1.setPreferredSize(new Dimension(125,23));
-		Button1.setFont(new Font ("Consolas", Font.PLAIN, 14));
+		Button1.setFont(new Font ("SansSerif", Font.PLAIN, 14));
 		Button1.setOpaque(true);
 		Button1.setBorder(BorderFactory.createLineBorder(Color.black));
 		Button1.addActionListener (this);
@@ -61,7 +61,7 @@ public class ReportFrame extends JFrame implements ActionListener {
 
 		Button2 = new JButton("Close");
 		Button2.setPreferredSize(new Dimension(125,23));
-		Button2.setFont(new Font ("Consolas", Font.PLAIN, 14));
+		Button2.setFont(new Font ("SansSerif", Font.PLAIN, 14));
 		Button2.setOpaque(true);
 		Button2.setBorder(BorderFactory.createLineBorder(Color.black));
 		Button2.addActionListener (this);
@@ -72,11 +72,15 @@ public class ReportFrame extends JFrame implements ActionListener {
 
 	/**This method formats a display screen for the newData array. Note that the data
 	 * is a tidier version of the actual output data and is for viewing purposes only.
+	 * @param output 
+	 * @param columnNames 
 	 */
 
 	public void reportFormatter (String output) {
-
-		displayFile.append (output);	
+	
+		displayFile.append (output);
+	
+		
 	}
 
 

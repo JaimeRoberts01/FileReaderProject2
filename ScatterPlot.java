@@ -176,7 +176,7 @@ public class ScatterPlot implements ActionListener {
 		DecimalFormat format = new DecimalFormat("####");
 		((NumberAxis) axisX).setNumberFormatOverride(format);
 		axisX.setAutoTickUnitSelection(true);
-
+		
 		XYLineAndShapeRenderer render = (XYLineAndShapeRenderer) plot.getRenderer();
 		GradientPaint gradientpaint = new GradientPaint(0.0F, 0.0F, 
 		new Color(5, 5, 140), 0.0F, 0.0F, new Color(209, 16, 196));
@@ -185,7 +185,7 @@ public class ScatterPlot implements ActionListener {
 		frameLayout(ID, identifier);
 	}
 
-
+	
 	/**This method lays out the graph frame*/
 
 	public void frameLayout (int[] ID, String identifier) {

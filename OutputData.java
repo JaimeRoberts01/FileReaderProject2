@@ -17,7 +17,8 @@ public class OutputData {
 	
 /**This method builds a string for the ReportFrame.*/ 
 	
-	public String outputString () { 
+//	public String outputString () { 
+	public Object [][] outputString () { 
 
 		StringBuilder SB = new StringBuilder();
 		
@@ -29,16 +30,49 @@ public class OutputData {
 		SB.append(header_lower);
 		SB.append (bar+ "\n\n");
 		
+		int columns = 7;
+		int rows= Process.getNewData().length;
+		
+		Object [][] output = new Object [rows][columns];
+		
 		for (int i = 0; i <Process.getNewData().length; i++) {
+			
+			int frame = Integer.parseInt((String)Process.getNewData()[i][0]);
+			int pillar = Integer.parseInt((String)Process.getNewData()[i][1]);
+			double dx = Double.parseDouble((String) Process.getNewData() [i][4]);
+			double dy = Double.parseDouble((String) Process.getNewData() [i][5]);
+			double px = Double.parseDouble((String) Process.getNewData() [i][6]);
+			double nm = (double) Process.getNewData() [i][7];
+			double pn = (double) Process.getNewData() [i][8];
+			
+			output [i][0] = frame;
+			output [i][1] = pillar;
+			output [i][2] = String.format("%.2f", dx);
+			output [i][3] = String.format("%.2f", dy);
+			output [i][4] = String.format("%.2f", px);
+			output [i][5] = String.format("%.2f", nm);
+			output [i][6] = String.format("%.2f", pn);
+			
+			
 
-			SB.append(String.format("%3s",Process.getNewData()[i][0]) + "\t" + String.format("%8.4s", Process.getNewData() [i][1])  + "\t"  + String.format("%8.7s", Process.getNewData() [i][4]) + "\t" 
-			+ String.format("%8.7s", Process.getNewData()[i][5]) + "\t"  + String.format("%8.7s", Process.getNewData() [i][6]) + "\t" + String.format("%9.7s",Process.getNewData() [i][7]) 
-			+ "\t" + String.format("%9.8s", Process.getNewData() [i][8]) + "\n");
+//			SB.append(String.format("%3s",Process.getNewData()[i][0]) + "\t" + String.format("%8.4s", Process.getNewData() [i][1])  + "\t"  + String.format("%8.7s", Process.getNewData() [i][4]) + "\t" 
+//			+ String.format("%8.7s", Process.getNewData()[i][5]) + "\t"  + String.format("%8.7s", Process.getNewData() [i][6]) + "\t" + String.format("%9.7s",Process.getNewData() [i][7]) 
+//			+ "\t" + String.format("%9.8s", Process.getNewData() [i][8]) + "\n");
+			
+//			SB.append(frame + "\t" + pillar  + "\t"  + String.format("%.3f", dx) + "\t" 
+//					+ String.format("%.3f", dy) + "\t"  + String.format("%.3f", deflection) + "\t" + String.format("%.3f",nm) 
+//					+ "\t" + String.format("%.3f", pn) + "\n");
+			
+			
 		}
-
-		String output = SB.toString();
-		ReportFrame = new ReportFrame (Process);
-		ReportFrame.reportFormatter(output);
+		String [] columnNames = {"Frame Index", "Pillar Index", "dx", "dy", "Deflection (px)", "Deflection (nm)", "Force (pN)"};
+//		String output = SB.toString();
+//		ReportFrame = new ReportFrame (Process);
+//		ReportFrame.reportFormatter(output);
+		
+		Demo Demo = new Demo (Process);	
+		Demo.reportFormatter(columnNames, output);
+		
 		return output;
 	}
 
@@ -64,10 +98,6 @@ public class OutputData {
 		output = output.replace("]", "");
 		return output;
 	}
-	
-	
-	
-	
 	
 	
 	/**This method creates a String output for the dataByFrame method and displays

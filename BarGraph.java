@@ -78,7 +78,7 @@ public class BarGraph implements ActionListener {
 	
 	public void barChartData_AllData () { //alldata
 
-		int rows = Process2.getPillar().size();
+		int rows = Process2.getPillar().size();	
 		int columns = 3;
 
 		barChartArray = new Object [rows][columns];

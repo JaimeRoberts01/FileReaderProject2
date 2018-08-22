@@ -16,10 +16,8 @@ public class MultipillarInput extends JFrame implements ActionListener{
 
 	private Processing Process;
 	private Processing2 Process2;
-	private BarGraph BarGraph;
-	private LineChart LineChart;
-
 	
+
 	/** Default Constructor*/
 	
 	public MultipillarInput () {
@@ -117,12 +115,6 @@ public class MultipillarInput extends JFrame implements ActionListener{
 			Process2 = new Processing2 (this);
 			Process2.getPillars(Process.getNewData());
 			Process2.multiPillar(Process.getNewData());
-
-			BarGraph = new BarGraph (Process2);
-			BarGraph.barChartData_Multipillar ();
-
-			LineChart = new LineChart (Process2);
-			LineChart.lineChartData_Multipillar(ID);
 			
 			return ID;
 	}

@@ -135,14 +135,8 @@ public class Processing2 {
 		for (double m : mean) {System.out.println("mean P2: " + m);}
 		for (double s : standard_deviation) {System.out.println("stndev P2: " + s);}
 		
-//		ScatterPlot = new ScatterPlot (this);
-//		ScatterPlot.scatterPlotData_AllFrames ();
-//		
-//		BarGraph = new BarGraph (this); 
-//		BarGraph.barChartData_AllData();
-		
-		OutputData = new OutputData (this, null);
-		OutputData.stringStatistics();
+//		OutputData = new OutputData (this, null);
+//		OutputData.stringStatistics();
 	}	
 
 
@@ -212,7 +206,7 @@ public class Processing2 {
 
 		if (pico.isEmpty()) {
 
-			return dataByPillar;
+			return null;
 		}
 
 		else {
@@ -271,6 +265,9 @@ public class Processing2 {
 
 		OutputData = new OutputData (this, null);
 		OutputData.StringMultipillar ();
+		
+		LineChart = new LineChart (this);
+		LineChart.lineChartData_Multipillar(values);
 		
 		for (double m : mean) {System.out.println("mean: " + m);}
 		for (double s : standard_deviation) {System.out.println("stndev: " + s);}
@@ -332,9 +329,6 @@ public class Processing2 {
 				}
 			}
 		}
-		
-		LineChart = new LineChart (this);
-		LineChart.lineChartData_AllData();
 		
 		for (Object O : dataByPillarFrame) {System.out.println("dataByPillarFrame: " + O);}
 		return dataByPillarFrame;
