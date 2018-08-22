@@ -11,8 +11,7 @@ import javax.swing.border.*;
 public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 
-	/**Instance variables*/
-	
+	/*Instance variables*/
 	private JPanel Panel1, Panel2, Panel3, Panel4, Panel5;
 	private JLabel Label1, Label2, Label3, Label4, Label5, Label6, Label7, Label8, Label9;
 	private JTextField TF1, TF2, TF3, TF4, TF5, TF6, TF7;
@@ -24,13 +23,10 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private Processing2 Process2;
 	@SuppressWarnings("unused")
 	private FileManager FileManager;
-	@SuppressWarnings("unused")
-	private MultipillarInput MultipillarInput;
 	private ArrayList <String> fileLine;
 
 
-	/**Constructor*/
-	
+	/*Constructor*/
 	public GUIClass ()  {
 
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
@@ -297,7 +293,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 		if (openVal == JFileChooser.APPROVE_OPTION) {
 
-			selectedFile =	JFC.getSelectedFile();
+			selectedFile = JFC.getSelectedFile();
 			String fileName = selectedFile.toString();
 			TF1.setText(fileName);
 
@@ -308,7 +304,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 			else {
 
-				System.out.println("Incorrect Filetype");
 				JOptionPane.showMessageDialog (null, "INVALID FILETYPE \n .csv files only", "ERROR", JOptionPane.ERROR_MESSAGE);
 				TF1.setText("");
 			}
@@ -394,51 +389,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		
 		/*Calculate Forces*/
 		if (e.getSource() == Button2) { 
-
-			try {
-
-				int conversion = Integer.parseInt(TF2.getText().trim());
-				double youngsM = Double.parseDouble(TF3.getText().trim());
-				double pillarD = Double.parseDouble(TF4.getText().trim());
-				double pillarL = Double.parseDouble(TF5.getText().trim());
-				
-				if (conversion == 0 || youngsM == 0 || pillarD == 0 || pillarL == 0) {
-
-					System.err.println("Value contains zero");			
-				}
-
-				else {
-
-					Process.nanoMeters(conversion);
-					Process.forces(youngsM, pillarD, pillarL);
-					Process.newDataArray();
-				}
-			}
-
-			catch (NumberFormatException NFE) {
-				System.err.println("Invalid input");
-			}
-			catch (NullPointerException NPE) {
-				System.err.println("Invalid input");
-			}
 			
-			if (TF2 != null && TF3 != null && TF4 != null && TF5 != null) {
-				
-				Button3.setEnabled(true);
-				JCB1.setEnabled(true);
-				
-				Process2 = new Processing2 ();
-				Process2.getFrames(Process.getNewData());
-				int max = Process2.getFrame().size();
-				JS1.setMaximum(max);
-				JS1.setEnabled(true);
-				
-				TF6.setEnabled(true);
-				Button5.setEnabled(true);
-				Button6.setEnabled(true);
-				Button7.setEnabled(true);
-				Button8.setEnabled(true);
-			}
+			calculateForces();
 		}
 
 		
@@ -451,8 +403,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 				Process2.getPillars(Process.getNewData());
 				Process2.getFrames(Process.getNewData());
 				Process2.allFrames(Process.getNewData());
-				//ReportFrame2 = new ReportFrame2 (Process2);
-				//ReportFrame2.reportFormatter(null);
+
 				OutputData OutputData = new OutputData (Process2, null);
 				OutputData.stringStatistics();
 			}
@@ -525,7 +476,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			}
 
 			catch (NullPointerException NPE) {
-				System.err.println("Invalid input - B5");
+				System.err.println("Invalid input");
 				NPE.printStackTrace();
 			}
 		}
@@ -554,7 +505,9 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 			catch (NumberFormatException NFE) {
 				System.err.println("Invalid input");
+				NFE.printStackTrace();
 			}
+			
 			catch (NullPointerException NPE) {
 				System.err.println("Invalid input");
 				NPE.printStackTrace();
@@ -565,7 +518,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		/*MultiPillar*/
 		if (e.getSource() == Button7) {
 
-			MultipillarInput = new MultipillarInput (Process, Process2);
+			MultipillarInput MultipillarInput = new MultipillarInput (Process, Process2);
+			MultipillarInput.frameComponents();
 		}
 
 		
@@ -575,11 +529,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			Process2 = new Processing2 ();
 			Process2.getPillars(Process.getNewData());
 			Process2.allPillarsAllFrames(Process.getNewData());
-//			ReportFrame5 = new ReportFrame5 (Process2);
-//			ReportFrame5.reportFormatter();
-//			String identifier = "All Data";
-//			Demo2 Demo2 = new Demo2 (Process2, identifier, 0);
-//			Demo2.JTable ();
 			OutputData OutputData = new OutputData (Process2, null);
 			OutputData.stringAllData();
 		}
@@ -597,6 +546,60 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 				int slider = JS1.getValue();
 				TF6.setText(Integer.toString(slider));
 			}	
+		}
+	}
+	
+	
+	/**This method retrieves input data from the TextFields for converting to forces*/
+	
+	public void calculateForces () {
+		
+		try {
+
+			int conversion = Integer.parseInt(TF2.getText().trim());
+			double youngsM = Double.parseDouble(TF3.getText().trim());
+			double pillarD = Double.parseDouble(TF4.getText().trim());
+			double pillarL = Double.parseDouble(TF5.getText().trim());
+			
+			if (conversion == 0 || youngsM == 0 || pillarD == 0 || pillarL == 0) {
+
+				System.err.println("Value contains zero");			
+			}
+
+			else {
+
+				Process.nanoMeters(conversion);
+				Process.forces(youngsM, pillarD, pillarL);
+				Process.newDataArray();
+			}
+		}
+
+		catch (NumberFormatException NFE) {
+			System.err.println("Invalid input");
+			NFE.printStackTrace();
+		}
+		
+		catch (NullPointerException NPE) {
+			System.err.println("Invalid input");
+			NPE.printStackTrace();
+		}
+		
+		if (TF2 != null && TF3 != null && TF4 != null && TF5 != null) {
+			
+			Button3.setEnabled(true);
+			JCB1.setEnabled(true);
+			
+			Process2 = new Processing2 ();
+			Process2.getFrames(Process.getNewData());
+			int max = Process2.getFrame().size();
+			JS1.setMaximum(max);
+			JS1.setEnabled(true);
+			
+			TF6.setEnabled(true);
+			Button5.setEnabled(true);
+			Button6.setEnabled(true);
+			Button7.setEnabled(true);
+			Button8.setEnabled(true);
 		}
 	}
 }

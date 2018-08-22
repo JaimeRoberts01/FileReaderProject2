@@ -4,38 +4,30 @@ import java.util.*;
 public class Processing2 {
 	
 
-	/**Instance variables*/
-
+	/*Instance variables*/
 	private ArrayList <Double> mean, standard_deviation; 
 	private ArrayList <Object> dataByPillar, outputDataByPillar;
 	private ArrayList <Object> dataByFrame, outputDataByFrame;
 	private ArrayList <Object> pillarFrame, allFrames;
 	private ArrayList <Object> multipillar, outputMultipillar;
-	private Object [] values; 
 	private ArrayList <String> dataByPillarFrame;
 	private ArrayList <Integer> pillar, frame;	
-
-	private MultipillarInput MultipillarInput;
-	private LineChart LineChart;
-	private ScatterPlot ScatterPlot;
-	private OutputData OutputData;
+	private Object [] values; 
 	
-
-	/**Default constructor*/
-
+	private MultipillarInput MultipillarInput;
+	
+	/*Default constructor*/
 	Processing2 () {
 	}
 	
 
-	/**Constructor*/
-
+	/*Constructor*/
 	Processing2 (MultipillarInput MultipillarInput) {	
 		this.MultipillarInput = MultipillarInput;
 	}
 
 
-	/**Getters*/
-
+	/*Getters*/
 	public ArrayList<Double> getMean() {return mean;}
 	public ArrayList<Double> getStandard_deviation() {return standard_deviation;}
 	public ArrayList<Integer> getPillar() {return pillar;}
@@ -50,7 +42,6 @@ public class Processing2 {
 	public ArrayList<Object> getDataByPillar() {return dataByPillar;}
 	public ArrayList<Object> getDataByFrame() {return dataByFrame;}
 	public ArrayList<Object> getPillarFrame() {return pillarFrame;}
-
 
 
 	/**This method creates a list of the pillars in the newData array. 
@@ -127,16 +118,12 @@ public class Processing2 {
 				}
 			}
 
-			System.out.println("pico: " + pico);
 			statistics (pico);
 			pico.clear();
 		}
 				
 		for (double m : mean) {System.out.println("mean P2: " + m);}
 		for (double s : standard_deviation) {System.out.println("stndev P2: " + s);}
-		
-//		OutputData = new OutputData (this, null);
-//		OutputData.stringStatistics();
 	}	
 
 
@@ -164,10 +151,10 @@ public class Processing2 {
 
 		for (int j =0; j< dataByFrame.size(); j++) {System.out.println("byFrame: " + dataByFrame.get(j));}
 
-		ScatterPlot = new ScatterPlot (this);
+		ScatterPlot ScatterPlot = new ScatterPlot (this);
 		ScatterPlot.scatterPlotData_byFrame (ID);
 
-		OutputData = new OutputData (this, null);
+		OutputData OutputData = new OutputData (this, null);
 		OutputData.stringByFrame (ID);
 		return dataByFrame;
 	}
@@ -197,7 +184,6 @@ public class Processing2 {
 				Object frames = newData [i][0];
 				outputDataByPillar.add(forces);
 				pillarFrame.add(frames);
-				System.out.println ("pillarFrame: " + pillarFrame);
 				dataByPillar.add((double) newData [i][8]);
 			}	
 		}
@@ -211,12 +197,12 @@ public class Processing2 {
 
 		else {
 
-			OutputData = new OutputData (this, null);
+			OutputData OutputData = new OutputData (this, null);
 			OutputData.stringByPillar (ID);
 			pico.clear ();
 		}
 		
-		LineChart = new LineChart (this);
+		LineChart LineChart = new LineChart (this);
 		LineChart.lineChartData_byPillar (ID);
 	
 		return dataByPillar;
@@ -257,16 +243,14 @@ public class Processing2 {
 				}
 			}	
 			
-			for (double d: pico) {System.out.println("pico2 : " + d);}
-			
 			statistics(pico);
 			pico.clear();
 		}
 
-		OutputData = new OutputData (this, null);
+		OutputData OutputData = new OutputData (this, null);
 		OutputData.StringMultipillar ();
 		
-		LineChart = new LineChart (this);
+		LineChart LineChart = new LineChart (this);
 		LineChart.lineChartData_Multipillar(values);
 		
 		for (double m : mean) {System.out.println("mean: " + m);}
@@ -332,5 +316,5 @@ public class Processing2 {
 		
 		for (Object O : dataByPillarFrame) {System.out.println("dataByPillarFrame: " + O);}
 		return dataByPillarFrame;
-	}
+	}	
 }

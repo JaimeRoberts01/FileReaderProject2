@@ -16,14 +16,12 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 public class ScatterPlot implements ActionListener {
 
 
-	/**Instance Variables*/
-
+	/*Instance Variables*/
 	private Object [][] scatterPlotArray;
 	private JFreeChart scatterPlot;
 	private XYSeriesCollection dataset;
 	private XYSeries series;
-	XYPlot plot;
-
+	private XYPlot plot;
 	private JFrame frame;
 	private JButton Button1, Button2, Button3, Button4;
 	private JTextField TF1;
@@ -31,15 +29,15 @@ public class ScatterPlot implements ActionListener {
 	private Processing2 Process2;
 
 
-	/**Constructor*/
-
+	/*Constructor*/
 	public ScatterPlot (Processing2 Process2) {
 		this.Process2 = Process2;
 	}
 
 
-	/**This method retrieves data from the byFrame method and creates a dataset array. An 
-	 * ID is passed from Processing2 and turned into an ID array for tracking the frame.
+	/**This method retrieves data from the byFrame method and creates a dataset array of the frame 
+	 * data. An ID is passed from Processing2 and turned into an ID array for tracking the frame.
+	 * @param ID - the frame index.
 	 */
 
 	public void scatterPlotData_byFrame (int frameID) {
@@ -69,8 +67,11 @@ public class ScatterPlot implements ActionListener {
 	}
 
 
+	/**This method retrieves data from the AllFrames method and 
+	 * creates a dataset array of the whole data
+	 */
 
-	public void scatterPlotData_AllFrames () { // AllFrames data
+	public void scatterPlotData_AllFrames () { 
 
 		int rows = Process2.getMean().size();
 		int columns = 3;
@@ -99,6 +100,7 @@ public class ScatterPlot implements ActionListener {
 
 		catch (NullPointerException NPE) {
 			System.err.println("Invalid input");
+			NPE.printStackTrace();
 		}
 
 		String identifier = "AllData";
@@ -108,7 +110,8 @@ public class ScatterPlot implements ActionListener {
 
 	/**This method creates the scatter-plot. It uses the ID to run through the array in scatterPlotData
 	 * and pulls out the data for a particular pillar. This is then plotted on a formatted graph plot.
-	 * @param identifier 
+	 * @param ID - the ID of the pillar or frame.
+	 * @param identifier - the source of the data e.g. allFrame or byFrame. 
 	 */
 
 	public void createScatterPlot (int[] ID, String identifier) {
@@ -148,15 +151,18 @@ public class ScatterPlot implements ActionListener {
 		}
 		
 		else {
+			
 			scatterPlot = ChartFactory.createScatterPlot("Pillar Forces", "Pillar ID", "Force (pN)", dataset);
 		}
 		
+		/*Plot appearance*/
 		scatterPlot.getTitle().setFont(new Font ("monspaced", Font.BOLD, 14));
 		scatterPlot.setBackgroundPaint(Color.white);
 		scatterPlot.removeLegend();
 		plot = (XYPlot) scatterPlot.getPlot();
 		plot.setBackgroundPaint(Color.lightGray);
 
+		/*Y axis formatting*/
 		NumberAxis axisY = (NumberAxis) plot.getRangeAxis();
 		axisY.setAxisLinePaint(Color.black);
 		axisY.setTickMarkPaint(Color.black); 
@@ -164,6 +170,7 @@ public class ScatterPlot implements ActionListener {
 		axisY.setLabelFont(new Font ("monspaced", Font.BOLD, 12));
 		axisY.setAxisLineStroke(new BasicStroke(1.2f)); 
 
+		/*X axis formatting*/
 		ValueAxis axisX = plot.getDomainAxis();
 		axisX.setAxisLinePaint(Color.black);
 		axisX.setTickMarkPaint(Color.black); 
@@ -177,6 +184,7 @@ public class ScatterPlot implements ActionListener {
 		((NumberAxis) axisX).setNumberFormatOverride(format);
 		axisX.setAutoTickUnitSelection(true);
 		
+		/*Series formatting*/
 		XYLineAndShapeRenderer render = (XYLineAndShapeRenderer) plot.getRenderer();
 		GradientPaint gradientpaint = new GradientPaint(0.0F, 0.0F, 
 		new Color(5, 5, 140), 0.0F, 0.0F, new Color(209, 16, 196));
@@ -186,7 +194,10 @@ public class ScatterPlot implements ActionListener {
 	}
 
 	
-	/**This method lays out the graph frame*/
+	/**This method lays out the graph frame
+	 * @param ID - the pillar indices.
+	 * @param identifier - the source of the data.
+	 */
 
 	public void frameLayout (int[] ID, String identifier) {
 
@@ -224,6 +235,7 @@ public class ScatterPlot implements ActionListener {
 		Button2.addActionListener (this);
 		frame.add(Button2);
 
+		/*Different buttons depending on the source of the data*/
 		if (identifier.contentEquals("AllData")) {
 
 			JSeparator S1 = new JSeparator(SwingConstants.VERTICAL);
@@ -263,7 +275,8 @@ public class ScatterPlot implements ActionListener {
 		}
 	}
 
-
+	/**This method filters the dataset depending on force value. Notifiers update the scatter-plot*/
+	
 	public void filterValues () {
 
 		int rows = this.scatterPlotArray.length;
@@ -293,8 +306,6 @@ public class ScatterPlot implements ActionListener {
 			}	
 		}
 
-		System.out.println("NLC L: " + scatterPlotArray.length);
-
 		dataset = new XYSeriesCollection (); 
 		series = new XYSeries ("Pillars");
 
@@ -308,15 +319,13 @@ public class ScatterPlot implements ActionListener {
 				series.add (x,y);
 			}
 		}
+		
 		dataset.addSeries(series);
-
 		plot.setDataset(dataset);
 	}
 
 
-	/**FileChooser allows files to be saved in a particular directory and with a give name.
-	 * The fileName is passed to the FileWriter method for saving the data.
-	 */
+	/**FileChooser - save location*/
 
 	public void fileChooser () {
 
@@ -350,7 +359,8 @@ public class ScatterPlot implements ActionListener {
 	}
 
 
-	/**This method saves the graph to file*/
+	/**This method saves the graph to file
+	 * @param fileName - the name of the file.*/
 
 	public void savePlot (String fileName) {
 
@@ -361,33 +371,34 @@ public class ScatterPlot implements ActionListener {
 
 		catch (Exception e) {
 
-			System.out.println("Problem occurred creating chart.jska " + e.getMessage());
+			System.out.println("Problem occurred creating chart.jska"); 
+			e.printStackTrace();
 		}
-
-		System.out.println("I did well2");
-
 	}
 
 
-	/**ActionPerformed method for the save button*/
+	/**ActionPerformed methods for the individual buttons*/
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == Button1) {
+			
 			fileChooser();
 		}
 
 		if (e.getSource() == Button2) {
+			
 			frame.dispose();
 		}
 
 		if (e.getSource() == Button3) {
+			
 			filterValues ();
-
 		}
 
 		if (e.getSource() == Button4) {
+			
 			TF1.setText("");
 			filterValues ();
 		}

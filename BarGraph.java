@@ -13,12 +13,12 @@ import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 
 public class BarGraph implements ActionListener {
 
-
+	
+	/*Instance Variables*/
 	private CategoryPlot plot;
 	private JFreeChart barChart;
 	private Object [][] barChartArray;
 	private DefaultStatisticalCategoryDataset bar;
-
 	private JFrame frame;
 	private JButton Button1, Button2, Button3, Button4;
 	private JTextField TF1;
@@ -26,6 +26,7 @@ public class BarGraph implements ActionListener {
 	private Processing2 Process2;
 
 
+	/*Constructor*/
 	public BarGraph (Processing2 Process2) {
 		this.Process2 = Process2;
 	}
@@ -61,10 +62,11 @@ public class BarGraph implements ActionListener {
 
 				bar.add (avg, stdv, cat, title);
 			}
-
 		}
+		
 		catch (NullPointerException NPE) {
 			System.err.println("Invalid input");
+			NPE.printStackTrace();
 		}
 
 		String identifier = "Multipillar";
@@ -76,7 +78,7 @@ public class BarGraph implements ActionListener {
 	 * pillar indices from Processing2 as well as average and standard deviation values.
 	 */
 	
-	public void barChartData_AllData () { //alldata
+	public void barChartData_AllData () {
 
 		int rows = Process2.getPillar().size();	
 		int columns = 3;
@@ -103,8 +105,10 @@ public class BarGraph implements ActionListener {
 				bar.add (avg, stdv, cat, title);
 			}
 		}
+		
 		catch (NullPointerException NPE) {
 			System.err.println("Invalid input - barchartdata");
+			NPE.printStackTrace();
 		}
 
 		String identifier = "AllData";
@@ -112,9 +116,9 @@ public class BarGraph implements ActionListener {
 	}
 
 
-
 	/**This method creates the barchart. It uses the ID to run through the array in scatterPlotData and 
-	 * pulls out the data for a particular pillar. This is then plotted on a formatted graph plot.
+	 * pulls out the data for a particular pillar. This is then plotted on a formatted graph plot. A
+	 * String identifier is passed to identify the source of the data.
 	 */
 
 	public void createBarChart (String identifier) {
@@ -130,10 +134,12 @@ public class BarGraph implements ActionListener {
 		barChart.removeLegend();
 		barChart.setBackgroundPaint(Color.white);
 
+		/*Plot appearance*/
 		plot.setOrientation(PlotOrientation.VERTICAL);
 		plot.setBackgroundPaint(Color.lightGray);
 		plot = barChart.getCategoryPlot(); 
 
+		/*Y axis formatting*/
 		NumberAxis axisY = (NumberAxis) plot.getRangeAxis();
 		axisY.setAxisLinePaint(Color.black);
 		axisY.setTickMarkPaint(Color.black); 
@@ -141,6 +147,7 @@ public class BarGraph implements ActionListener {
 		axisY.setLabelFont(new Font ("monspaced", Font.BOLD, 12));
 		axisY.setAxisLineStroke(new BasicStroke(1.2f));
 
+		/*X axis formatting*/
 		CategoryAxis axisX = plot.getDomainAxis();
 		axisX.setAxisLinePaint(Color.black);
 		axisX.setTickMarkPaint(Color.black); 
@@ -150,6 +157,7 @@ public class BarGraph implements ActionListener {
 		axisX.setLowerMargin(0.01);
 		axisX.setUpperMargin(0.01);
 
+		/*Series formatting*/
 		StatisticalBarRenderer renderer = (StatisticalBarRenderer) plot.getRenderer();
 		GradientPaint gradientpaint = new GradientPaint(0.0F, 0.0F, 
 		new Color(5, 5, 140), 0.0F, 0.0F, new Color(209, 16, 196));
@@ -164,7 +172,8 @@ public class BarGraph implements ActionListener {
 	}
 
 
-	/**This method lays out the graph frame*/
+	/**This method lays out the graph frame
+	 * @param identifier - the source of the data.*/
 
 	public void frameLayout (String identifier) {
 
@@ -202,6 +211,7 @@ public class BarGraph implements ActionListener {
 		Button2.addActionListener (this);
 		frame.add(Button2);
 
+		/*Different buttons depending on the source of the data*/
 		if (identifier.contentEquals("AllData")) {
 			
 			JSeparator S1 = new JSeparator(SwingConstants.VERTICAL);
@@ -242,6 +252,8 @@ public class BarGraph implements ActionListener {
 	}
 
 
+	/**This method filters the dataset depending on force value. Notifiers update the bar-chart*/
+	
 	public void filterValues () {
 
 		int rows = barChartArray.length;
@@ -256,6 +268,7 @@ public class BarGraph implements ActionListener {
 		}
 
 		else {
+			
 			filterValue = Integer.parseInt(TF1.getText());
 		}
 
@@ -268,25 +281,17 @@ public class BarGraph implements ActionListener {
 				barChartArray [i] = this.barChartArray [i]; 
 				System.out.println("NLC: " + Arrays.toString(barChartArray[i]));
 			}
-
 		}
-		System.out.println("NLC L: " + barChartArray.length);
 
 		bar = new DefaultStatisticalCategoryDataset (); 
-
-		double avg = 0;
-		double stdv = 0.0;
-		String cat = "";
-		String title = "";
-
 
 		for (int i = 0; i < rows; i++) { 
 
 			if (barChartArray [i][1] != null) {
-				avg = (double) barChartArray [i][1]; 
-				stdv = (double) barChartArray [i][2]; 
-				cat = "Pillar";
-				title = Integer.toString((int) barChartArray[i][0]); 
+				double avg = (double) barChartArray [i][1]; 
+				double stdv = (double) barChartArray [i][2]; 
+				String cat = "Pillar";
+				String title = Integer.toString((int) barChartArray[i][0]); 
 
 				bar.add (avg, stdv, cat, title);
 			}
@@ -296,9 +301,7 @@ public class BarGraph implements ActionListener {
 	}
 
 
-	/**FileChooser allows files to be saved in a particular directory and with a give name.
-	 * The fileName is passed to the FileWriter method for saving the data.
-	 */
+	/**FileChooser - save location*/
 
 	public void fileChooser () {
 
@@ -332,7 +335,9 @@ public class BarGraph implements ActionListener {
 	}
 
 
-	/**This method saves the graph to file*/
+	/**This method saves the graph to file
+	 * @param fileName - the name of the file.
+	 */
 
 	public void saveChart (String fileName) {
 
@@ -343,32 +348,35 @@ public class BarGraph implements ActionListener {
 
 		catch (Exception e) {	
 
-			System.out.println("Problem occurred creating chart.jska " + e.getMessage());
+			System.out.println("Problem occurred creating chart.jska ");
+			e.printStackTrace();
 		}
-
-		System.out.println("I did well");
 	}
 
 
-	/**ActionPerformed method for the save button*/
+	/**ActionPerformed methods for the individual buttons*/
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
 
 		if (e.getSource() == Button1) {
+			
 			fileChooser();
 		}
 
 		if (e.getSource() == Button2) {
+			
 			frame.dispose();
 		}
 
 		if (e.getSource() == Button3) {
+			
 			filterValues ();
 		}
 
 		if (e.getSource() == Button4) {
+			
 			TF1.setText("");
 			filterValues ();
 		}

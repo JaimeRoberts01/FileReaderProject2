@@ -3,60 +3,46 @@ import java.util.*;
 
 public class Processing {
 
-	/**Instance variables for the arrays.*/
-	
+	/*Instance variables for the arrays.*/
 	private Object [][] data, newData;
 	private double [] nanometers, picoNewtons;
 	private OutputData OutputData;
 
 
-	/**Constructor*/
+	/*Constructor*/
 	public Processing () {
 	}
 
-
-	/**Getters and Setters*/
 	
+	/*Getters*/
 	public Object[][] getData() {return data;}
-	public void setData(Object[][] data) {this.data = data;}
 	public Object[][] getNewData() {return newData;}
-	public void setNewData(Object[][] newData) {this.newData = newData;}
 	public double[] getNanometers() {return nanometers;}
-	public void setNanometers(double[] nanometers) {this.nanometers = nanometers;}
 	public double[] getPicoNewtons() {return picoNewtons;}
-	public void setPicoNewtons(double[] picoNewtons) {this.picoNewtons = picoNewtons;}
-
+	
 
 	/**This method breaks the ArrayList<String> into a 2D array using "," as the delimiter. 
 	 * It starts by removing lines that contain the word "NaN"/"Frame Index", which aren't 
 	 * processed. @author jemmanatasharoberts.
 	 */
-	
-	public Object [][] data (ArrayList<String> fileLine) { 
 
-		//		for (int i = 0; i < 2; i++) {
-		//
-		//			for (int j =0; j<fileLine.size(); j++) {
-		//				
-		//			if (fileLine.get(j).contains("NaN") ||  fileLine.get(j).contains("Frame Index")) {
-		//
-		//				fileLine.remove(j);
-		//			}
-		//		}
-		//		}
+	public Object [][] data (ArrayList<String> fileLine) {
 
 		if (fileLine.isEmpty()) {
 			System.out.println("Something is wrong");
 		}
 
-		for (int i =0; i<fileLine.size(); i++) {
+		for (int i = 0; i < 2; i++) {
 
-			if (fileLine.get(i).contains("NaN") ||  fileLine.get(i).contains("Frame Index")) {
+			for (int j =0; j<fileLine.size(); j++) {
 
-				fileLine.remove(i);
+				if (fileLine.get(j).contains("NaN") ||  fileLine.get(j).contains("Frame Index")) {
+
+					fileLine.remove(j);
+				}
 			}
 		}
-		
+
 		int rows = fileLine.size();
 		int columns = 7;
 
@@ -76,9 +62,9 @@ public class Processing {
 	/**This method converts pixels into nanometres for the deflection values.
 	 * @return an array of deflection values in nanometres.
 	 */
-	
+
 	public double [] nanoMeters (int conversion) {	
-	
+
 		int columns = data.length;
 		nanometers = new double [columns];
 
@@ -87,7 +73,7 @@ public class Processing {
 			double nm =  Double.parseDouble((String) data [i][6]) * conversion;
 			nanometers [i] = nm;
 		}
-		
+
 		return nanometers;
 	}
 
@@ -95,7 +81,7 @@ public class Processing {
 	/**This method calculates the picoNewton forces from all the values provided.
 	 * @return an array of forces in piconewtons.
 	 */
-	
+
 	public double [] forces (double youngsM, double pillarD, double pillarL) {
 
 		int columns = data.length;
@@ -120,7 +106,7 @@ public class Processing {
 
 	/**This method creates a new array with the added nanometres and picoNewton values.
 	 * @ returns an array containing all data for the pillars.*/
-	
+
 	public Object [][] newDataArray () {
 
 		int columns = 9;
@@ -130,7 +116,7 @@ public class Processing {
 
 		for (int i = 0; i < rows; i++) {
 
-			newData [i][0] = data [i][0]; //frame
+			newData [i][0] = data [i][0]; // frame
 			newData [i][1] = data [i][1]; // pillar
 			newData [i][2] = data [i][2]; // x
 			newData [i][3] = data [i][3]; // y
@@ -139,62 +125,10 @@ public class Processing {
 			newData [i][6] = data [i][6]; // deflection
 			newData [i][7] = nanometers [i];
 			newData [i][8] = picoNewtons [i];
-
-			//	System.out.println("Here is newData: " + Arrays.toString (newData[i]));
 		}
 
 		OutputData = new OutputData (null, this);
 		OutputData.outputString();
 		return newData;
 	}
-
-
-//	/**This method builds a string for the ReportFrame.*/ 
-//	
-//	public String outputString () { 
-//
-//		StringBuilder SB = new StringBuilder();
-//		
-//		String header_upper = (String.format("%s %11s %11s %15s %19s %16s %13s", "Frame", "Pillar", "dx", "dy", "Deflection", "Deflection", "Force")+"\n");
-//		String header_lower = (String.format("%s %10s %11s %15s %17s %16s %15s", "Index", "Index", " ", " ", "(px)", "(nm)", "(pN)")+"\n");
-//		String bar = "--------------------------------------------------------------------------------------------------";
-//		
-//		SB.append(header_upper);
-//		SB.append(header_lower);
-//		SB.append (bar+ "\n\n");
-//		
-//		for (int i = 0; i <newData.length; i++) {
-//
-//			SB.append(String.format("%3s",newData[i][0]) + "\t" + String.format("%8.4s", newData [i][1])  + "\t"  + String.format("%8.7s", newData [i][4]) + "\t" 
-//			+ String.format("%8.7s", newData[i][5]) + "\t"  + String.format("%8.7s", newData [i][6]) + "\t" + String.format("%9.7s", newData [i][7]) 
-//			+ "\t" + String.format("%9.8s", newData [i][8]) + "\n");
-//		}
-//
-//		String output = SB.toString();	
-//		return output;
-//	}
-//
-//
-//	/**This method builds a string for the output file, which is another csv file.*/
-//	
-//	public String outputFile () {
-//
-//		String header = ("Frame Index" + "," + "Pillar Index" + "," + "x" + "," + "y" + ","  + "dx" + ","
-//				+ "dy" + "," + "Deflection (px)" + "," + "Deflection (nm)"+ "," + "Forces (pN)" + ",");
-//		String body = "";
-//
-//		for (int i =0; i<newData.length;i++) {
-//
-//			body += Arrays.toString(newData[i]) +"\n";
-//		}
-//
-//		StringBuilder SB = new StringBuilder();
-//		SB.append(header + "\n");
-//		SB.append(body);
-//		String outputFile = SB.toString();
-//		outputFile = outputFile.replace("[", "");
-//		outputFile = outputFile.replace("]", "");
-//
-//		return outputFile;
-//	}
 }

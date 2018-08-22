@@ -8,8 +8,7 @@ import javax.swing.border.*;
 public class MultipillarInput extends JFrame implements ActionListener{
 
 
-	/**Instance Variables*/
-	
+	/*Instance Variables*/
 	private JTextArea displayFile;
 	private JButton Button1, Button2;
 	private Object [] ID;
@@ -18,18 +17,17 @@ public class MultipillarInput extends JFrame implements ActionListener{
 	private Processing2 Process2;
 	
 
-	/** Default Constructor*/
-	
+	/* Default Constructor*/
 	public MultipillarInput () {
 	}
 
 	
-	/**Constructor*/
-	
+	/*Constructor*/
 	public MultipillarInput (Processing Process, Processing2 Process2) {	
 
 		this.Process = Process;
 		this.Process2 = Process2;
+		
 		setDefaultCloseOperation (DISPOSE_ON_CLOSE);
 		setTitle ("Multipillar Data");
 		setLocationRelativeTo(null);
@@ -37,12 +35,10 @@ public class MultipillarInput extends JFrame implements ActionListener{
 		setVisible (true);
 		setResizable (false);
 		setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
-		frameComponents ();
 	}
 
 
-	/**GUI layout*/
-	
+	/*GUI layout*/
 	public void frameComponents () {
 
 		displayFile = new JTextArea ();
@@ -92,10 +88,9 @@ public class MultipillarInput extends JFrame implements ActionListener{
 		}
 	}
 
-	/**Getters & Setters*/
+	/**Getters*/
 	
 	public Object[] getID() {return ID;}
-	public void setID (Object[] ID) {this.ID = ID;}
 	
 	
 	/**This method gets the pillar values from the MultiPillar TextArea and sends the values 

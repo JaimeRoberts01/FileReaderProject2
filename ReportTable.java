@@ -9,26 +9,30 @@ import javax.swing.border.*;
 @SuppressWarnings("serial")
 public class ReportTable extends JFrame implements ActionListener {
 
+	/*Instance variables*/
 	private JTable displayTable;
-	private Processing Process;
 	private JButton Button1, Button2;
 	private JFrame frame;
+	
+	private Processing Process;
 	private OutputData OutputData;
 
 
+	/*Constructor*/
 	public ReportTable (Processing Process) {
 
 		this.Process = Process;
 	}
 
 
-
-	/**This method formats the JTable*/
+	/**This method formats the JTable
+	 * @ param columnNames - column header
+	 * @ param output - row data.
+	 */
 
 	public void JTable (String [] columnNames, Object [][] output) {
 
 		displayTable = new JTable (output, columnNames) {	
-
 
 			public boolean isCellEditable (int output, int columnNames) {
 				return false;
@@ -46,8 +50,8 @@ public class ReportTable extends JFrame implements ActionListener {
 		scroll.setPreferredSize(new Dimension (600, 345));
 		add (scroll);
 
-		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer ();
-		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer (); 
+		rightRenderer.setHorizontalAlignment(JLabel.RIGHT); // Column data right.
 		displayTable.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
 		displayTable.getColumnModel().getColumn(1).setCellRenderer(rightRenderer);
 		displayTable.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
@@ -93,14 +97,12 @@ public class ReportTable extends JFrame implements ActionListener {
 	}
 
 
-	/**FileChooser allows files to be saved in a particular directory and with a give name.
-	 * The fileName is passed to the FileWriter method for saving the data.
-	 */
+	/**FileChooser - save location*/
 
 	public void fileChooser () {
 
 		JFileChooser JFC = new JFileChooser();
-		String fileName = "";
+		String fileName = null;
 		int saveVal = JFC.showSaveDialog(null);
 
 		if (saveVal == JFileChooser.APPROVE_OPTION) {
@@ -129,9 +131,10 @@ public class ReportTable extends JFrame implements ActionListener {
 	}
 
 
-	/**The method send the fileName to the the FileWriter in the FileManager class. The 
-	 * FileWriter deals with a number of output files so an identifier is passed to the
-	 * method identifying which dataset has been sent for saving.
+	/**The method sends fileName to the the FileWriter in the FileManager class. 
+	 * The FileWriter deals with a number of output files so an identifier is 
+	 * passed to the method identifying which dataset has been sent for saving.
+	 * @param fileName - name of the file to be saved.
 	 */
 
 	public void fileWriter (String fileName) {
