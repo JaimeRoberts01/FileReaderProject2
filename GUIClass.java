@@ -24,7 +24,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private Processing2 Process2;
 	@SuppressWarnings("unused")
 	private FileManager FileManager;
-	ReportFrame5 ReportFrame5;
 	@SuppressWarnings("unused")
 	private MultipillarInput MultipillarInput;
 	private ArrayList <String> fileLine;
@@ -460,6 +459,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 			catch (NullPointerException NPE) {
 				System.out.println("No valid data for statistical analysis");
+				NPE.printStackTrace();
 			}			
 		}
 		
@@ -525,7 +525,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			}
 
 			catch (NullPointerException NPE) {
-				System.err.println("Invalid input");
+				System.err.println("Invalid input - B5");
+				NPE.printStackTrace();
 			}
 		}
 
@@ -574,8 +575,13 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			Process2 = new Processing2 ();
 			Process2.getPillars(Process.getNewData());
 			Process2.allPillarsAllFrames(Process.getNewData());
-			ReportFrame5 = new ReportFrame5 (Process2);
-			ReportFrame5.reportFormatter();
+//			ReportFrame5 = new ReportFrame5 (Process2);
+//			ReportFrame5.reportFormatter();
+//			String identifier = "All Data";
+//			Demo2 Demo2 = new Demo2 (Process2, identifier, 0);
+//			Demo2.JTable ();
+			OutputData OutputData = new OutputData (Process2, null);
+			OutputData.stringAllData();
 		}
 	}
 

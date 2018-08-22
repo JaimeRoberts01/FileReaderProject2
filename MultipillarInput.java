@@ -32,7 +32,7 @@ public class MultipillarInput extends JFrame implements ActionListener{
 		this.Process2 = Process2;
 		setDefaultCloseOperation (DISPOSE_ON_CLOSE);
 		setTitle ("Multipillar Data");
-		setLocation (1500, 675);
+		setLocationRelativeTo(null);
 		setSize (400, 400);
 		setVisible (true);
 		setResizable (false);

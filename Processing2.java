@@ -309,7 +309,7 @@ public class Processing2 {
 	 * It is used for the LineChart plotting pillar forces across time.
 	 */
 
-	public ArrayList<String> allPillarsAllFrames (Object [][] newData) {
+	public ArrayList <String> allPillarsAllFrames (Object [][] newData) {
 
 		dataByPillarFrame = new ArrayList <String> ();
 

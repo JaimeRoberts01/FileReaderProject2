@@ -6,7 +6,8 @@ import javax.swing.*;
 public class FileManager {
 
 
-	/*Instance variables*/
+	/**Instance variables*/
+	
 	private Processing Process;
 	private Processing2 Process2;
 	private GUIClass GUI;
@@ -20,20 +21,20 @@ public class FileManager {
 		
 	}
 	
-	/*Constructor*/
+	/**Constructor*/ 
+	
 	public FileManager(Processing Process, Processing2 Process2, OutputData OutputData) {
 		this.Process = Process;
 		this.Process2 = Process2;
 		this.OutputData = OutputData;
 	}
 
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
+	/*Getters*/
+	
+	public String getFileName() {return fileName;}
+	public void setFileName(String fileName) {this.fileName = fileName;}
+	
+	
 	
 	public void fileSelection () {
 
@@ -143,6 +144,10 @@ public class FileManager {
 
 				else if (identifier.equals("Multipillar Data")) {
 					writer.write(OutputData.outputMultipillar());
+				}
+				
+				else if (identifier.equals("All Data")) {
+					writer.write(OutputData.outputAllData());
 				}
 			}
 

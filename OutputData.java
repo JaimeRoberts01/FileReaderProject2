@@ -1,79 +1,45 @@
-import java.util.Arrays;
+import java.util.*;
+
 
 public class OutputData {
 	
 	private Processing2 Process2;
 	private Processing Process;
-	private ReportFrame2 ReportFrame2;
-	private ReportFrame ReportFrame;
 	
 	
 	public OutputData (Processing2 Process2, Processing Process) {
 		this.Process2 = Process2;
-		this.Process = Process;
-		
+		this.Process = Process;		
 	}
 	
 	
 /**This method builds a string for the ReportFrame.*/ 
 	
-//	public String outputString () { 
-	public Object [][] outputString () { 
-
-		StringBuilder SB = new StringBuilder();
+	public void outputString () { 
 		
-		String header_upper = (String.format("%s %11s %11s %15s %19s %16s %13s", "Frame", "Pillar", "dx", "dy", "Deflection", "Deflection", "Force")+"\n");
-		String header_lower = (String.format("%s %10s %11s %15s %17s %16s %15s", "Index", "Index", " ", " ", "(px)", "(nm)", "(pN)")+"\n");
-		String bar = "--------------------------------------------------------------------------------------------------";
-		
-		SB.append(header_upper);
-		SB.append(header_lower);
-		SB.append (bar+ "\n\n");
-		
-		int columns = 7;
+		int columns = 5;
 		int rows= Process.getNewData().length;
 		
-		Object [][] output = new Object [rows][columns];
+		Object [][] data = new Object [rows][columns];
 		
 		for (int i = 0; i <Process.getNewData().length; i++) {
 			
-			int frame = Integer.parseInt((String)Process.getNewData()[i][0]);
-			int pillar = Integer.parseInt((String)Process.getNewData()[i][1]);
-			double dx = Double.parseDouble((String) Process.getNewData() [i][4]);
-			double dy = Double.parseDouble((String) Process.getNewData() [i][5]);
+			int frame = Integer.parseInt((String)Process.getNewData() [i][0]);
+			int pillar = Integer.parseInt((String)Process.getNewData() [i][1]);
 			double px = Double.parseDouble((String) Process.getNewData() [i][6]);
 			double nm = (double) Process.getNewData() [i][7];
 			double pn = (double) Process.getNewData() [i][8];
 			
-			output [i][0] = frame;
-			output [i][1] = pillar;
-			output [i][2] = String.format("%.2f", dx);
-			output [i][3] = String.format("%.2f", dy);
-			output [i][4] = String.format("%.2f", px);
-			output [i][5] = String.format("%.2f", nm);
-			output [i][6] = String.format("%.2f", pn);
-			
-			
-
-//			SB.append(String.format("%3s",Process.getNewData()[i][0]) + "\t" + String.format("%8.4s", Process.getNewData() [i][1])  + "\t"  + String.format("%8.7s", Process.getNewData() [i][4]) + "\t" 
-//			+ String.format("%8.7s", Process.getNewData()[i][5]) + "\t"  + String.format("%8.7s", Process.getNewData() [i][6]) + "\t" + String.format("%9.7s",Process.getNewData() [i][7]) 
-//			+ "\t" + String.format("%9.8s", Process.getNewData() [i][8]) + "\n");
-			
-//			SB.append(frame + "\t" + pillar  + "\t"  + String.format("%.3f", dx) + "\t" 
-//					+ String.format("%.3f", dy) + "\t"  + String.format("%.3f", deflection) + "\t" + String.format("%.3f",nm) 
-//					+ "\t" + String.format("%.3f", pn) + "\n");
-			
-			
+			data [i][0] = frame;
+			data [i][1] = pillar;
+			data [i][2] = String.format("%.2f", px);
+			data [i][3] = String.format("%.2f", nm);
+			data [i][4] = String.format("%.2f", pn);		
 		}
-		String [] columnNames = {"Frame Index", "Pillar Index", "dx", "dy", "Deflection (px)", "Deflection (nm)", "Force (pN)"};
-//		String output = SB.toString();
-//		ReportFrame = new ReportFrame (Process);
-//		ReportFrame.reportFormatter(output);
-		
-		Demo Demo = new Demo (Process);	
-		Demo.reportFormatter(columnNames, output);
-		
-		return output;
+		String [] column = {"Frame Index (ID)", "Pillar Index (ID)", "Deflection (px)", "Deflection (nm)", "Force (pN)"};
+
+		ReportTable ReportTable = new ReportTable (Process);	
+		ReportTable.JTable(column, data);
 	}
 
 
@@ -105,31 +71,31 @@ public class OutputData {
 	 * for viewing the data only.
 	 */
 
-	public String stringByFrame (int ID) { 
+	public void stringByFrame (int ID) { // ID is for the frame number
+		
+		String [] column = {"Frame Index (ID)", "Pillar Index (ID)", "Force (pN)"};
 
-		StringBuilder SB = new StringBuilder();
-		String header_upper = (String.format("%9s %15s %15s", "Frame", "Pillar", "Force")+"\n");
-		String header_lower = (String.format("%9s %15s %15s", "Index", "Index", "(pN)")+"\n");
-		String bar = "---------------------------------------------";
-		SB.append(header_upper);
-		SB.append(header_lower);
-		SB.append (bar+ "\n\n");
-		String body = "";
-
-		for (int i=0; i<Process2.getDataByFrame().size(); i++) {
-
-			body += (String.format("%7s", ID) + "\t" + String.format("%17.8s", Process2.getPillar().get(i)) + "\t" + String.format("%11.8s", Process2.getDataByFrame().get(i)) + "\n");
+		int columns = 3;
+		int rows= Process2.getDataByFrame().size();
+		
+		Object [][] data = new Object [rows][columns];
+		
+		for (int i = 0; i < Process2.getPillar().size(); i++) {
+			
+		int frame = ID;
+		int pillar = Process2.getPillar().get(i);;
+		double forces = (double) Process2.getDataByFrame().get(i);
+		
+		data [i][0] = frame;
+		data [i][1] = pillar;
+		data [i][2] = String.format("%.2f", forces);
 		}
-
-		SB.append(body);
-
-		String output = SB.toString();
-		System.out.println("output: " + "\n" + output);
+		
 		String identifier = "Frame Data";
 		System.out.println("identifier : " + "\n" + identifier);
-		ReportFrame2 = new ReportFrame2 (Process2, identifier, ID);
-		ReportFrame2.reportFormatter(output);
-		return output;
+		
+		ReportTable2 ReportTable2 = new ReportTable2 (Process2, identifier, ID);	
+		ReportTable2.JTable(column, data);
 	}	
 
 
@@ -157,37 +123,31 @@ public class OutputData {
 	 * viewing the data only.
 	 */
 
-	public String stringByPillar (int ID) {
+	public void stringByPillar (int ID) { // ID is the pillar
 
-		StringBuilder SB = new StringBuilder();
-		String header_upper = (String.format("%9s %15s %15s", "Frame", "Pillar", "Force")+"\n");
-		String header_lower = (String.format("%9s %15s %15s", "Index", "Index", "(pN)")+"\n");
-		String bar = "---------------------------------------------";
-		SB.append(header_upper);
-		SB.append(header_lower);
-		SB.append (bar+ "\n\n");
+		String [] column = {"Frame Index (ID)", "Pillar Index (ID)", "Force (pN)"};
 
-		String body = "";
-
-		for (int i=0; i<Process2.getDataByPillar().size(); i++) {
-
-			body += (String.format("%7s", Process2.getPillarFrame().get(i)) + "\t" + String.format("%17.8s", ID) + "\t" + String.format("%11.8s", Process2.getDataByPillar().get(i)) + "\n");
+		int columns = 3;
+		int rows= Process2.getDataByPillar().size();
+		
+		Object [][] data = new Object [rows][columns];
+		
+		for (int i = 0; i < Process2.getDataByPillar().size(); i++) {
+			
+		int frame = Integer.parseInt ((String) Process2.getPillarFrame().get(i));
+		int pillar = ID;
+		double forces = (double) Process2.getDataByPillar().get(i);
+		
+		data [i][0] = frame;
+		data [i][1] = pillar;
+		data [i][2] = String.format("%.2f", forces);
 		}
-
-		SB.append(body);
-		SB.append("\n");
-
-		for (int j=0; j<Process2.getMean().size(); j++) {
-			SB.append("Average Force (pN): " + String.format("%1.8s", Process2.getMean().get(j)) + "\n");
-			SB.append("Standard deviation: " + String.format("%1.8s",Process2.getStandard_deviation().get(j)) + "\n");
-		}
-
-		String output = SB.toString();
+		
 		String identifier = "Pillar Data";
-		ReportFrame2 = new ReportFrame2 (Process2, identifier, ID);
-		ReportFrame2.reportFormatter(output);
-
-		return output;
+		System.out.println("identifier : " + "\n" + identifier);
+		
+		ReportTable2 ReportTable2 = new ReportTable2 (Process2, identifier, ID);	
+		ReportTable2.JTable(column, data);
 	}
 
 
@@ -220,32 +180,32 @@ public class OutputData {
 	 * Note, it is a tidier version of the output file used for viewing the data only.
 	 */
 
-	public String StringMultipillar () {
+	public void StringMultipillar () {
+		
+		
+		String [] column = {"Pillar Index (ID)", "Average Force (pN)", "Standard Deviation"};
 
-		StringBuilder SB = new StringBuilder();
-
-		String header_upper = (String.format("%9s %17s %13s", "Pillar", "Average Force", "Standard")+"\n");
-		String header_lower = (String.format("%9s %13s %18s", "Index", "(pN)", "Deviation")+"\n");
-		String bar = "---------------------------------------------";
-
-		SB.append(header_upper);
-		SB.append(header_lower);
-		SB.append (bar+ "\n\n");
-
-		String body = "";
-
-		for (int i=0; i<Process2.getValues().length; i++) {
-			body += (String.format("%9s", Process2.getValues() [i]) + "\t" + String.format("%9.8s", Process2.getMean().get(i)) + "\t" + String.format("%9.8s", Process2.getStandard_deviation().get(i)) + "\n");
-		}	
-
-		SB.append(body);
-		String output = SB.toString();
-
-		String identifier = "Multipillar Data";
-		ReportFrame2 = new ReportFrame2 (Process2, identifier, 0);
-		ReportFrame2.reportFormatter(output);
-
-		return output;
+		int columns = 3;
+		int rows= Process2.getValues().length;
+		
+		Object [][] data = new Object [rows][columns];
+		
+		for (int i = 0; i < Process2.getValues().length; i++) {
+			
+		int pillar =  Integer.parseInt((String) Process2.getValues() [i]); 
+		double forces = Process2.getMean().get(i);
+		double standard_deviation = Process2.getStandard_deviation().get(i);
+		
+		data [i][0] = pillar;
+		data [i][1] = String.format("%.2f", forces);
+		data [i][2] = String.format("%.2f", standard_deviation);
+		}
+		
+		String identifier = "Pillar Data";
+		System.out.println("identifier : " + "\n" + identifier);
+		
+		ReportTable2 ReportTable2 = new ReportTable2 (Process2, identifier, 0);	
+		ReportTable2.JTable(column, data);
 	}
 
 
@@ -271,30 +231,31 @@ public class OutputData {
 	 * a ReportFrame. Note, it is a tidier version of the output file used for viewing the data only.
 	 */
 
-	public String stringStatistics () { 
-
-		StringBuilder SB = new StringBuilder();
-
-		String header_upper = (String.format("%9s %17s %13s", "Pillar", "Average Force", "Standard")+"\n");
-		String header_lower = (String.format("%9s %13s %18s", "Index", "(pN)", "Deviation")+"\n");
-		String bar = "---------------------------------------------";
-
-		SB.append(header_upper);
-		SB.append(header_lower);
-		SB.append (bar+ "\n\n");
-
-		for (int i = 0; i <Process2.getPillar().size(); i++) {
-
-			SB.append(String.format("%9s",Process2.getPillar().get(i)) + "\t" + String.format("%9.8s",Process2.getMean().get(i)) + "\t" 
-					+ String.format("%9.8s",Process2.getStandard_deviation().get(i)) + "\n");
-		}
-
-		String output = SB.toString();
+	public void stringStatistics () { 
 		
-		String identifier = "Statistical Data";
-		ReportFrame2 = new ReportFrame2 (Process2, identifier, 0);
-		ReportFrame2.reportFormatter(output);
-		return output;
+		String [] column = {"Pillar Index (ID)", "Average Force (pN)", "Standard Deviation"};
+
+		int columns = 3;
+		int rows= Process2.getPillar().size();
+		
+		Object [][] data = new Object [rows][columns];
+		
+		for (int i = 0; i < Process2.getPillar().size(); i++) {
+			
+		int pillar = Process2.getPillar().get(i);
+		double forces = Process2.getMean().get(i);
+		double standard_deviation = Process2.getStandard_deviation().get(i);
+		
+		data [i][0] = pillar;
+		data [i][1] = String.format("%.2f", forces);
+		data [i][2] = String.format("%.2f", standard_deviation);
+		}
+		
+		String identifier = "Pillar Data";
+		System.out.println("identifier : " + "\n" + identifier);
+		
+		ReportTable2 ReportTable2 = new ReportTable2 (Process2, identifier, 0);	
+		ReportTable2.JTable(column, data);
 	}
 
 
@@ -310,6 +271,61 @@ public class OutputData {
 		for (int i =0; i<Process2.getPillar().size();i++) {
 
 			body += (Process2.getPillar().get(i) + "," + Process2.getMean().get(i) + "," + Process2.getStandard_deviation().get(i) + "\n");
+		}
+
+		StringBuilder SB = new StringBuilder();
+		SB.append(header + "\n");
+		SB.append(body);
+		String outputFile = SB.toString();
+		return outputFile;
+	}
+	
+	public void stringAllData () {
+		
+		int columns = 3;
+		int rows = Process2.getDataByPillarFrame().size();
+
+		Object [][] allData = new Object [rows][columns];
+		
+		for (int i = 0; i< rows; i++) {
+			allData [i] = Process2.getDataByPillarFrame().get(i).split(",");
+		}
+	
+		String [] column = {"Frame Index (ID)", "Pillar Index (ID)", "Force (pN)"};
+
+		Object [][] data = new Object [rows][columns];
+		
+		int frame = 0;
+		int pillar = 0;
+		double forces = 0.0;
+		
+		for (int i = 0; i < Process2.getDataByPillarFrame().size(); i++) {
+			
+		frame = Integer.parseInt((String)allData [i][0]);
+		pillar = Integer.parseInt((String)allData [i][1]);
+		forces = Double.parseDouble((String)allData [i][2]);
+		
+		data [i][0] = frame;
+		data [i][1] = pillar;
+		data [i][2] = String.format("%.2f", forces);
+		}
+	
+		String identifier = "All Data";
+		System.out.println("identifier : " + "\n" + identifier);
+		
+		ReportTable2 ReportTable2 = new ReportTable2 (Process2, identifier, 0);	
+		ReportTable2.JTable(column, data);
+	}
+	
+	
+	public String outputAllData () {
+		
+		String header = ("Frame Index (ID)" + "," + "Pillar Index (ID)" + "," + "Forces (pN)" + ",");
+		String body = "";
+
+		for (int i =0; i<Process2.getDataByPillarFrame().size();i++) {
+
+			body += Process2.getDataByPillarFrame().get(i) + "\n";
 		}
 
 		StringBuilder SB = new StringBuilder();
