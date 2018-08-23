@@ -5,13 +5,14 @@ import java.awt.event.*;
 import javax.swing.table.*;
 import javax.swing.border.*;
 
-
+	
 @SuppressWarnings("serial")
 public class ReportTable2 extends JFrame implements ActionListener {
-
+	
+	
 	/*Instance variables*/
 	private JTable displayTable;
-	private JButton Button1, Button2;
+	private JButton Button1, Button2, Button3;
 	private String identifier;
 	private JFrame frame;
 	private int ID;
@@ -28,7 +29,7 @@ public class ReportTable2 extends JFrame implements ActionListener {
 		this.ID = ID;
 	}
 
-
+	
 	/**This method formats the JTable
 	 * @ param columnNames - column header
 	 * @ param output - row data.
@@ -104,6 +105,15 @@ public class ReportTable2 extends JFrame implements ActionListener {
 		Button2.addActionListener (this);
 		Button2.setEnabled(true);
 		frame.add (Button2);	
+		
+		Button3 = new JButton("Plot");
+		Button3.setPreferredSize(new Dimension(125,23));
+		Button3.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		Button3.setOpaque(true);
+		Button3.setBorder(BorderFactory.createLineBorder(Color.black));
+		Button3.addActionListener (this);
+		Button3.setEnabled(true);
+		frame.add (Button3);	
 	}
 
 
@@ -167,6 +177,30 @@ public class ReportTable2 extends JFrame implements ActionListener {
 		if (e.getSource() == Button2) {
 
 			frame.dispose();
+		}
+
+		if (e.getSource() == Button3) {
+
+
+			if (identifier.equals("Statistical Data")) {
+				
+				OutputData OutputData = new OutputData (Process2, null);
+				OutputData.stringStatistics();
+			}
+
+			if (identifier.equals("Frame Data")) {
+				ScatterPlot ScatterPlot = new ScatterPlot (Process2);
+				ScatterPlot.scatterPlotData_byFrame (ID);
+			}
+			if (identifier.equals("Pillar Data")) {
+				LineChart LineChart = new LineChart (Process2);
+				LineChart.lineChartData_byPillar (ID);
+			}
+
+			if (identifier.equals("Multipillar Data")) {
+				LineChart LineChart = new LineChart (Process2);
+				LineChart.lineChartData_Multipillar(Process2.getValues());
+			}		
 		}
 	}
 }

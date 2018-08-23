@@ -8,7 +8,8 @@ import javax.swing.border.*;
 
 @SuppressWarnings("serial")
 public class ReportTable extends JFrame implements ActionListener {
-
+	
+	
 	/*Instance variables*/
 	private JTable displayTable;
 	private JButton Button1, Button2;
@@ -18,13 +19,10 @@ public class ReportTable extends JFrame implements ActionListener {
 	private OutputData OutputData;
 
 
-	/*Constructor*/
-	public ReportTable (Processing Process) {
-
-		this.Process = Process;
+	/*Constructor*/	
+	public ReportTable (Processing Process) {		
 	}
-
-
+	
 	/**This method formats the JTable
 	 * @ param columnNames - column header
 	 * @ param output - row data.

@@ -151,8 +151,8 @@ public class Processing2 {
 
 		for (int j =0; j< dataByFrame.size(); j++) {System.out.println("byFrame: " + dataByFrame.get(j));}
 
-		ScatterPlot ScatterPlot = new ScatterPlot (this);
-		ScatterPlot.scatterPlotData_byFrame (ID);
+//		ScatterPlot ScatterPlot = new ScatterPlot (this);
+//		ScatterPlot.scatterPlotData_byFrame (ID);
 
 		OutputData OutputData = new OutputData (this, null);
 		OutputData.stringByFrame (ID);
@@ -202,8 +202,8 @@ public class Processing2 {
 			pico.clear ();
 		}
 		
-		LineChart LineChart = new LineChart (this);
-		LineChart.lineChartData_byPillar (ID);
+//		LineChart LineChart = new LineChart (this);
+//		LineChart.lineChartData_byPillar (ID);
 	
 		return dataByPillar;
 	}
@@ -250,8 +250,8 @@ public class Processing2 {
 		OutputData OutputData = new OutputData (this, null);
 		OutputData.StringMultipillar ();
 		
-		LineChart LineChart = new LineChart (this);
-		LineChart.lineChartData_Multipillar(values);
+//		LineChart LineChart = new LineChart (this);
+//		LineChart.lineChartData_Multipillar(values);
 		
 		for (double m : mean) {System.out.println("mean: " + m);}
 		for (double s : standard_deviation) {System.out.println("stndev: " + s);}

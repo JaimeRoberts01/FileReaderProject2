@@ -199,7 +199,7 @@ public class OutputData {
 			data [i][2] = String.format("%.2f", standard_deviation);
 		}
 
-		String identifier = "Pillar Data";
+		String identifier = "Multipillar Data";
 
 		ReportTable2 ReportTable2 = new ReportTable2 (Process2, identifier, 0);	
 		ReportTable2.JTable(column, data);
@@ -246,7 +246,7 @@ public class OutputData {
 			data [i][2] = String.format("%.2f", standard_deviation);
 		}
 
-		String identifier = "Pillar Data";
+		String identifier = "Statistical Data";
 
 		ReportTable2 ReportTable2 = new ReportTable2 (Process2, identifier, 0);	
 		ReportTable2.JTable(column, data);
