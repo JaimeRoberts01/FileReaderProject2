@@ -60,7 +60,10 @@ public class ReportTable2 extends JFrame implements ActionListener {
 		displayTable.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
 		displayTable.getColumnModel().getColumn(1).setCellRenderer(rightRenderer);
 		displayTable.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
-	
+		
+		displayTable.setColumnSelectionAllowed(true);
+		displayTable.setRowSelectionAllowed(true);
+					
 		frameLayout(scroll);
 	}
 
@@ -77,7 +80,7 @@ public class ReportTable2 extends JFrame implements ActionListener {
 		}
 		
 		else {
-			frame.setTitle (identifier + "" + ID);
+			frame.setTitle (identifier + " " + ID);
 		}
 		
 		frame.setSize(400, 400);
@@ -106,14 +109,16 @@ public class ReportTable2 extends JFrame implements ActionListener {
 		Button2.setEnabled(true);
 		frame.add (Button2);	
 		
-		Button3 = new JButton("Plot");
-		Button3.setPreferredSize(new Dimension(125,23));
-		Button3.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Button3.setOpaque(true);
-		Button3.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button3.addActionListener (this);
-		Button3.setEnabled(true);
-		frame.add (Button3);	
+		if (identifier.equals("Frame Data") || identifier.equals("Pillar Data") || identifier.equals("Multipillar Data")) {
+			Button3 = new JButton("Plot");
+			Button3.setPreferredSize(new Dimension(125,23));
+			Button3.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+			Button3.setOpaque(true);
+			Button3.setBorder(BorderFactory.createLineBorder(Color.black));
+			Button3.addActionListener (this);
+			Button3.setEnabled(true);
+			frame.add (Button3);	
+		}
 	}
 
 
@@ -180,13 +185,6 @@ public class ReportTable2 extends JFrame implements ActionListener {
 		}
 
 		if (e.getSource() == Button3) {
-
-
-			if (identifier.equals("Statistical Data")) {
-				
-				OutputData OutputData = new OutputData (Process2, null);
-				OutputData.stringStatistics();
-			}
 
 			if (identifier.equals("Frame Data")) {
 				ScatterPlot ScatterPlot = new ScatterPlot (Process2);

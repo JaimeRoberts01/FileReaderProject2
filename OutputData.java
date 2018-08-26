@@ -85,7 +85,7 @@ public class OutputData {
 
 		Object [][] data = new Object [rows][columns];
 
-		for (int i = 0; i < Process2.getPillar().size(); i++) {
+		for (int i = 0; i < Process2.getDataByFrame().size(); i++) {
 
 			int frame = ID;
 			int pillar = Process2.getPillar().get(i);;
@@ -110,7 +110,7 @@ public class OutputData {
 		StringBuilder SB = new StringBuilder();
 		SB.append("Frame Index" + "," + "Pillar Index" + "," + "Force (pN)" + "\n");
 
-		for (int i=0; i<Process2.getDataByFrame().size(); i++) {
+		for (int i=0; i<Process2.getOutputDataByFrame().size(); i++) {
 			SB.append(Process2.getOutputDataByFrame().get(i) + "\n");
 		}
 
@@ -159,7 +159,7 @@ public class OutputData {
 		StringBuilder SB = new StringBuilder();
 		SB.append("Frame Index" + "," + "Pillar Index" + "," + "Force (pN)" + "\n");
 
-		for (int i=0; i<Process2.getDataByPillar().size(); i++) {
+		for (int i=0; i<Process2.getOutputDataByPillar().size(); i++) {
 			SB.append(Process2.getOutputDataByPillar().get(i) + "\n");
 		}
 

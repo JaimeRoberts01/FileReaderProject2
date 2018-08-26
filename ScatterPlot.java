@@ -160,7 +160,7 @@ public class ScatterPlot implements ActionListener {
 		scatterPlot.setBackgroundPaint(Color.white);
 		scatterPlot.removeLegend();
 		plot = (XYPlot) scatterPlot.getPlot();
-		plot.setBackgroundPaint(Color.lightGray);
+		plot.setBackgroundPaint(Color.getHSBColor(0.0f, 0.0f, 0.90f));
 
 		/*Y axis formatting*/
 		NumberAxis axisY = (NumberAxis) plot.getRangeAxis();

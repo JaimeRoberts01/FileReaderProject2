@@ -18,11 +18,12 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private JSlider JS1;
 	private JComboBox <String> JCB1;
 	private JButton Button1, Button2, Button3, Button4, Button5, Button6, Button7, Button8;
-		
+
 	private Processing Process;
 	private Processing2 Process2;
 	@SuppressWarnings("unused")
 	private FileManager FileManager;
+	
 	private ArrayList <String> fileLine;
 
 
@@ -32,7 +33,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
 		setFont(new Font ("SansSerif", Font.PLAIN, 14));
 		setTitle ("PillarTracker File Reader");
-		setSize (700, 300);
+		setSize (709, 300);
 		setLocationRelativeTo(null);
 		setResizable (false);
 		setLayout (new GridLayout (5,1));
@@ -41,19 +42,19 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 
 	/**Basic GUI setup*/
-	
+
 	public void GUIComponents () {
 
 		/*Panel1*/
 		Panel1 = new JPanel ();
-		Panel1.setBorder(new EmptyBorder (12,4,12,4));
+		Panel1.setBorder(new EmptyBorder (12,5,12,6));
 		add (Panel1);
 
 		Label1 = new JLabel ("File:");
 		Label1.setFont(new Font ("SansSerif", Font.PLAIN, 14));
 		Panel1.add(Label1);
 
-		TF1 = new JTextField(43);
+		TF1 = new JTextField(44);
 		TF1.addActionListener (this);
 		TF1.setBorder(BorderFactory.createLineBorder(Color.black));
 		TF1.setPreferredSize(new Dimension(43,23));
@@ -89,7 +90,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Panel2.add(TF2);
 		TF2.setEnabled(true);
 
-		Label3 = new JLabel ("Substrate (E):");
+		Label3 = new JLabel ("Substrate (MPa):");
 		Label3.setFont(new Font ("SansSerif", Font.PLAIN, 14));
 		Panel2.add (Label3);
 
@@ -101,7 +102,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Panel2.add(TF3);
 		TF3.setEnabled(true);
 
-		Label4 = new JLabel (" Pillar Diameter (µm):");
+		Label4 = new JLabel ("Pillar Diameter (µm):");
 		Label4.setFont(new Font ("SansSerif", Font.PLAIN, 14));
 		Panel2.add (Label4);
 
@@ -113,7 +114,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Panel2.add(TF4);
 		TF4.setEnabled(true);
 
-		Label5 = new JLabel (" Pillar Length (µm):");
+		Label5 = new JLabel ("Pillar Length (µm):");
 		Label5.setFont(new Font ("SansSerif", Font.PLAIN, 14));
 		Panel2.add (Label5);
 
@@ -132,7 +133,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		add (Panel3);
 
 		Button2 = new JButton ("Calculate Force");
-		Button2.setPreferredSize(new Dimension(125,23));
+		Button2.setPreferredSize(new Dimension(129,23));
 		Button2.setOpaque(true);
 		Button2.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
 		Button2.setFont(new Font ("SansSerif", Font.PLAIN, 14));
@@ -142,7 +143,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Button2.setEnabled (false);
 
 		Button3 = new JButton ("View Statistics");
-		Button3.setPreferredSize(new Dimension(125,23));
+		Button3.setPreferredSize(new Dimension(129,23));
 		Button3.setOpaque(true);
 		Button3.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
 		Button3.setFont(new Font ("SansSerif", Font.PLAIN, 14));
@@ -150,21 +151,21 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Button3.addActionListener (this);
 		Panel3.add (Button3);
 		Button3.setEnabled (false);
-		
+
 		JSeparator S1 = new JSeparator(SwingConstants.VERTICAL);
 		S1.setPreferredSize(new Dimension(13,23));
 		S1.setBackground(Color.DARK_GRAY);
 		Panel3.add(S1);
-		
+
 		S1 = new JSeparator(SwingConstants.VERTICAL);
-		S1.setPreferredSize(new Dimension(13,23));
+		S1.setPreferredSize(new Dimension(12,23));
 		S1.setBackground(Color.DARK_GRAY);
 		Panel3.add(S1);
 
 		Label6 = new JLabel (" View all data by:");
 		Label6.setFont(new Font ("SansSerif", Font.PLAIN, 14));
 		Panel3.add (Label6);
-		
+
 		String [] comboBox = {"Select Style", "Line Chart", "Scatter Plot", "Bar Chart"};
 		JCB1 = new JComboBox <String> (comboBox);
 		JCB1.addActionListener(this);
@@ -172,9 +173,9 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		JCB1.setEditable(false);
 		Panel3.add(JCB1);
 		JCB1.setEnabled(false);
-		
+
 		Button4 = new JButton ("Plot Data");
-		Button4.setPreferredSize(new Dimension(125,23));
+		Button4.setPreferredSize(new Dimension(129,23));
 		Button4.setOpaque(true);
 		Button4.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
 		Button4.setFont(new Font ("SansSerif", Font.PLAIN, 14));
@@ -183,7 +184,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Panel3.add (Button4);
 		Button4.setEnabled (false);
 
-			
+
 		/*Panel4*/
 		Panel4 = new JPanel ();
 		Panel4.setBorder(new EmptyBorder (12,6,12,7));
@@ -207,12 +208,12 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		JS1.addChangeListener(this);
 		JS1.setMinimum(1);
 		JS1.setValue(1);
-		JS1.setPreferredSize(new Dimension(354, 23));
+		JS1.setPreferredSize(new Dimension(360, 23));
 		Panel4.add(JS1);
 		JS1.setEnabled(false);
 
 		Button5 = new JButton ("Get Data");
-		Button5.setPreferredSize(new Dimension(125,23));
+		Button5.setPreferredSize(new Dimension(129,23));
 		Button5.setOpaque(true);
 		Button5.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
 		Button5.setFont(new Font ("SansSerif", Font.PLAIN, 14));
@@ -240,7 +241,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		TF7.setEnabled(true);
 
 		Button6 = new JButton ("Get Data");
-		Button6.setPreferredSize(new Dimension(125,23));
+		Button6.setPreferredSize(new Dimension(128,23));
 		Button6.setOpaque(true);
 		Button6.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
 		Button6.setFont(new Font ("SansSerif", Font.PLAIN, 14));
@@ -250,7 +251,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Button6.setEnabled (false);
 
 		Button7 = new JButton ("Multi-Pillar");
-		Button7.setPreferredSize(new Dimension(125,23));
+		Button7.setPreferredSize(new Dimension(128,23));
 		Button7.setOpaque(true);
 		Button7.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
 		Button7.setFont(new Font ("SansSerif", Font.PLAIN, 14));
@@ -269,7 +270,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		Panel5.add (Label9);
 
 		Button8 = new JButton ("Get Data");
-		Button8.setPreferredSize(new Dimension(125,23));
+		Button8.setPreferredSize(new Dimension(128,23));
 		Button8.setOpaque(true);
 		Button8.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
 		Button8.setFont(new Font ("SansSerif", Font.PLAIN, 14));
@@ -283,7 +284,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	/** JFileChooser allows the open a file from a location in the directory;
 	 * the fileName is passed the FileReader. Only csv files are permittable.
 	 */
-	
+
 	public void fileSelection () {
 
 		JFileChooser JFC = new JFileChooser ();
@@ -298,7 +299,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			TF1.setText(fileName);
 
 			if (fileName.contains(".csv")) {
-				
+
 				fileReader (fileName);
 			}
 
@@ -320,7 +321,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	 * data line by line in an array.This should be moved to its own class 
 	 * but there are problems when this happens.
 	 */
-	
+
 	public void fileReader (String fileName) { 
 
 		FileReader reader = null;
@@ -347,7 +348,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			reader.close();	
 			bufferedReader.close();
 		}
-			
+
 		catch (IOException IOE) {
 
 			JOptionPane.showMessageDialog (null, "FILE NOT FOUND", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -363,49 +364,72 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 
 	/**ActionPerformed methods for the individual buttons*/
-	
+
 	@Override 
 	public void actionPerformed(ActionEvent e) {
-		
+
 
 		/*Browse*/
 		if (e.getSource() == Button1) {
 
-//			FileManager = new FileManager ();
-//			FileManager.fileSelection ();
-//			
-//			String fileName = FileManager.getFileName();
-//			if (fileName != null) {
-//				TF1.setText(fileName);
-//				Button2.setEnabled(true);
-//			}
-//			else {
-//				TF1.setText("");
-//			}
+			//			FileManager = new FileManager ();
+			//			FileManager.fileSelection ();
+			//			
+			//			String fileName = FileManager.getFileName();
+			//			if (fileName != null) {
+			//				TF1.setText(fileName);
+			//				Button2.setEnabled(true);
+			//			}
+			//			else {
+			//				TF1.setText("");
+			//			}
+			if (TF2 != null || TF3 != null || TF4 != null || TF5 != null || TF7 != null) {
+
+				reset ();
+			}
+
 			fileSelection ();
+
+			Process2 = new Processing2 ();
+			Process2.getFrames(Process.getData());
+			int max = Process2.getFrame().size();
+			JS1.setMaximum(max);
+			JS1.setEnabled(true);
+
 			Button2.setEnabled(true);
 		}
 
-		
+
 		/*Calculate Forces*/
 		if (e.getSource() == Button2) { 
-			
+
 			calculateForces();
+
+			if (TF2 != null && TF3 != null && TF4 != null && TF5 != null) {
+
+				Button3.setEnabled(true);
+				JCB1.setEnabled(true);
+				TF6.setEnabled(true);
+				Button5.setEnabled(true);
+				Button6.setEnabled(true);
+				Button7.setEnabled(true);
+				Button8.setEnabled(true);
+			}
 		}
 
-		
+
 		/*View Statistics*/
 		if (e.getSource() == Button3) {
 
 			try {
 
 				Process2 = new Processing2 ();
-				Process2.getPillars(Process.getNewData());
-				Process2.getFrames(Process.getNewData());
+				Process2.getPillars(Process.getData());
+				Process2.getFrames(Process.getData());
 				Process2.allFrames(Process.getNewData());
 
 				OutputData OutputData = new OutputData (Process2, null);
-				OutputData.stringStatistics();
+				OutputData.stringStatistics();				
 			}
 
 			catch (NullPointerException NPE) {
@@ -413,49 +437,49 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 				NPE.printStackTrace();
 			}			
 		}
-		
-		
+
+
 		/*ComboBox*/
 		if (e.getSource () == JCB1) {
-			
+
 			if (JCB1.getSelectedIndex() == 1 || JCB1.getSelectedIndex() == 2 || JCB1.getSelectedIndex() == 3) {
-				
+
 				Button4.setEnabled(true);
 			}
-			
+
 			else {
-				
+
 				Button4.setEnabled(false);
 			}	
 		}
-		
-		
+
+
 		/*Plot Data*/
 		if (e.getSource() == Button4) { 
 
 			if (JCB1.getSelectedIndex() == 1) {
-				
+
 				Process2 = new Processing2 ();
-				Process2.getPillars(Process.getNewData());
+				Process2.getPillars(Process.getData());
 				Process2.allFrames(Process.getNewData());
 				Process2.allPillarsAllFrames(Process.getNewData());
 				LineChart LineChart = new LineChart (Process2);
 				LineChart.lineChartData_AllData();
 			}
-			
+
 			if (JCB1.getSelectedIndex() == 2) {
-				
+
 				Process2 = new Processing2 ();
-				Process2.getPillars(Process.getNewData());
+				Process2.getPillars(Process.getData());
 				Process2.allFrames(Process.getNewData());
 				ScatterPlot ScatterPlot = new ScatterPlot (Process2);
 				ScatterPlot.scatterPlotData_AllFrames ();			
 			}
-			
+
 			if (JCB1.getSelectedIndex() == 3) {
-				
+
 				Process2 = new Processing2 ();
-				Process2.getPillars(Process.getNewData());
+				Process2.getPillars(Process.getData());
 				Process2.allFrames(Process.getNewData());
 				BarGraph BarGraph = new BarGraph (Process2); 
 				BarGraph.barChartData_AllData();
@@ -470,8 +494,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 				int ID = Integer.parseInt(TF6.getText().trim());
 				Process2 = new Processing2 ();
-				Process2.getPillars(Process.getNewData());
-				Process2.getFrames(Process.getNewData());
+				Process2.getPillars(Process.getData());
+				Process2.getFrames(Process.getData());
 				Process2.dataByFrame(Process.getNewData(), ID);
 			}
 
@@ -491,14 +515,14 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 				if (ID == 0) {
 
-					System.out.println("Value contains zero");			
+					System.err.println("Value contains zero");			
 				}
 
 				else {
 
 					Process2 = new Processing2 ();
-					Process2.getPillars(Process.getNewData());
-					Process2.getFrames(Process.getNewData());
+					Process2.getPillars(Process.getData());
+					Process2.getFrames(Process.getData());
 					Process2.dataByPillar(Process.getNewData(), ID);
 				}
 			}
@@ -507,14 +531,14 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 				System.err.println("Invalid input");
 				NFE.printStackTrace();
 			}
-			
+
 			catch (NullPointerException NPE) {
 				System.err.println("Invalid input");
 				NPE.printStackTrace();
 			}
 		}
 
-		
+
 		/*MultiPillar*/
 		if (e.getSource() == Button7) {
 
@@ -522,19 +546,19 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			MultipillarInput.frameComponents();
 		}
 
-		
+
 		/*Get Data - All Data*/
 		if (e.getSource() == Button8) {
-			
+
 			Process2 = new Processing2 ();
-			Process2.getPillars(Process.getNewData());
+			Process2.getPillars(Process.getData());
 			Process2.allPillarsAllFrames(Process.getNewData());
 			OutputData OutputData = new OutputData (Process2, null);
 			OutputData.stringAllData();
 		}
 	}
 
-	
+
 	/**State change method for the slider.*/
 
 	@Override 
@@ -548,19 +572,19 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			}	
 		}
 	}
-	
-	
+
+
 	/**This method retrieves input data from the TextFields for converting to forces*/
-	
+
 	public void calculateForces () {
-		
+
 		try {
 
 			int conversion = Integer.parseInt(TF2.getText().trim());
 			double youngsM = Double.parseDouble(TF3.getText().trim());
 			double pillarD = Double.parseDouble(TF4.getText().trim());
 			double pillarL = Double.parseDouble(TF5.getText().trim());
-			
+
 			if (conversion == 0 || youngsM == 0 || pillarD == 0 || pillarL == 0) {
 
 				System.err.println("Value contains zero");			
@@ -578,28 +602,30 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			System.err.println("Invalid input");
 			NFE.printStackTrace();
 		}
-		
+
 		catch (NullPointerException NPE) {
 			System.err.println("Invalid input");
 			NPE.printStackTrace();
 		}
-		
-		if (TF2 != null && TF3 != null && TF4 != null && TF5 != null) {
-			
-			Button3.setEnabled(true);
-			JCB1.setEnabled(true);
-			
-			Process2 = new Processing2 ();
-			Process2.getFrames(Process.getNewData());
-			int max = Process2.getFrame().size();
-			JS1.setMaximum(max);
-			JS1.setEnabled(true);
-			
-			TF6.setEnabled(true);
-			Button5.setEnabled(true);
-			Button6.setEnabled(true);
-			Button7.setEnabled(true);
-			Button8.setEnabled(true);
-		}
+	}
+
+
+	public void reset () {
+
+		TF2.setText(""); 
+		TF3.setText("");
+		TF4.setText("");
+		TF5.setText("");
+		TF7.setText("");
+
+		JS1.setValue(1);
+
+		Button2.setEnabled(false);
+		Button3.setEnabled(false);
+		Button4.setEnabled(false);
+		Button5.setEnabled(false);
+		Button6.setEnabled(false);
+		Button7.setEnabled(false);
+		Button8.setEnabled(false);
 	}
 }

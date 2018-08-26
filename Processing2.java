@@ -49,13 +49,16 @@ public class Processing2 {
 	 * allFrames so that it can collect data for specific pillars.
 	 */
 
-	public ArrayList <Integer> getPillars (Object [][] newData) {
+//	public ArrayList <Integer> getPillars (Object [][] newData) {
+	public ArrayList <Integer> getPillars (Object [][] data) {
 
 		pillar = new ArrayList <Integer> ();
 
-		for (int i = 0; i<newData.length; i++) {
+//		for (int i = 0; i<newData.length; i++) {
+		for (int i = 0; i<data.length; i++) {
 
-			int pillarID = Integer.parseInt((String) newData [i][1]); 
+//			int pillarID = Integer.parseInt((String) newData [i][1]); 
+			int pillarID = Integer.parseInt((String) data [i][1]); 
 
 			if (!pillar.contains(pillarID)) {
 				pillar.add(pillarID);
@@ -71,13 +74,13 @@ public class Processing2 {
 
 	/** This method creates a list of the frames in the newData array.*/
 
-	public ArrayList <Integer> getFrames (Object [][] newData) {
+	public ArrayList <Integer> getFrames (Object [][] data) {
 
 		frame = new ArrayList <Integer> ();
 
-		for (int i = 0; i<newData.length; i++) {
-
-			int frameID = Integer.parseInt((String) newData [i][0]); 
+		for (int i = 0; i<data.length; i++) {
+ 
+			int frameID = Integer.parseInt((String) data [i][0]); 
 
 			if (!frame.contains(frameID)) {
 				frame.add(frameID);
@@ -131,9 +134,6 @@ public class Processing2 {
 
 	public ArrayList <Object> dataByFrame (Object [][] newData, int ID) {
 
-		mean = new ArrayList<Double> ();
-		standard_deviation = new ArrayList<Double> ();
-
 		dataByFrame = new ArrayList <Object>();
 		outputDataByFrame = new ArrayList <Object>();
 
@@ -151,9 +151,7 @@ public class Processing2 {
 
 		for (int j =0; j< dataByFrame.size(); j++) {System.out.println("byFrame: " + dataByFrame.get(j));}
 
-//		ScatterPlot ScatterPlot = new ScatterPlot (this);
-//		ScatterPlot.scatterPlotData_byFrame (ID);
-
+		System.out.println("dbf size: " + dataByFrame.size());
 		OutputData OutputData = new OutputData (this, null);
 		OutputData.stringByFrame (ID);
 		return dataByFrame;
@@ -187,7 +185,7 @@ public class Processing2 {
 				dataByPillar.add((double) newData [i][8]);
 			}	
 		}
-
+		System.out.println("dbp size: " + dataByPillar.size());
 		statistics (pico);
 
 		if (pico.isEmpty()) {
@@ -201,10 +199,7 @@ public class Processing2 {
 			OutputData.stringByPillar (ID);
 			pico.clear ();
 		}
-		
-//		LineChart LineChart = new LineChart (this);
-//		LineChart.lineChartData_byPillar (ID);
-	
+			
 		return dataByPillar;
 	}
 

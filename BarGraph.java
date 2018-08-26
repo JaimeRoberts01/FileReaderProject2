@@ -136,7 +136,7 @@ public class BarGraph implements ActionListener {
 
 		/*Plot appearance*/
 		plot.setOrientation(PlotOrientation.VERTICAL);
-		plot.setBackgroundPaint(Color.lightGray);
+		plot.setBackgroundPaint(Color.getHSBColor(0.0f, 0.0f, 0.90f));
 		plot = barChart.getCategoryPlot(); 
 
 		/*Y axis formatting*/
@@ -262,14 +262,19 @@ public class BarGraph implements ActionListener {
 		Object [][] barChartArray = new Object [rows][columns];
 
 		int filterValue = 0;
-
+		
+		try {
+			
 		if (TF1.getText().equals("")) {
 			filterValue = 0;
 		}
-
+		
+		else if (TF1.getText().contains(",")) {
+			filterValue = Integer.parseInt(TF1.getText().replaceAll(",",""));
+		}
+		
 		else {
-			
-			filterValue = Integer.parseInt(TF1.getText());
+			filterValue = Integer.parseInt(TF1.getText());		
 		}
 
 		for (int i = 0; i < rows; i++) {
@@ -298,6 +303,12 @@ public class BarGraph implements ActionListener {
 		}
 
 		plot.setDataset(bar);
+		}
+		
+		catch (NumberFormatException NFE) {
+			System.err.println("Invalid input");
+			//NFE.printStackTrace();
+		}
 	}
 
 

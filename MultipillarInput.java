@@ -105,10 +105,10 @@ public class MultipillarInput extends JFrame implements ActionListener{
 				return null;
 			}
 			
-			ID = displayFile.getText().trim().split(", ");
+			ID = displayFile.getText().trim().split(" ");
 
 			Process2 = new Processing2 (this);
-			Process2.getPillars(Process.getNewData());
+			Process2.getPillars(Process.getData());
 			Process2.multiPillar(Process.getNewData());
 			
 			return ID;

@@ -56,6 +56,9 @@ public class ReportTable extends JFrame implements ActionListener {
 		displayTable.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
 		displayTable.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
 
+		displayTable.setColumnSelectionAllowed(true);
+		displayTable.setRowSelectionAllowed(true);
+		
 		frameLayout(scroll);
 	}
 

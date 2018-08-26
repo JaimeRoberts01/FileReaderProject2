@@ -192,18 +192,30 @@ public class LineChart implements ActionListener {
 	public void formatLineChart (int[] ID, XYSeriesCollection dataset, String identifier) {
 		
 		/*Different plot formatting depending on the source of the data*/
-		if (identifier.equals("Multipillar") || identifier.equals("ByPillar")) {
+		if (identifier.equals("Multipillar")) {
 
 			lineChart = ChartFactory.createXYLineChart("Forces Over Time", "Frame ID", "Force (pN)", dataset);
 			lineChart.getTitle().setFont(new Font ("monspaced", Font.BOLD, 14));
 			plot =  lineChart.getXYPlot();
+			plot.setBackgroundPaint(Color.getHSBColor(0.0f, 0.0f, 0.90f));
 		}
-
+		
+		else if (identifier.equals("ByPillar")) {
+			String pillarID = Arrays.toString(ID);
+			pillarID = pillarID.replace("[", ""); pillarID = pillarID.replace("]","");
+			lineChart = ChartFactory.createXYLineChart("Forces Over Time: Pillar " + pillarID, "Frame ID", "Force (pN)", dataset);
+			lineChart.getTitle().setFont(new Font ("monspaced", Font.BOLD, 14));
+			lineChart.removeLegend();
+			plot =  lineChart.getXYPlot();
+			plot.setBackgroundPaint(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+		}
+		
 		else if (identifier.equals("AllData")) {
 			lineChart = ChartFactory.createXYLineChart("Forces Over Time", "Frame ID", "Force (pN)", dataset);
 			lineChart.getTitle().setFont(new Font ("monspaced", Font.BOLD, 14));
 			lineChart.removeLegend();
 			plot =  lineChart.getXYPlot();
+			plot.setBackgroundPaint(Color.getHSBColor(0.0f, 0.0f, 0.90f));
 		}
 		
 		/*Y axis formatting*/
@@ -297,7 +309,7 @@ public class LineChart implements ActionListener {
 		}
 	}
 
-
+	
 	/**FileChooser - save location*/
 
 	public void fileChooser () {
