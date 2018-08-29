@@ -1,6 +1,8 @@
 import java.util.*;
 
 
+/**Defines a class that creates the data array*/
+
 public class Processing {
 
 	/*Instance variables for the arrays.*/
@@ -17,22 +19,25 @@ public class Processing {
 	/*Getters*/
 	public Object[][] getData() {return data;}
 	public Object[][] getNewData() {return newData;}
-	public double[] getNanometers() {return nanometers;}
-	public double[] getPicoNewtons() {return picoNewtons;}
 	
 
-	/**This method breaks the ArrayList<String> into a 2D array using "," as the delimiter. 
-	 * It starts by removing lines that contain the word "NaN"/"Frame Index", which aren't 
-	 * processed. @author jemmanatasharoberts.
+	/**This method breaks the ArrayList<String> into a 2D array using "," as the delimiter. It
+	 * starts by removing lines containing the word "NaN"/"Frame Index", which aren't processed.
+	 * @param fileLine - the ArrayList containing the lines of the file.
+	 * @return data - an array containing the file data.
 	 */
 
 	public Object [][] data (ArrayList<String> fileLine) {
 
 		if (fileLine.isEmpty()) {
-			System.out.println("Something is wrong");
+			
+			String message = "There was a problem with your file";			
+			LogFile log = new LogFile ();
+			log.writeToLog(message, null);
+			// Calls the log file if there is an error.
 		}
 
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 2; i++) { // runs twice owing to an error with 2 NaNs in a row
 
 			for (int j =0; j<fileLine.size(); j++) {
 
@@ -43,32 +48,27 @@ public class Processing {
 			}
 		}
 
-		int rows = fileLine.size();
-		int columns = 7;
+		data = new Object [fileLine.size()][7];
 
-		data = new Object [rows][columns];
-
-		for (int i = 0; i < rows; i++) {
+		for (int i = 0; i < fileLine.size(); i++) {
 
 			data [i] = fileLine.get(i).split(",");
-			System.out.println(Arrays.toString(data[i]));
 		}
-
-		System.out.println ("Data length: " + data.length);
+		
 		return data;
 	}
 
 
 	/**This method converts pixels into nanometres for the deflection values.
+	 * @param conversion - converts pixels to nanometres.
 	 * @return an array of deflection values in nanometres.
 	 */
 
 	public double [] nanoMeters (int conversion) {	
 
-		int columns = data.length;
-		nanometers = new double [columns];
+		nanometers = new double [data.length];
 
-		for (int i= 0; i<this.data.length; i++) {
+		for (int i= 0; i<data.length; i++) {
 
 			double nm =  Double.parseDouble((String) data [i][6]) * conversion;
 			nanometers [i] = nm;
@@ -79,13 +79,15 @@ public class Processing {
 
 
 	/**This method calculates the picoNewton forces from all the values provided.
+	 * @param youngsM - material stiffness parameter.
+	 * @param pillarD - the pillar diameter parameter.
+	 * @param pillarL - the pillar length parameter.
 	 * @return an array of forces in piconewtons.
 	 */
 
 	public double [] forces (double youngsM, double pillarD, double pillarL) {
 
-		int columns = data.length;
-		picoNewtons = new double [columns];
+		picoNewtons = new double [data.length];
 
 		double constant = (double) 3/64;
 		double E = youngsM; //double E = 2.0 for PDMS;
@@ -105,16 +107,14 @@ public class Processing {
 
 
 	/**This method creates a new array with the added nanometres and picoNewton values.
-	 * @ returns an array containing all data for the pillars.*/
+	 * @return an array containing all data for the pillars.
+	 */
 
 	public Object [][] newDataArray () {
 
-		int columns = 9;
-		int rows = data.length;
+		newData = new Object [data.length][9];
 
-		newData = new Object [rows][columns];
-
-		for (int i = 0; i < rows; i++) {
+		for (int i = 0; i < data.length; i++) {
 
 			newData [i][0] = data [i][0]; // frame
 			newData [i][1] = data [i][1]; // pillar
@@ -129,6 +129,8 @@ public class Processing {
 
 		OutputData = new OutputData (null, this);
 		OutputData.outputString();
+		// Calls the method for loading values to the JTable.	
+		
 		return newData;
 	}
 }

@@ -3,11 +3,12 @@ import java.util.*;
 import javax.swing.*;
 
 
+/**Class to operate file I/O*/
+
 public class FileManager {
 
 
-	/**Instance variables*/
-	
+	/*Instance variables*/
 	private Processing Process;
 	private Processing2 Process2;
 	private GUIClass GUI;
@@ -17,26 +18,27 @@ public class FileManager {
 	private String fileName;
 
 
+	/*Default Constructor*/
 	public FileManager () {
-		
 	}
+		
 	
-	/**Constructor*/ 
-	
+	/*Constructor*/ 
 	public FileManager(Processing Process, Processing2 Process2, OutputData OutputData) {
 		this.Process = Process;
 		this.Process2 = Process2;
 		this.OutputData = OutputData;
 	}
 
-	/*Getters*/
 	
+	/*Getters*/
 	public String getFileName() {return fileName;}
 	public void setFileName(String fileName) {this.fileName = fileName;}
 	
 	
+	/**FileChooser - save location.*/
 	
-	public void fileSelection () {
+	public void fileSelection () { // This causes issues
 
 		JFileChooser JFC = new JFileChooser ();
 		JFC.setMultiSelectionEnabled(false);
@@ -69,9 +71,11 @@ public class FileManager {
 	}
 
 	
-
-	/*FileReader for reading in the files - this doesn't yet work.*/
-	public void fileReader (String fileName) { 
+	/**FileReader for reading in the csv files
+	 *@param fileName - the name of the file.
+	 */
+	
+	public void fileReader (String fileName) { // This causes issues
 
 		FileReader reader = null;	
 		BufferedReader bufferedReader = null;
@@ -81,13 +85,14 @@ public class FileManager {
 		try {
 
 			file = fileName;
-			System.out.println ("WE'RE IN FM: " + file);
+			
 			fileLine = new ArrayList<String>();
 
 			reader = new FileReader (file);
 			bufferedReader = new BufferedReader(reader);
 
 			while ((line = bufferedReader.readLine()) !=null) {
+				
 				fileLine.add (line);
 			}
 
@@ -112,9 +117,12 @@ public class FileManager {
 	}
 
 
-	/*FileWriter writes the getByFrame, getByPillar and MultiPillar data to file*/
-	//public void fileWriter (String identifier, String output) {
-	public void fileWriter (String identifier, String fileName) {
+	/**fileWriter for writing data to file.
+	 * @param identifier - determines the writer.
+	 * @param fileName - the name of the file.
+	 */
+	
+	public void fileWriter (String identifier, String fileName) { // This works
 
 		FileWriter writer = null;
 		OutputData = new OutputData (Process2, Process);

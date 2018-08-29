@@ -5,16 +5,21 @@ import java.awt.event.*;
 import javax.swing.table.*;
 import javax.swing.border.*;
 
-	
+
+/**Class to define a window for the statistics, frame, pillar and multipillar tables.
+ * Each subset of data is given an identifier to determine the frame parameters.
+ */
+
 @SuppressWarnings("serial")
 public class ReportTable2 extends JFrame implements ActionListener {
 	
 	
 	/*Instance variables*/
 	private JTable displayTable;
-	private JButton Button1, Button2, Button3;
+	private JButton button1, button2, button3;
 	private String identifier;
 	private JFrame frame;
+	private JPanel panel;
 	private int ID;
 	
 	private Processing2 Process2;
@@ -68,7 +73,9 @@ public class ReportTable2 extends JFrame implements ActionListener {
 	}
 
 
-	/**This method lays out the frame*/
+	/**This method lays out the frame
+	 * @param JScrollPane scroll.
+	 */
 
 	public void frameLayout (JScrollPane scroll) {
 
@@ -87,37 +94,44 @@ public class ReportTable2 extends JFrame implements ActionListener {
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-		frame.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
+		frame.setLayout(new BorderLayout());
 
-		frame.add(scroll);
+		frame.add(scroll, BorderLayout.CENTER);
 		
-		Button1 = new JButton("Save");
-		Button1.setPreferredSize(new Dimension(125,23));
-		Button1.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Button1.setOpaque(true);
-		Button1.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button1.addActionListener (this);
-		Button1.setEnabled(true);
-		frame.add (Button1);
+		panel = new JPanel ();
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
+		
+		button1 = new JButton("Save");
+		button1.setPreferredSize(new Dimension(125,23));
+		button1.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		button1.setOpaque(true);
+		button1.setBorder(BorderFactory.createLineBorder(Color.black));
+		button1.addActionListener (this);
+		button1.setEnabled(true);
+		panel.add (button1);
 
-		Button2 = new JButton("Close");
-		Button2.setPreferredSize(new Dimension(125,23));
-		Button2.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Button2.setOpaque(true);
-		Button2.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button2.addActionListener (this);
-		Button2.setEnabled(true);
-		frame.add (Button2);	
+		button2 = new JButton("Close");
+		button2.setPreferredSize(new Dimension(125,23));
+		button2.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		button2.setOpaque(true);
+		button2.setBorder(BorderFactory.createLineBorder(Color.black));
+		button2.addActionListener (this);
+		button2.setEnabled(true);
+		panel.add (button2);	
 		
+		frame.add(panel, BorderLayout.SOUTH);
+		
+		/*Different data have different frame requirements*/
 		if (identifier.equals("Frame Data") || identifier.equals("Pillar Data") || identifier.equals("Multipillar Data")) {
-			Button3 = new JButton("Plot");
-			Button3.setPreferredSize(new Dimension(125,23));
-			Button3.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-			Button3.setOpaque(true);
-			Button3.setBorder(BorderFactory.createLineBorder(Color.black));
-			Button3.addActionListener (this);
-			Button3.setEnabled(true);
-			frame.add (Button3);	
+			
+			button3 = new JButton("Plot");
+			button3.setPreferredSize(new Dimension(125,23));
+			button3.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+			button3.setOpaque(true);
+			button3.setBorder(BorderFactory.createLineBorder(Color.black));
+			button3.addActionListener (this);
+			button3.setEnabled(true);
+			panel.add (button3);	
 		}
 	}
 
@@ -174,28 +188,31 @@ public class ReportTable2 extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		if (e.getSource() == Button1) {
+		if (e.getSource() == button1) {
 
 			fileChooser();
 		}
 
-		if (e.getSource() == Button2) {
+		if (e.getSource() == button2) {
 
 			frame.dispose();
 		}
-
-		if (e.getSource() == Button3) {
+		
+		if (e.getSource() == button3) { // Graph type depends on the frame.
 
 			if (identifier.equals("Frame Data")) {
+				
 				ScatterPlot ScatterPlot = new ScatterPlot (Process2);
 				ScatterPlot.scatterPlotData_byFrame (ID);
 			}
 			if (identifier.equals("Pillar Data")) {
+				
 				LineChart LineChart = new LineChart (Process2);
 				LineChart.lineChartData_byPillar (ID);
 			}
 
 			if (identifier.equals("Multipillar Data")) {
+				
 				LineChart LineChart = new LineChart (Process2);
 				LineChart.lineChartData_Multipillar(Process2.getValues());
 			}		

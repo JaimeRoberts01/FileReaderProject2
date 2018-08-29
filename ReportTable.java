@@ -6,21 +6,25 @@ import javax.swing.table.*;
 import javax.swing.border.*;
 
 
+/**Class to define a window for the forces table*/
+
 @SuppressWarnings("serial")
 public class ReportTable extends JFrame implements ActionListener {
 	
 	
 	/*Instance variables*/
 	private JTable displayTable;
-	private JButton Button1, Button2;
+	private JButton button1, button2;
 	private JFrame frame;
+	private JPanel panel;
 	
 	private Processing Process;
 	private OutputData OutputData;
 
 
 	/*Constructor*/	
-	public ReportTable (Processing Process) {		
+	public ReportTable (Processing Process) {
+		this.Process = Process;
 	}
 	
 	/**This method formats the JTable
@@ -74,27 +78,32 @@ public class ReportTable extends JFrame implements ActionListener {
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-		frame.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
+		frame.setLayout(new BorderLayout());
 
-		frame.add(scroll);
+		frame.add(scroll, BorderLayout.CENTER);
+		
+		panel = new JPanel ();
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
+		
+		button1 = new JButton("Save");
+		button1.setPreferredSize(new Dimension(125,23));
+		button1.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		button1.setOpaque(true);
+		button1.setBorder(BorderFactory.createLineBorder(Color.black));
+		button1.addActionListener (this);
+		button1.setEnabled(true);
+		panel.add (button1);
 
-		Button1 = new JButton("Save");
-		Button1.setPreferredSize(new Dimension(125,23));
-		Button1.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Button1.setOpaque(true);
-		Button1.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button1.addActionListener (this);
-		Button1.setEnabled(true);
-		frame.add (Button1);
-
-		Button2 = new JButton("Close");
-		Button2.setPreferredSize(new Dimension(125,23));
-		Button2.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Button2.setOpaque(true);
-		Button2.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button2.addActionListener (this);
-		Button2.setEnabled(true);
-		frame.add (Button2);	
+		button2 = new JButton("Close");
+		button2.setPreferredSize(new Dimension(125,23));
+		button2.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		button2.setOpaque(true);
+		button2.setBorder(BorderFactory.createLineBorder(Color.black));
+		button2.addActionListener (this);
+		button2.setEnabled(true);
+		panel.add (button2);	
+		
+		frame.add(panel, BorderLayout.SOUTH);
 	}
 
 
@@ -151,12 +160,12 @@ public class ReportTable extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		if (e.getSource() == Button1) {
+		if (e.getSource() == button1) {
 
 			fileChooser();
 		}
 
-		if (e.getSource() == Button2) {
+		if (e.getSource() == button2) {
 
 			frame.dispose();
 		}

@@ -7,22 +7,26 @@ import javax.swing.event.*;
 import javax.swing.border.*;
 
 
+/**Defines a GUI that displays TextFields to enable 
+ * input values and buttons to access the results. 
+ */
+
 @SuppressWarnings("serial")
 public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 
 	/*Instance variables*/
-	private JPanel Panel1, Panel2, Panel3, Panel4, Panel5;
-	private JLabel Label1, Label2, Label3, Label4, Label5, Label6, Label7, Label8, Label9;
-	private JTextField TF1, TF2, TF3, TF4, TF5, TF6, TF7;
-	private JSlider JS1;
-	private JComboBox <String> JCB1;
-	private JButton Button1, Button2, Button3, Button4, Button5, Button6, Button7, Button8;
+	private JPanel panel1, panel2, panel3, panel4, panel5;
+	private JLabel label1, label2,label3, label4, label5, label6, label7, label8, label9;
+	private JTextField tf1, tf2, tf3, tf4, tf5, tf6, tf7;
+	private JSlider js1;
+	private JComboBox <String> jcb1;
+	private JButton button1, button2, button3, button4, button5, button6, button7, button8;
 
 	private Processing Process;
 	private Processing2 Process2;
-	@SuppressWarnings("unused")
-	private FileManager FileManager;
+//	@SuppressWarnings("unused")
+//	private FileManager FileManager;
 	
 	private ArrayList <String> fileLine;
 
@@ -45,239 +49,239 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 	public void GUIComponents () {
 
-		/*Panel1*/
-		Panel1 = new JPanel ();
-		Panel1.setBorder(new EmptyBorder (12,5,12,6));
-		add (Panel1);
+		/*panel1*/
+		panel1 = new JPanel ();
+		panel1.setBorder(new EmptyBorder (12,5,12,6));
+		add (panel1);
 
-		Label1 = new JLabel ("File:");
-		Label1.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Panel1.add(Label1);
+		label1 = new JLabel ("File:");
+		label1.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		panel1.add(label1);
 
-		TF1 = new JTextField(44);
-		TF1.addActionListener (this);
-		TF1.setBorder(BorderFactory.createLineBorder(Color.black));
-		TF1.setPreferredSize(new Dimension(43,23));
-		TF1.setEditable(false);
-		Panel1.add(TF1);
-		TF1.setEnabled(true);
+		tf1 = new JTextField(44);
+		tf1.addActionListener (this);
+		tf1.setBorder(BorderFactory.createLineBorder(Color.black));
+		tf1.setPreferredSize(new Dimension(43,23));
+		tf1.setEditable(true);
+		panel1.add(tf1);
+		tf1.setEnabled(true);
 
-		Button1 = new JButton ("Browse");
-		Button1.setPreferredSize(new Dimension(125,23));
-		Button1.setOpaque(true);
-		Button1.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
-		Button1.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Button1.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button1.addActionListener (this);
-		Panel1.add (Button1);
-		Button1.setEnabled (true);
-
-
-		/*Panel2*/
-		Panel2 = new JPanel ();
-		Panel2.setBorder(new EmptyBorder (12,6,12,6));
-		add (Panel2);
-
-		Label2 = new JLabel ("Pixel to nm:");
-		Label2.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Panel2.add (Label2);
-
-		TF2 = new JTextField (4);
-		TF2.addActionListener (this);
-		TF2.setBorder(BorderFactory.createLineBorder(Color.black));
-		TF2.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
-		TF2.setPreferredSize(new Dimension(4,23));
-		Panel2.add(TF2);
-		TF2.setEnabled(true);
-
-		Label3 = new JLabel ("Substrate (MPa):");
-		Label3.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Panel2.add (Label3);
-
-		TF3 = new JTextField (4);
-		TF3.addActionListener (this);
-		TF3.setBorder(BorderFactory.createLineBorder(Color.black));
-		TF3.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
-		TF3.setPreferredSize(new Dimension(4,23));
-		Panel2.add(TF3);
-		TF3.setEnabled(true);
-
-		Label4 = new JLabel ("Pillar Diameter (µm):");
-		Label4.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Panel2.add (Label4);
-
-		TF4 = new JTextField (4);
-		TF4.addActionListener (this);
-		TF4.setBorder(BorderFactory.createLineBorder(Color.black));
-		TF4.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
-		TF4.setPreferredSize(new Dimension(4,23));
-		Panel2.add(TF4);
-		TF4.setEnabled(true);
-
-		Label5 = new JLabel ("Pillar Length (µm):");
-		Label5.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Panel2.add (Label5);
-
-		TF5 = new JTextField (4);
-		TF5.addActionListener (this);
-		TF5.setBorder(BorderFactory.createLineBorder(Color.black));
-		TF5.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
-		TF5.setPreferredSize(new Dimension(4,23));
-		Panel2.add(TF5);
-		TF5.setEnabled(true);
+		button1 = new JButton ("Browse");
+		button1.setPreferredSize(new Dimension(125,23));
+		button1.setOpaque(true);
+		button1.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+		button1.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		button1.setBorder(BorderFactory.createLineBorder(Color.black));
+		button1.addActionListener (this);
+		panel1.add (button1);
+		button1.setEnabled (true);
 
 
-		/*Panel3*/
-		Panel3 = new JPanel ();
-		Panel3.setBorder(new EmptyBorder (12,6,12,7));
-		add (Panel3);
+		/*panel2*/
+		panel2 = new JPanel ();
+		panel2.setBorder(new EmptyBorder (12,6,12,6));
+		add (panel2);
 
-		Button2 = new JButton ("Calculate Force");
-		Button2.setPreferredSize(new Dimension(129,23));
-		Button2.setOpaque(true);
-		Button2.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
-		Button2.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Button2.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button2.addActionListener (this);
-		Panel3.add (Button2);
-		Button2.setEnabled (false);
+		label2 = new JLabel ("Pixel to nm:");
+		label2.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		panel2.add (label2);
 
-		Button3 = new JButton ("View Statistics");
-		Button3.setPreferredSize(new Dimension(129,23));
-		Button3.setOpaque(true);
-		Button3.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
-		Button3.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Button3.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button3.addActionListener (this);
-		Panel3.add (Button3);
-		Button3.setEnabled (false);
+		tf2 = new JTextField (4);
+		tf2.addActionListener (this);
+		tf2.setBorder(BorderFactory.createLineBorder(Color.black));
+		tf2.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
+		tf2.setPreferredSize(new Dimension(4,23));
+		panel2.add(tf2);
+		tf2.setEnabled(true);
 
-		JSeparator S1 = new JSeparator(SwingConstants.VERTICAL);
-		S1.setPreferredSize(new Dimension(13,23));
-		S1.setBackground(Color.DARK_GRAY);
-		Panel3.add(S1);
+		label3 = new JLabel ("Substrate (MPa):");
+		label3.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		panel2.add (label3);
 
-		S1 = new JSeparator(SwingConstants.VERTICAL);
-		S1.setPreferredSize(new Dimension(12,23));
-		S1.setBackground(Color.DARK_GRAY);
-		Panel3.add(S1);
+		tf3 = new JTextField (4);
+		tf3.addActionListener (this);
+		tf3.setBorder(BorderFactory.createLineBorder(Color.black));
+		tf3.setHorizontalAlignment((int) JTextField.CENTER_ALIGNMENT);
+		tf3.setPreferredSize(new Dimension(4,23));
+		panel2.add(tf3);
+		tf3.setEnabled(true);
 
-		Label6 = new JLabel (" View all data by:");
-		Label6.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Panel3.add (Label6);
+		label4 = new JLabel ("Pillar Diameter (µm):");
+		label4.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		panel2.add (label4);
+
+		tf4 = new JTextField (4);
+		tf4.addActionListener (this);
+		tf4.setBorder(BorderFactory.createLineBorder(Color.black));
+		tf4.setHorizontalAlignment((int) JTextField.CENTER_ALIGNMENT);
+		tf4.setPreferredSize(new Dimension(4,23));
+		panel2.add(tf4);
+		tf4.setEnabled(true);
+
+		label5 = new JLabel ("Pillar Length (µm):");
+		label5.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		panel2.add (label5);
+
+		tf5 = new JTextField (4);
+		tf5.addActionListener (this);
+		tf5.setBorder(BorderFactory.createLineBorder(Color.black));
+		tf5.setHorizontalAlignment((int) JTextField.CENTER_ALIGNMENT);
+		tf5.setPreferredSize(new Dimension(4,23));
+		panel2.add(tf5);
+		tf5.setEnabled(true);
+
+
+		/*panel3*/
+		panel3 = new JPanel ();
+		panel3.setBorder(new EmptyBorder (12,6,12,7));
+		add (panel3);
+
+		button2 = new JButton ("Calculate Force");
+		button2.setPreferredSize(new Dimension(129,23));
+		button2.setOpaque(true);
+		button2.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+		button2.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		button2.setBorder(BorderFactory.createLineBorder(Color.black));
+		button2.addActionListener (this);
+		panel3.add (button2);
+		button2.setEnabled (false);
+
+		button3 = new JButton ("View Statistics");
+		button3.setPreferredSize(new Dimension(129,23));
+		button3.setOpaque(true);
+		button3.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+		button3.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		button3.setBorder(BorderFactory.createLineBorder(Color.black));
+		button3.addActionListener (this);
+		panel3.add (button3);
+		button3.setEnabled (false);
+
+		JSeparator s1 = new JSeparator(SwingConstants.VERTICAL);
+		s1.setPreferredSize(new Dimension(13,23));
+		s1.setBackground(Color.DARK_GRAY);
+		panel3.add(s1);
+
+		s1 = new JSeparator(SwingConstants.VERTICAL);
+		s1.setPreferredSize(new Dimension(12,23));
+		s1.setBackground(Color.DARK_GRAY);
+		panel3.add(s1);
+
+		label6 = new JLabel (" View all data by:");
+		label6.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		panel3.add (label6);
 
 		String [] comboBox = {"Select Style", "Line Chart", "Scatter Plot", "Bar Chart"};
-		JCB1 = new JComboBox <String> (comboBox);
-		JCB1.addActionListener(this);
-		JCB1.setPreferredSize(new Dimension(135,30));
-		JCB1.setEditable(false);
-		Panel3.add(JCB1);
-		JCB1.setEnabled(false);
+		jcb1 = new JComboBox <String> (comboBox);
+		jcb1.addActionListener(this);
+		jcb1.setPreferredSize(new Dimension(135,30));
+		jcb1.setEditable(false);
+		panel3.add(jcb1);
+		jcb1.setEnabled(false);
 
-		Button4 = new JButton ("Plot Data");
-		Button4.setPreferredSize(new Dimension(129,23));
-		Button4.setOpaque(true);
-		Button4.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
-		Button4.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Button4.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button4.addActionListener (this);
-		Panel3.add (Button4);
-		Button4.setEnabled (false);
-
-
-		/*Panel4*/
-		Panel4 = new JPanel ();
-		Panel4.setBorder(new EmptyBorder (12,6,12,7));
-		add(Panel4);
-
-		Label7 = new JLabel ("Get data by frame:");
-		Label7.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Panel4.add(Label7);
-
-		TF6 = new JTextField(5);
-		TF6.addActionListener (this);
-		TF6.setBorder(BorderFactory.createLineBorder(Color.black));
-		TF6.setPreferredSize(new Dimension(5,23));
-		TF6.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
-		TF6.setText(Integer.toString(1));
-		TF6.setEditable(false);
-		Panel4.add(TF6);
-		TF6.setEnabled(false);
-
-		JS1 = new JSlider (JSlider.HORIZONTAL);
-		JS1.addChangeListener(this);
-		JS1.setMinimum(1);
-		JS1.setValue(1);
-		JS1.setPreferredSize(new Dimension(360, 23));
-		Panel4.add(JS1);
-		JS1.setEnabled(false);
-
-		Button5 = new JButton ("Get Data");
-		Button5.setPreferredSize(new Dimension(129,23));
-		Button5.setOpaque(true);
-		Button5.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
-		Button5.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Button5.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button5.addActionListener (this);
-		Panel4.add (Button5);
-		Button5.setEnabled (false);
+		button4 = new JButton ("Plot Data");
+		button4.setPreferredSize(new Dimension(129,23));
+		button4.setOpaque(true);
+		button4.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+		button4.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		button4.setBorder(BorderFactory.createLineBorder(Color.black));
+		button4.addActionListener (this);
+		panel3.add (button4);
+		button4.setEnabled (false);
 
 
-		/*Panel5*/
-		Panel5 = new JPanel ();
-		Panel5.setBorder(new EmptyBorder (12,6,12,7));
-		add(Panel5);
+		/*panel4*/
+		panel4 = new JPanel ();
+		panel4.setBorder(new EmptyBorder (12,6,12,7));
+		add(panel4);
 
-		Label8 = new JLabel ("Get data by pillar: ");
-		Label8.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Panel5.add (Label8);
+		label7 = new JLabel ("Get data by frame:");
+		label7.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		panel4.add(label7);
 
-		TF7 = new JTextField (5);
-		TF7.addActionListener (this);
-		TF7.setBorder(BorderFactory.createLineBorder(Color.black));
-		TF7.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
-		TF7.setPreferredSize(new Dimension(5,23));
-		Panel5.add(TF7);
-		TF7.setEnabled(true);
+		tf6 = new JTextField(5);
+		tf6.addActionListener (this);
+		tf6.setBorder(BorderFactory.createLineBorder(Color.black));
+		tf6.setPreferredSize(new Dimension(5,23));
+		tf6.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
+		tf6.setText(Integer.toString(1));
+		tf6.setEditable(false);
+		panel4.add(tf6);
+		tf6.setEnabled(false);
 
-		Button6 = new JButton ("Get Data");
-		Button6.setPreferredSize(new Dimension(128,23));
-		Button6.setOpaque(true);
-		Button6.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
-		Button6.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Button6.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button6.addActionListener (this);
-		Panel5.add (Button6);
-		Button6.setEnabled (false);
+		js1 = new JSlider (JSlider.HORIZONTAL);
+		js1.addChangeListener(this);
+		js1.setMinimum(1);
+		js1.setValue(1);
+		js1.setPreferredSize(new Dimension(360, 23));
+		panel4.add(js1);
+		js1.setEnabled(false);
 
-		Button7 = new JButton ("Multi-Pillar");
-		Button7.setPreferredSize(new Dimension(128,23));
-		Button7.setOpaque(true);
-		Button7.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
-		Button7.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Button7.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button7.addActionListener (this);
-		Panel5.add (Button7);
-		Button7.setEnabled (false);
+		button5 = new JButton ("Get Data");
+		button5.setPreferredSize(new Dimension(129,23));
+		button5.setOpaque(true);
+		button5.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+		button5.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		button5.setBorder(BorderFactory.createLineBorder(Color.black));
+		button5.addActionListener (this);
+		panel4.add (button5);
+		button5.setEnabled (false);
 
-		S1 = new JSeparator(SwingConstants.VERTICAL);
-		S1.setPreferredSize(new Dimension(10,23));
-		S1.setBackground(Color.DARK_GRAY);
-		Panel5.add(S1);
 
-		Label9 = new JLabel ("Get all data:");
-		Label9.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Panel5.add (Label9);
+		/*panel5*/
+		panel5 = new JPanel ();
+		panel5.setBorder(new EmptyBorder (12,6,12,7));
+		add(panel5);
 
-		Button8 = new JButton ("Get Data");
-		Button8.setPreferredSize(new Dimension(128,23));
-		Button8.setOpaque(true);
-		Button8.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
-		Button8.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Button8.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button8.addActionListener (this);
-		Panel5.add (Button8);
-		Button8.setEnabled (false);
+		label8 = new JLabel ("Get data by pillar: ");
+		label8.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		panel5.add (label8);
+
+		tf7 = new JTextField (5);
+		tf7.addActionListener (this);
+		tf7.setBorder(BorderFactory.createLineBorder(Color.black));
+		tf7.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
+		tf7.setPreferredSize(new Dimension(5,23));
+		panel5.add(tf7);
+		tf7.setEnabled(true);
+
+		button6 = new JButton ("Get Data");
+		button6.setPreferredSize(new Dimension(128,23));
+		button6.setOpaque(true);
+		button6.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+		button6.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		button6.setBorder(BorderFactory.createLineBorder(Color.black));
+		button6.addActionListener (this);
+		panel5.add (button6);
+		button6.setEnabled (false);
+
+		button7 = new JButton ("Multi-Pillar");
+		button7.setPreferredSize(new Dimension(128,23));
+		button7.setOpaque(true);
+		button7.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+		button7.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		button7.setBorder(BorderFactory.createLineBorder(Color.black));
+		button7.addActionListener (this);
+		panel5.add (button7);
+		button7.setEnabled (false);
+
+		s1 = new JSeparator(SwingConstants.VERTICAL);
+		s1.setPreferredSize(new Dimension(10,23));
+		s1.setBackground(Color.DARK_GRAY);
+		panel5.add(s1);
+
+		label9 = new JLabel ("Get all data:");
+		label9.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		panel5.add (label9);
+
+		button8 = new JButton ("Get Data");
+		button8.setPreferredSize(new Dimension(128,23));
+		button8.setOpaque(true);
+		button8.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+		button8.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		button8.setBorder(BorderFactory.createLineBorder(Color.black));
+		button8.addActionListener (this);
+		panel5.add (button8);
+		button8.setEnabled (false);
 	}
 
 
@@ -296,17 +300,19 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 			selectedFile = JFC.getSelectedFile();
 			String fileName = selectedFile.toString();
-			TF1.setText(fileName);
+			tf1.setText(fileName);
 
 			if (fileName.contains(".csv")) {
 
 				fileReader (fileName);
+//				FileManager FileManager = new FileManager ();
+//				FileManager.fileReader(fileName);
 			}
 
 			else {
 
 				JOptionPane.showMessageDialog (null, "INVALID FILETYPE \n .csv files only", "ERROR", JOptionPane.ERROR_MESSAGE);
-				TF1.setText("");
+				tf1.setText(""); // The program is designed for csv files.
 			}
 		}
 
@@ -317,9 +323,9 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	}
 
 
-	/**FileReader opens the file and reads the data within it storing the 
-	 * data line by line in an array.This should be moved to its own class 
-	 * but there are problems when this happens.
+	/**FileReader opens the file and reads the data within 
+	 * it then stores the data line by line in an array.
+	 * @param fileName - the name of the file.
 	 */
 
 	public void fileReader (String fileName) { 
@@ -370,129 +376,144 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 
 		/*Browse*/
-		if (e.getSource() == Button1) {
+		if (e.getSource() == button1) {
 
-			//			FileManager = new FileManager ();
-			//			FileManager.fileSelection ();
-			//			
-			//			String fileName = FileManager.getFileName();
-			//			if (fileName != null) {
-			//				TF1.setText(fileName);
-			//				Button2.setEnabled(true);
-			//			}
-			//			else {
-			//				TF1.setText("");
-			//			}
-			if (TF2 != null || TF3 != null || TF4 != null || TF5 != null || TF7 != null) {
+//			FileManager FileManager = new FileManager ();
+//			FileManager.fileSelection ();
+//
+//			String fileName = FileManager.getFileName();
+//			if (fileName != null) {
+//				tf1.setText(fileName);
+//				button2.setEnabled(true);
+//			}
+//			else {
+//				tf1.setText("");
+//			}
+
+			if (tf2 != null || tf3 != null || tf4 != null || tf5 != null || tf7 != null) {
 
 				reset ();
 			}
 
-			fileSelection ();
+			fileSelection (); // Calls the JFileChooser.
 
 			Process2 = new Processing2 ();
 			Process2.getFrames(Process.getData());
-			int max = Process2.getFrame().size();
-			JS1.setMaximum(max);
-			JS1.setEnabled(true);
+			
+			int max = Process2.getFrame().size(); // Gets the number of frames in the file.
+			js1.setMaximum(max); // Sets the maximum value of the frame slider.
+			js1.setEnabled(true);
 
-			Button2.setEnabled(true);
+			button2.setEnabled(true);
 		}
-
-
+		
+		
 		/*Calculate Forces*/
-		if (e.getSource() == Button2) { 
+		if (e.getSource() == button2) { 
 
-			calculateForces();
+			calculateForces(); // Calls the method for calculating forces.
 
-			if (TF2 != null && TF3 != null && TF4 != null && TF5 != null) {
+			if (tf2 != null && tf3 != null && tf4 != null && tf5 != null) {
 
-				Button3.setEnabled(true);
-				JCB1.setEnabled(true);
-				TF6.setEnabled(true);
-				Button5.setEnabled(true);
-				Button6.setEnabled(true);
-				Button7.setEnabled(true);
-				Button8.setEnabled(true);
+				button3.setEnabled(true);
+				jcb1.setEnabled(true);
+				tf6.setEnabled(true);
+				button5.setEnabled(true);
+				button6.setEnabled(true);
+				button7.setEnabled(true);
+				button8.setEnabled(true);
+				// Enables all the other buttons etc.
 			}
 		}
 
 
 		/*View Statistics*/
-		if (e.getSource() == Button3) {
+		if (e.getSource() == button3) {
 
 			try {
 
 				Process2 = new Processing2 ();
 				Process2.getPillars(Process.getData());
-				Process2.getFrames(Process.getData());
 				Process2.allFrames(Process.getNewData());
 
 				OutputData OutputData = new OutputData (Process2, null);
-				OutputData.stringStatistics();				
+				OutputData.stringStatistics(); 
+				// Calls the method for loading values to the JTable.				
 			}
 
 			catch (NullPointerException NPE) {
-				System.out.println("No valid data for statistical analysis");
-				NPE.printStackTrace();
+				
+				String message = "No valid data for statistical analysis";
+				StringWriter stackTraceWriter = new StringWriter();
+				NPE.printStackTrace(new PrintWriter(stackTraceWriter));
+				String stackTrace = stackTraceWriter.toString();
+				
+				LogFile log = new LogFile ();
+				log.writeToLog(message, stackTrace); 
+				// Calls the log file if there is an error.
 			}			
 		}
 
 
 		/*ComboBox*/
-		if (e.getSource () == JCB1) {
+		if (e.getSource () == jcb1) {
 
-			if (JCB1.getSelectedIndex() == 1 || JCB1.getSelectedIndex() == 2 || JCB1.getSelectedIndex() == 3) {
+			if (jcb1.getSelectedIndex() == 1 || jcb1.getSelectedIndex() == 2 || jcb1.getSelectedIndex() == 3) {
 
-				Button4.setEnabled(true);
+				button4.setEnabled(true);
 			}
 
 			else {
 
-				Button4.setEnabled(false);
+				button4.setEnabled(false);
 			}	
 		}
 
 
 		/*Plot Data*/
-		if (e.getSource() == Button4) { 
+		if (e.getSource() == button4) { 
 
-			if (JCB1.getSelectedIndex() == 1) {
+			if (jcb1.getSelectedIndex() == 1) {
 
 				Process2 = new Processing2 ();
 				Process2.getPillars(Process.getData());
-				Process2.allFrames(Process.getNewData());
 				Process2.allPillarsAllFrames(Process.getNewData());
+				
 				LineChart LineChart = new LineChart (Process2);
-				LineChart.lineChartData_AllData();
+				LineChart.lineChartData_AllData(); 
+				// Calls the method for creating the line chart of all data.
 			}
 
-			if (JCB1.getSelectedIndex() == 2) {
+			if (jcb1.getSelectedIndex() == 2) {
 
 				Process2 = new Processing2 ();
 				Process2.getPillars(Process.getData());
 				Process2.allFrames(Process.getNewData());
+				
 				ScatterPlot ScatterPlot = new ScatterPlot (Process2);
-				ScatterPlot.scatterPlotData_AllFrames ();			
+				ScatterPlot.scatterPlotData_AllFrames (); 
+				// Calls the method for creating the Scatter plot of all data.
 			}
 
-			if (JCB1.getSelectedIndex() == 3) {
+			if (jcb1.getSelectedIndex() == 3) {
 
 				Process2 = new Processing2 ();
 				Process2.getPillars(Process.getData());
 				Process2.allFrames(Process.getNewData());
+				
 				BarGraph BarGraph = new BarGraph (Process2); 
-				BarGraph.barChartData_AllData();
+				BarGraph.barChartData_AllData(); 
+				// Calls the method for creating the bar chart of all data.
 			}
 		}
 
 
 		/*Get Data - Frame*/
-		if (e.getSource() == Button5) {
+		if (e.getSource() == button5) {
 
 			try {
 
-				int ID = Integer.parseInt(TF6.getText().trim());
+				int ID = Integer.parseInt(tf6.getText().trim());
 				Process2 = new Processing2 ();
 				Process2.getPillars(Process.getData());
 				Process2.getFrames(Process.getData());
@@ -500,61 +521,86 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			}
 
 			catch (NullPointerException NPE) {
-				System.err.println("Invalid input");
-				NPE.printStackTrace();
+				
+				String message = "Invalid user input - check input variable integer.";
+				StringWriter stackTraceWriter = new StringWriter();
+				NPE.printStackTrace(new PrintWriter(stackTraceWriter));
+				String stackTrace = stackTraceWriter.toString();
+				
+				LogFile log = new LogFile ();
+				log.writeToLog(message, stackTrace);
+				// Calls the log file if there is an error.
 			}
 		}
 
 
 		/*Get Data - Pillar*/
-		if (e.getSource() == Button6) {
+		if (e.getSource() == button6) {
 
 			try {
 
-				int ID = Integer.parseInt(TF7.getText().trim());
+				int ID = Integer.parseInt(tf7.getText().trim());
 
 				if (ID == 0) {
 
-					System.err.println("Value contains zero");			
+					String message = "Invalid user input - value contains zero.";
+					LogFile log = new LogFile ();
+					log.writeToLog(message, null);
+					// Calls the log file if there is an error.
 				}
 
 				else {
 
 					Process2 = new Processing2 ();
 					Process2.getPillars(Process.getData());
-					Process2.getFrames(Process.getData());
 					Process2.dataByPillar(Process.getNewData(), ID);
 				}
 			}
 
 			catch (NumberFormatException NFE) {
-				System.err.println("Invalid input");
-				NFE.printStackTrace();
+				
+				String message = "Invalid user input - check input variable integer.";
+				StringWriter stackTraceWriter = new StringWriter();
+				NFE.printStackTrace(new PrintWriter(stackTraceWriter));
+				String stackTrace = stackTraceWriter.toString();
+				
+				LogFile log = new LogFile ();
+				log.writeToLog(message, stackTrace);
+				// Calls the log file if there is an error.
 			}
 
 			catch (NullPointerException NPE) {
-				System.err.println("Invalid input");
-				NPE.printStackTrace();
+				
+				String message = "Invalid user input - check input variable integer.";
+				StringWriter stackTraceWriter = new StringWriter();
+				NPE.printStackTrace(new PrintWriter(stackTraceWriter));
+				String stackTrace = stackTraceWriter.toString();
+				
+				LogFile log = new LogFile ();
+				log.writeToLog(message, stackTrace);
+				// Calls the log file if there is an error.
 			}
 		}
 
 
 		/*MultiPillar*/
-		if (e.getSource() == Button7) {
+		if (e.getSource() == button7) {
 
 			MultipillarInput MultipillarInput = new MultipillarInput (Process, Process2);
-			MultipillarInput.frameComponents();
+			MultipillarInput.frameComponents(); // Calls the MultiPillar input box.
 		}
 
 
 		/*Get Data - All Data*/
-		if (e.getSource() == Button8) {
+		if (e.getSource() == button8) {
 
 			Process2 = new Processing2 ();
 			Process2.getPillars(Process.getData());
 			Process2.allPillarsAllFrames(Process.getNewData());
+			
 			OutputData OutputData = new OutputData (Process2, null);
 			OutputData.stringAllData();
+			// Calls the method for loading values to the JTable.	
 		}
 	}
 
@@ -564,30 +610,32 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	@Override 
 	public void stateChanged(ChangeEvent e) {
 
-		if (e.getSource() == JS1) {
+		if (e.getSource() == js1) {
 
-			if (JS1.getValueIsAdjusting()) {
-				int slider = JS1.getValue();
-				TF6.setText(Integer.toString(slider));
+			if (js1.getValueIsAdjusting()) {
+				int slider = js1.getValue();
+				tf6.setText(Integer.toString(slider)); // Value appears in TextField.
 			}	
 		}
 	}
 
 
-	/**This method retrieves input data from the TextFields for converting to forces*/
+	/**This method retrieves input data from the Textfields for converting to forces*/
 
 	public void calculateForces () {
 
 		try {
 
-			int conversion = Integer.parseInt(TF2.getText().trim());
-			double youngsM = Double.parseDouble(TF3.getText().trim());
-			double pillarD = Double.parseDouble(TF4.getText().trim());
-			double pillarL = Double.parseDouble(TF5.getText().trim());
+			int conversion = Integer.parseInt(tf2.getText().trim());
+			double youngsM = Double.parseDouble(tf3.getText().trim());
+			double pillarD = Double.parseDouble(tf4.getText().trim());
+			double pillarL = Double.parseDouble(tf5.getText().trim());
 
 			if (conversion == 0 || youngsM == 0 || pillarD == 0 || pillarL == 0) {
 
-				System.err.println("Value contains zero");			
+				String message = "Invalid user input - value contains zero.";
+				LogFile log = new LogFile ();
+				log.writeToLog(message, null);
 			}
 
 			else {
@@ -599,33 +647,49 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		}
 
 		catch (NumberFormatException NFE) {
-			System.err.println("Invalid input");
-			NFE.printStackTrace();
+			
+			String message = "Invalid user input - check input variables integer, double, double, double.";
+			StringWriter stackTraceWriter = new StringWriter();
+			NFE.printStackTrace(new PrintWriter(stackTraceWriter));
+			String stackTrace = stackTraceWriter.toString();
+			
+			LogFile log = new LogFile ();
+			log.writeToLog(message, stackTrace);
+			// Calls the log file if there is an error.
 		}
 
 		catch (NullPointerException NPE) {
-			System.err.println("Invalid input");
-			NPE.printStackTrace();
+			
+			String message = "Invalid user input - check input variables integer, double, double, double.";
+			StringWriter stackTraceWriter = new StringWriter();
+			NPE.printStackTrace(new PrintWriter(stackTraceWriter));
+			String stackTrace = stackTraceWriter.toString();
+			
+			LogFile log = new LogFile ();
+			log.writeToLog(message, stackTrace);
+			// Calls the log file if there is an error.
 		}
 	}
 
 
+	/**This method resets the TextFields and buttons when a file is loaded*/
+	
 	public void reset () {
 
-		TF2.setText(""); 
-		TF3.setText("");
-		TF4.setText("");
-		TF5.setText("");
-		TF7.setText("");
+		tf2.setText(""); 
+		tf3.setText("");
+		tf4.setText("");
+		tf5.setText("");
+		tf7.setText("");
 
-		JS1.setValue(1);
+		js1.setValue(1);
 
-		Button2.setEnabled(false);
-		Button3.setEnabled(false);
-		Button4.setEnabled(false);
-		Button5.setEnabled(false);
-		Button6.setEnabled(false);
-		Button7.setEnabled(false);
-		Button8.setEnabled(false);
+		button2.setEnabled(false);
+		button3.setEnabled(false);
+		button4.setEnabled(false);
+		button5.setEnabled(false);
+		button6.setEnabled(false);
+		button7.setEnabled(false);
+		button8.setEnabled(false);
 	}
 }

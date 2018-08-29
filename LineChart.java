@@ -12,6 +12,10 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
 
+/**A class that defines a line-chart of the data for the whole 
+ * dataset, getByPillar and MultiPillar functionality.
+ */
+
 public class LineChart implements ActionListener {
 
 
@@ -20,8 +24,9 @@ public class LineChart implements ActionListener {
 	private XYPlot plot;
 	private Object [][] lineChartArray;
 	private JFrame frame;
-	private JButton Button1, Button2, Button3;
-	
+	private JPanel panel;
+	private JButton button1, button2, button3;
+
 	private Processing2 Process2;
 
 
@@ -30,25 +35,108 @@ public class LineChart implements ActionListener {
 		this.Process2 = Process2;	
 	}
 
-	
+
+	/**This method retrieves data from the allPillarsAllFrames method and creates a dataset array.
+	 * IDs are created from the pillar ArrayList and turned into an ID array for tracking all the
+	 * individual pillar indexes when creating XYSeries data.
+	 */
+
+	public void lineChartData_AllData () { // All data
+
+		lineChartArray = new Object [Process2.getDataByPillarFrame().size()][3]; 
+		int [] ID = null;
+
+		try {
+
+			for (int i = 0; i < Process2.getDataByPillarFrame().size(); i++) {
+
+				lineChartArray [i] = (Process2.getDataByPillarFrame().get(i)).toString().split(","); 
+				System.out.println(Arrays.toString(lineChartArray[i]));
+			}	
+
+			ID = new int [Process2.getPillar().size()];
+
+			for (int i = 0; i< Process2.getPillar().size(); i++) {
+
+				ID [i] = Process2.getPillar().get(i);
+			}
+		}
+
+		catch (NullPointerException NPE) {
+
+			String message = "Invalid input";
+			StringWriter stackTraceWriter = new StringWriter();
+			NPE.printStackTrace(new PrintWriter(stackTraceWriter));
+			String stackTrace = stackTraceWriter.toString();
+
+			LogFile log = new LogFile ();
+			log.writeToLog(message, stackTrace);
+			// Calls the log file if there is an error.
+		}
+
+		String identifier = "AllData";
+		createLineChart (ID, identifier);
+	}
+
+
+	/**This method retrieves data from the byPillar method and creates a dataset array. An ID is
+	 * passed from Processing2 and turned into an ID array for tracking the pillar index across
+	 * the individual frames.
+	 * @param ID - the pillar index.
+	 */
+
+	public void lineChartData_byPillar (int pillarID) { //getByPillar
+
+		lineChartArray = new Object [Process2.getOutputDataByPillar().size()][3]; 
+		int [] ID = null;
+
+		try {
+
+			for (int i = 0; i < Process2.getOutputDataByPillar().size(); i++) {
+
+				lineChartArray [i] = (Process2.getOutputDataByPillar().get(i)).toString().split(",");
+				System.out.println(Arrays.toString(lineChartArray[i]));
+			}	
+
+			ID = new int [1];
+
+			for (int i = 0; i < ID.length; i++) { 
+
+				ID [i] = pillarID;	
+			}
+		}
+
+		catch (NullPointerException NPE) {
+
+			String message = "Invalid input";
+			StringWriter stackTraceWriter = new StringWriter();
+			NPE.printStackTrace(new PrintWriter(stackTraceWriter));
+			String stackTrace = stackTraceWriter.toString();
+
+			LogFile log = new LogFile ();
+			log.writeToLog(message, stackTrace);
+			// Calls the log file if there is an error.
+		}
+
+		String identifier = "ByPillar";
+		createLineChart (ID, identifier);
+	}
+
+
 	/**This method retrieves data for the Multipillar method and creates a dataset array.
 	 * IDs are passed to it from MultipillarInput in the form of an ID array for tracking
 	 * all the individual pillar indexes when creating XYSeries data.
 	 * @param IDs - the pillar indices.
 	 */
-	
-	public void lineChartData_Multipillar (Object[] IDs) { 
 
+	public void lineChartData_Multipillar (Object[] IDs) { // Multipillar
 
-		int rows = Process2.getOutputMultipillar().size();
-		int columns = 3;
-
-		lineChartArray = new Object [rows][columns]; 
+		lineChartArray = new Object [Process2.getOutputMultipillar().size()][3]; 
 		int [] ID = null;
 
 		try {
 
-			for (int i = 0; i < rows; i++) {
+			for (int i = 0; i < Process2.getOutputMultipillar().size(); i++) {
 
 				lineChartArray [i] = (Process2.getOutputMultipillar().get(i)).toString().split(",");
 				System.out.println("LineChart2: " + Arrays.toString(lineChartArray[i]));
@@ -61,92 +149,21 @@ public class LineChart implements ActionListener {
 				ID [i] = Integer.parseInt((String) IDs [i]);	
 			}
 		}
-		
+
 		catch (NullPointerException NPE) {
-			System.err.println("Invalid input");
-			NPE.printStackTrace();
+
+			String message = "Invalid input";
+			StringWriter stackTraceWriter = new StringWriter();
+			NPE.printStackTrace(new PrintWriter(stackTraceWriter));
+			String stackTrace = stackTraceWriter.toString();
+
+			LogFile log = new LogFile ();
+			log.writeToLog(message, stackTrace);
+			// Calls the log file if there is an error.
 		}
 
 		String identifier = "Multipillar";
 		createLineChart (ID, identifier);	
-	}
-	
-	
-	/**This method retrieves data from the allPillarsAllFrames method and creates a dataset array.
-	 * IDs are created from the pillar ArrayList and turned into an ID array for tracking all the
-	 * individual pillar indexes when creating XYSeries data.
-	 */
-	
-	public void lineChartData_AllData () { 
-
-		int rows = Process2.getDataByPillarFrame().size();
-		int columns = 3;
-
-		lineChartArray = new Object [rows][columns]; 
-		int [] ID = null;
-
-		try {
-
-			for (int i = 0; i < rows; i++) {
-
-				lineChartArray [i] = (Process2.getDataByPillarFrame().get(i)).toString().split(","); 
-				System.out.println(Arrays.toString(lineChartArray[i]));
-			}	
-
-			ID = new int [Process2.getPillar().size()];
-
-			for (int i = 0; i< Process2.getPillar().size(); i++) {
-				ID [i] = Process2.getPillar().get(i);
-				System.out.println("APAF ID: " + ID [i]);
-			}
-		}
-
-		catch (NullPointerException NPE) {
-			System.err.println("Invalid input");
-		}
-
-		String identifier = "AllData";
-		createLineChart (ID, identifier);
-	}
-	
-	
-	/**This method retrieves data from the byPillar method and creates a dataset array. An ID is
-	 * passed from Processing2 and turned into an ID array for tracking the pillar index across
-	 * the individual frames.
-	 * @param ID - the pillar index.
-	 */
-	
-	public void lineChartData_byPillar (int pillarID) { 
-
-		int rows = Process2.getOutputDataByPillar().size();
-		int columns = 3;
-
-		lineChartArray = new Object [rows][columns]; 
-		int [] ID = null;
-
-		try {
-
-			for (int i = 0; i < rows; i++) {
-
-				lineChartArray [i] = (Process2.getOutputDataByPillar().get(i)).toString().split(",");
-				System.out.println(Arrays.toString(lineChartArray[i]));
-			}	
-
-			ID = new int [1];
-
-			for (int i = 0; i < ID.length; i++) { 
-				
-				ID [i] = pillarID;	
-			}
-		}
-		
-		catch (NullPointerException NPE) {
-			System.err.println("Invalid input");
-			NPE.printStackTrace();
-		}
-
-		String identifier = "ByPillar";
-		createLineChart (ID, identifier);
 	}
 
 
@@ -154,7 +171,7 @@ public class LineChart implements ActionListener {
 	 * @param ID - the pillar index.
 	 * @param identifier - identifies the source of the data.
 	 */
-	
+
 	public void createLineChart (int [] ID, String identifier) {
 
 		XYSeriesCollection dataset = new XYSeriesCollection ();
@@ -169,7 +186,7 @@ public class LineChart implements ActionListener {
 				int pillar = Integer.parseInt((String) lineChartArray [j][1]);
 
 				if (inputID == pillar) {
-					
+
 					int x = Integer.parseInt((String) lineChartArray [j][0]); // frame
 					double y = Double.parseDouble((String) lineChartArray [j][2]); // force
 					series.add(x, y);
@@ -178,19 +195,19 @@ public class LineChart implements ActionListener {
 
 			dataset.addSeries(series);
 		}
-		
+
 		formatLineChart(ID, dataset, identifier);
 	}
-		
-	
+
+
 	/**This method formats the LineChart.
 	 * @param ID - pillar indices.
 	 * @param dataset - the data.
 	 * @param identifier - the source of the data.
 	 */
-	
+
 	public void formatLineChart (int[] ID, XYSeriesCollection dataset, String identifier) {
-		
+
 		/*Different plot formatting depending on the source of the data*/
 		if (identifier.equals("Multipillar")) {
 
@@ -199,8 +216,9 @@ public class LineChart implements ActionListener {
 			plot =  lineChart.getXYPlot();
 			plot.setBackgroundPaint(Color.getHSBColor(0.0f, 0.0f, 0.90f));
 		}
-		
+
 		else if (identifier.equals("ByPillar")) {
+
 			String pillarID = Arrays.toString(ID);
 			pillarID = pillarID.replace("[", ""); pillarID = pillarID.replace("]","");
 			lineChart = ChartFactory.createXYLineChart("Forces Over Time: Pillar " + pillarID, "Frame ID", "Force (pN)", dataset);
@@ -209,15 +227,16 @@ public class LineChart implements ActionListener {
 			plot =  lineChart.getXYPlot();
 			plot.setBackgroundPaint(Color.getHSBColor(0.0f, 0.0f, 0.90f));
 		}
-		
+
 		else if (identifier.equals("AllData")) {
+
 			lineChart = ChartFactory.createXYLineChart("Forces Over Time", "Frame ID", "Force (pN)", dataset);
 			lineChart.getTitle().setFont(new Font ("monspaced", Font.BOLD, 14));
 			lineChart.removeLegend();
 			plot =  lineChart.getXYPlot();
 			plot.setBackgroundPaint(Color.getHSBColor(0.0f, 0.0f, 0.90f));
 		}
-		
+
 		/*Y axis formatting*/
 		Axis axisY = plot.getRangeAxis();
 		axisY.setAxisLinePaint(Color.black);
@@ -245,13 +264,13 @@ public class LineChart implements ActionListener {
 		render.setSeriesPaint(2, new Color(204, 0, 0));
 		render.setSeriesPaint(3, new Color(9, 224, 2));
 		render.setSeriesPaint(4, new Color(249, 245, 7));
-		
+
 		render.setSeriesOutlineStroke(0, new BasicStroke(1));
 		render.setSeriesOutlineStroke(1, new BasicStroke(1));
 		render.setSeriesOutlineStroke(2, new BasicStroke(1));
 		render.setSeriesOutlineStroke(3, new BasicStroke(1));
 		render.setSeriesOutlineStroke(4, new BasicStroke(1));
-		
+
 		frameLayout (ID, identifier);
 	}
 
@@ -269,47 +288,51 @@ public class LineChart implements ActionListener {
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-		frame.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
+		frame.setLayout(new BorderLayout());
 
 		ChartPanel chartpanel = new ChartPanel(lineChart);
 		chartpanel.setBackground(Color.white);
 		chartpanel.setPreferredSize(new Dimension(700,446));
 		chartpanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		chartpanel.setVisible(true);
-		frame.add(chartpanel);
+		frame.add(chartpanel, BorderLayout.CENTER);
 
-		Button1 = new JButton ("Save");
-		Button1.setPreferredSize(new Dimension(125,23));
-		Button1.setOpaque(true);
-		Button1.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
-		Button1.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Button1.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button1.addActionListener (this);
-		frame.add(Button1);
+		panel = new JPanel ();
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
+		frame.add(panel, BorderLayout.SOUTH);
 
-		Button2 = new JButton ("Close");
-		Button2.setPreferredSize(new Dimension(125,23));
-		Button2.setOpaque(true);
-		Button2.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
-		Button2.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Button2.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button2.addActionListener (this);
-		frame.add(Button2);	
+		button1 = new JButton ("Save");
+		button1.setPreferredSize(new Dimension(125,23));
+		button1.setOpaque(true);
+		button1.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+		button1.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		button1.setBorder(BorderFactory.createLineBorder(Color.black));
+		button1.addActionListener (this);
+		panel.add(button1);
+
+		button2 = new JButton ("Close");
+		button2.setPreferredSize(new Dimension(125,23));
+		button2.setOpaque(true);
+		button2.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+		button2.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		button2.setBorder(BorderFactory.createLineBorder(Color.black));
+		button2.addActionListener (this);
+		panel.add(button2);	
 
 		if (identifier.equals("Multipillar")) {
 
-			Button3 = new JButton ("Bar Chart");
-			Button3.setPreferredSize(new Dimension(125,23));
-			Button3.setOpaque(true);
-			Button3.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
-			Button3.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-			Button3.setBorder(BorderFactory.createLineBorder(Color.black));
-			Button3.addActionListener (this);
-			frame.add(Button3);	
+			button3 = new JButton ("Bar Chart");
+			button3.setPreferredSize(new Dimension(125,23));
+			button3.setOpaque(true);
+			button3.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+			button3.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+			button3.setBorder(BorderFactory.createLineBorder(Color.black));
+			button3.addActionListener (this);
+			panel.add(button3);	
 		}
 	}
 
-	
+
 	/**FileChooser - save location*/
 
 	public void fileChooser () {
@@ -357,8 +380,11 @@ public class LineChart implements ActionListener {
 
 		catch (Exception e) {
 
-			System.out.println("Problem occurred creating chart.jska");
-			e.printStackTrace();
+			String message = "A problem occurred creating chart";
+
+			LogFile log = new LogFile ();
+			log.writeToLog(message, null);
+			// Calls the log file if there is an error.
 		}
 	}
 
@@ -368,14 +394,17 @@ public class LineChart implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		if (e.getSource() == Button1) {
+		if (e.getSource() == button1) {
+
 			fileChooser();
 		}
-		
-		if (e.getSource() == Button2) {
+
+		if (e.getSource() == button2) {
+
 			frame.dispose();
 		}
-		if (e.getSource() == Button3) {
+		if (e.getSource() == button3) {
+
 			BarGraph BarGraph = new BarGraph (Process2);
 			BarGraph.barChartData_Multipillar ();
 		}

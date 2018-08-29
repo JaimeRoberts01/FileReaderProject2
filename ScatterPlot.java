@@ -13,6 +13,10 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
 
+/**A class that defines a scatter-plot of the data for 
+ * the whole dataset and the getByFrame functionality.
+ */
+
 public class ScatterPlot implements ActionListener {
 
 
@@ -23,8 +27,9 @@ public class ScatterPlot implements ActionListener {
 	private XYSeries series;
 	private XYPlot plot;
 	private JFrame frame;
-	private JButton Button1, Button2, Button3, Button4;
-	private JTextField TF1;
+	private JPanel panel;
+	private JButton button1, button2, button3, button4;
+	private JTextField tf1;
 
 	private Processing2 Process2;
 
@@ -35,48 +40,13 @@ public class ScatterPlot implements ActionListener {
 	}
 
 
-	/**This method retrieves data from the byFrame method and creates a dataset array of the frame 
-	 * data. An ID is passed from Processing2 and turned into an ID array for tracking the frame.
-	 * @param ID - the frame index.
-	 */
-
-	public void scatterPlotData_byFrame (int frameID) {
-
-		int rows = Process2.getOutputDataByFrame().size();
-		int columns = 3;
-
-		scatterPlotArray = new Object [rows][columns]; 
-		int [] ID = null;
-
-		for (int i = 0; i < rows; i++) {
-
-			scatterPlotArray [i] = (Process2.getOutputDataByFrame().get(i)).toString().split(",");
-			System.out.println(Arrays.toString(scatterPlotArray[i]));
-		}
-
-		ID = new int [1];
-
-		for (int i = 0; i < ID.length; i++) { 
-
-			ID [i] = frameID;	
-			System.out.println ("frame ID: " + ID [i]);
-		}
-
-		String identifier = "ByFrame";
-		createScatterPlot (ID, identifier);
-	}
-
-
 	/**This method retrieves data from the AllFrames method and 
 	 * creates a dataset array of the whole data
 	 */
 
-	public void scatterPlotData_AllFrames () { 
+	public void scatterPlotData_AllFrames () { // All data
 
-		int rows = Process2.getMean().size();
-		int columns = 3;
-
-		scatterPlotArray = new Object [rows][columns]; 
+		scatterPlotArray = new Object [Process2.getMean().size()][3]; 
 		int [] ID = null;
 
 		try {
@@ -85,25 +55,55 @@ public class ScatterPlot implements ActionListener {
 
 			for (int i = 0; i< Process2.getPillar().size(); i++) {
 				ID [i] = Process2.getPillar().get(i);
-				System.out.println("APAF ID: " + ID [i]);
 			}
 
-			for (int i = 0; i < rows; i++) {
+			for (int i = 0; i < Process2.getMean().size(); i++) {
 
 				scatterPlotArray [i][0] = ID [i]; 
 				scatterPlotArray [i][1] = Process2.getMean().get(i);
 				scatterPlotArray [i][2] = Process2.getStandard_deviation().get(i);
-
-				System.out.println("Scatterplot2: " + Arrays.toString(scatterPlotArray[i]));
 			}
 		}
 
 		catch (NullPointerException NPE) {
-			System.err.println("Invalid input");
-			NPE.printStackTrace();
+
+			String message = "Invalid input";
+			StringWriter stackTraceWriter = new StringWriter();
+			NPE.printStackTrace(new PrintWriter(stackTraceWriter));
+			String stackTrace = stackTraceWriter.toString();
+
+			LogFile log = new LogFile ();
+			log.writeToLog(message, stackTrace);
 		}
 
 		String identifier = "AllData";
+		createScatterPlot (ID, identifier);
+	}
+	
+	
+	/**This method retrieves data from the byFrame method and creates a dataset array of the frame 
+	 * data. An ID is passed from Processing2 and turned into an ID array for tracking the frame.
+	 * @param ID - the frame index.
+	 */
+
+	public void scatterPlotData_byFrame (int frameID) { // getByFrame
+
+		scatterPlotArray = new Object [Process2.getOutputDataByFrame().size()][3]; 
+		int [] ID = null;
+
+		for (int i = 0; i < Process2.getOutputDataByFrame().size(); i++) {
+
+			scatterPlotArray [i] = (Process2.getOutputDataByFrame().get(i)).toString().split(",");
+		}
+
+		ID = new int [1];
+
+		for (int i = 0; i < ID.length; i++) { 
+
+			ID [i] = frameID;	
+		}
+
+		String identifier = "ByFrame";
 		createScatterPlot (ID, identifier);
 	}
 
@@ -126,7 +126,7 @@ public class ScatterPlot implements ActionListener {
 				double y = Double.parseDouble((String) scatterPlotArray [i][2]); 
 				series.add (x,y);
 			}
-			
+
 			else if (identifier.equals("AllData")) {
 				int x = (int) scatterPlotArray [i][0];
 				double y = (double) scatterPlotArray [i][1]; 
@@ -144,17 +144,17 @@ public class ScatterPlot implements ActionListener {
 	public void formatScatterPlot (int[] ID, XYSeriesCollection dataset, String identifier) {		
 
 		if (identifier.equals("ByFrame")) {
-			
+
 			String frameID = Arrays.toString(ID);
 			frameID = frameID.replace("[", ""); frameID = frameID.replace("]","");
 			scatterPlot = ChartFactory.createScatterPlot("Pillar Forces: Frame " + frameID, "Pillar ID", "Force (pN)", dataset);
 		}
-		
+
 		else {
-			
+
 			scatterPlot = ChartFactory.createScatterPlot("Pillar Forces", "Pillar ID", "Force (pN)", dataset);
 		}
-		
+
 		/*Plot appearance*/
 		scatterPlot.getTitle().setFont(new Font ("monspaced", Font.BOLD, 14));
 		scatterPlot.setBackgroundPaint(Color.white);
@@ -183,17 +183,17 @@ public class ScatterPlot implements ActionListener {
 		DecimalFormat format = new DecimalFormat("####");
 		((NumberAxis) axisX).setNumberFormatOverride(format);
 		axisX.setAutoTickUnitSelection(true);
-		
+
 		/*Series formatting*/
 		XYLineAndShapeRenderer render = (XYLineAndShapeRenderer) plot.getRenderer();
 		GradientPaint gradientpaint = new GradientPaint(0.0F, 0.0F, 
 		new Color(5, 5, 140), 0.0F, 0.0F, new Color(209, 16, 196));
 		render.setSeriesPaint(0, gradientpaint);
-	
+
 		frameLayout(ID, identifier);
 	}
 
-	
+
 	/**This method lays out the graph frame
 	 * @param ID - the pillar indices.
 	 * @param identifier - the source of the data.
@@ -208,32 +208,36 @@ public class ScatterPlot implements ActionListener {
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-		frame.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
-	
+		frame.setLayout(new BorderLayout());
+
 		ChartPanel chartpanel = new ChartPanel(scatterPlot);
 		chartpanel.setBackground(Color.white);
 		chartpanel.setPreferredSize(new Dimension(700,446));
 		chartpanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		chartpanel.setVisible(true);
-		frame.add(chartpanel);
+		frame.add(chartpanel, BorderLayout.CENTER);
+		
+		panel = new JPanel ();
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
+		frame.add(panel, BorderLayout.SOUTH);
 
-		Button1 = new JButton ("Save");
-		Button1.setPreferredSize(new Dimension(125,23));
-		Button1.setOpaque(true);
-		Button1.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
-		Button1.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Button1.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button1.addActionListener (this);
-		frame.add(Button1);
+		button1 = new JButton ("Save");
+		button1.setPreferredSize(new Dimension(125,23));
+		button1.setOpaque(true);
+		button1.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+		button1.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		button1.setBorder(BorderFactory.createLineBorder(Color.black));
+		button1.addActionListener (this);
+		panel.add(button1);
 
-		Button2 = new JButton ("Close");
-		Button2.setPreferredSize(new Dimension(125,23));
-		Button2.setOpaque(true);
-		Button2.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
-		Button2.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-		Button2.setBorder(BorderFactory.createLineBorder(Color.black));
-		Button2.addActionListener (this);
-		frame.add(Button2);
+		button2 = new JButton ("Close");
+		button2.setPreferredSize(new Dimension(125,23));
+		button2.setOpaque(true);
+		button2.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+		button2.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+		button2.setBorder(BorderFactory.createLineBorder(Color.black));
+		button2.addActionListener (this);
+		panel.add(button2);
 
 		/*Different buttons depending on the source of the data*/
 		if (identifier.contentEquals("AllData")) {
@@ -241,85 +245,81 @@ public class ScatterPlot implements ActionListener {
 			JSeparator S1 = new JSeparator(SwingConstants.VERTICAL);
 			S1.setPreferredSize(new Dimension(10,23));
 			S1.setBackground(Color.DARK_GRAY);
-			frame.add(S1);
+			panel.add(S1);
 
 			JLabel L1 = new JLabel ("Set filter value:");
 			L1.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-			frame.add(L1);
+			panel.add(L1);
 
-			TF1 = new JTextField (5);
-			TF1.addActionListener (this);
-			TF1.setBorder(BorderFactory.createLineBorder(Color.black));
-			TF1.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
-			TF1.setPreferredSize(new Dimension(5,23));
-			TF1.setEnabled(true);
-			frame.add(TF1);	
+			tf1 = new JTextField (5);
+			tf1.addActionListener (this);
+			tf1.setBorder(BorderFactory.createLineBorder(Color.black));
+			tf1.setHorizontalAlignment((int) TextField.CENTER_ALIGNMENT);
+			tf1.setPreferredSize(new Dimension(5,23));
+			tf1.setEnabled(true);
+			panel.add(tf1);	
 
-			Button3 = new JButton ("Apply");
-			Button3.setPreferredSize(new Dimension(125,23));
-			Button3.setOpaque(true);
-			Button3.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
-			Button3.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-			Button3.setBorder(BorderFactory.createLineBorder(Color.black));
-			Button3.addActionListener (this);
-			frame.add(Button3);
+			button3 = new JButton ("Apply");
+			button3.setPreferredSize(new Dimension(125,23));
+			button3.setOpaque(true);
+			button3.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+			button3.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+			button3.setBorder(BorderFactory.createLineBorder(Color.black));
+			button3.addActionListener (this);
+			panel.add(button3);
 
-			Button4 = new JButton ("Reset");
-			Button4.setPreferredSize(new Dimension(125,23));
-			Button4.setOpaque(true);
-			Button4.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
-			Button4.setFont(new Font ("SansSerif", Font.PLAIN, 14));
-			Button4.setBorder(BorderFactory.createLineBorder(Color.black));
-			Button4.addActionListener (this);
-			frame.add(Button4);
+			button4 = new JButton ("Reset");
+			button4.setPreferredSize(new Dimension(125,23));
+			button4.setOpaque(true);
+			button4.setBackground(Color.getHSBColor(0.0f, 0.0f, 0.90f));
+			button4.setFont(new Font ("SansSerif", Font.PLAIN, 14));
+			button4.setBorder(BorderFactory.createLineBorder(Color.black));
+			button4.addActionListener (this);
+			panel.add(button4);
 		}
 	}
-
-	/**This method filters the dataset depending on force value. Notifiers update the scatter-plot*/
 	
+	
+	/**This method filters the dataset depending on force value. Notifiers update the scatter-plot*/
+
 	public void filterValues () {
 
-		int rows = this.scatterPlotArray.length;
-		int columns = 3;
+		Object [][] scatterPlotArray = new Object [this.scatterPlotArray.length][3];
 
-		Object [][] scatterPlotArray = new Object [rows][columns];
+		int filterValue = 0; // The value below which datapoints are removed.
 
-		int filterValue = 0;
-
-		if (TF1.getText().equals("")) {
+		if (tf1.getText().equals("")) {
 			filterValue = 0;
 		}
 
 		else {
 
-			filterValue = Integer.parseInt(TF1.getText());
+			filterValue = Integer.parseInt(tf1.getText());
 		}
 
-		for (int i = 0; i < rows; i++) {
+		for (int i = 0; i < this.scatterPlotArray.length; i++) {
 
 			double forces = (double) this.scatterPlotArray [i][1];
 
 			if (forces>filterValue) {
 
 				scatterPlotArray [i] = this.scatterPlotArray [i]; 
-				System.out.println("NLC: " + Arrays.toString(scatterPlotArray [i]));
 			}	
 		}
 
 		dataset = new XYSeriesCollection (); 
 		series = new XYSeries ("Pillars");
 
-		for (int i = 0; i < rows; i++) { 
+		for (int i = 0; i < this.scatterPlotArray.length; i++) { 
 
 			if (scatterPlotArray [i][1] != null) {
 
 				int x = (int) scatterPlotArray [i][0];
 				double y =  (double) scatterPlotArray [i][1];
-
 				series.add (x,y);
 			}
 		}
-		
+
 		dataset.addSeries(series);
 		plot.setDataset(dataset);
 	}
@@ -371,8 +371,11 @@ public class ScatterPlot implements ActionListener {
 
 		catch (Exception e) {
 
-			System.out.println("Problem occurred creating chart.jska"); 
-			e.printStackTrace();
+			String message = "A problem occurred creating chart";
+
+			LogFile log = new LogFile ();
+			log.writeToLog(message, null);
+			// Calls the log file if there is an error.
 		}
 	}
 
@@ -382,24 +385,24 @@ public class ScatterPlot implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		if (e.getSource() == Button1) {
-			
+		if (e.getSource() == button1) {
+
 			fileChooser();
 		}
 
-		if (e.getSource() == Button2) {
-			
+		if (e.getSource() == button2) {
+
 			frame.dispose();
 		}
 
-		if (e.getSource() == Button3) {
-			
+		if (e.getSource() == button3) {
+
 			filterValues ();
 		}
 
-		if (e.getSource() == Button4) {
-			
-			TF1.setText("");
+		if (e.getSource() == button4) {
+
+			tf1.setText("");
 			filterValues ();
 		}
 	}

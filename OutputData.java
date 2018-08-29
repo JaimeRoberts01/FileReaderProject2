@@ -1,6 +1,8 @@
 import java.util.*;
 
 
+/**Class to define JTable data and output data.*/
+
 public class OutputData {
 
 	/*Instance variables*/
@@ -21,15 +23,12 @@ public class OutputData {
 
 	public void outputString () { 
 
-		int columns = 5;
-		int rows= Process.getNewData().length;
-
-		Object [][] data = new Object [rows][columns];
+		Object [][] data = new Object [Process.getNewData().length][5];
 
 		for (int i = 0; i <Process.getNewData().length; i++) {
 
-			int frame = Integer.parseInt((String)Process.getNewData() [i][0]);
-			int pillar = Integer.parseInt((String)Process.getNewData() [i][1]);
+			int frame = Integer.parseInt((String) Process.getNewData() [i][0]);
+			int pillar = Integer.parseInt((String) Process.getNewData() [i][1]);
 			double px = Double.parseDouble((String) Process.getNewData() [i][6]);
 			double nm = (double) Process.getNewData() [i][7];
 			double pn = (double) Process.getNewData() [i][8];
@@ -40,14 +39,17 @@ public class OutputData {
 			data [i][3] = String.format("%.2f", nm);
 			data [i][4] = String.format("%.2f", pn);		
 		}
+		
 		String [] column = {"Frame Index (ID)", "Pillar Index (ID)", "Deflection (px)", "Deflection (nm)", "Force (pN)"};
-
 		ReportTable ReportTable = new ReportTable (Process);	
 		ReportTable.JTable(column, data);
+		// Calls the method for loading values to the JTable.	
 	}
 
 
-	/**This method builds a csv output file for the whole data*/
+	/**This method builds a csv output file for the whole data
+	 * @returns output - an output string for file.
+	 */
 
 	public String outputFile () {
 
@@ -80,10 +82,7 @@ public class OutputData {
 
 		String [] column = {"Frame Index (ID)", "Pillar Index (ID)", "Force (pN)"};
 
-		int columns = 3;
-		int rows= Process2.getDataByFrame().size();
-
-		Object [][] data = new Object [rows][columns];
+		Object [][] data = new Object [Process2.getDataByFrame().size()][3];
 
 		for (int i = 0; i < Process2.getDataByFrame().size(); i++) {
 
@@ -97,13 +96,15 @@ public class OutputData {
 		}
 
 		String identifier = "Frame Data";
-		
 		ReportTable2 ReportTable2 = new ReportTable2 (Process2, identifier, ID);	
 		ReportTable2.JTable(column, data);
+		// Calls the method for loading values to the JTable.	
 	}	
 
 
-	/**This method builds a csv output file for frame data*/
+	/**This method builds a csv output file for frame data
+	 * @returns output - an output string for file.
+	 */
 
 	public String outputByFrame () {
 
@@ -115,7 +116,6 @@ public class OutputData {
 		}
 
 		String output = SB.toString();
-		System.out.println("output: " + "\n" + output);
 		return output;
 	}
 
@@ -129,16 +129,13 @@ public class OutputData {
 
 		String [] column = {"Frame Index (ID)", "Pillar Index (ID)", "Force (pN)"};
 
-		int columns = 3;
-		int rows= Process2.getDataByPillar().size();
-
-		Object [][] data = new Object [rows][columns];
-
-		for (int i = 0; i < Process2.getDataByPillar().size(); i++) {
+		Object [][] data = new Object [Process2.getForce().size()][3];
+		
+		for (int i = 0; i < Process2.getForce().size(); i++) {
 
 			int frame = Integer.parseInt ((String) Process2.getPillarFrame().get(i));
 			int pillar = ID;
-			double forces = (double) Process2.getDataByPillar().get(i);
+			double forces = (double) Process2.getForce().get(i);
 
 			data [i][0] = frame;
 			data [i][1] = pillar;
@@ -146,13 +143,15 @@ public class OutputData {
 		}
 
 		String identifier = "Pillar Data";
-
 		ReportTable2 ReportTable2 = new ReportTable2 (Process2, identifier, ID);	
 		ReportTable2.JTable(column, data);
+		// Calls the method for loading values to the JTable.	
 	}
 
 
-	/**This method builds a csv output file for pillar data*/
+	/**This method builds a csv output file for pillar data
+	 * @returns output - an output string for file.
+	 */
 
 	public String outputByPillar () {
 
@@ -183,10 +182,7 @@ public class OutputData {
 
 		String [] column = {"Pillar Index (ID)", "Average Force (pN)", "Standard Deviation"};
 
-		int columns = 3;
-		int rows= Process2.getValues().length;
-
-		Object [][] data = new Object [rows][columns];
+		Object [][] data = new Object [Process2.getValues().length][3];
 
 		for (int i = 0; i < Process2.getValues().length; i++) {
 
@@ -200,13 +196,15 @@ public class OutputData {
 		}
 
 		String identifier = "Multipillar Data";
-
 		ReportTable2 ReportTable2 = new ReportTable2 (Process2, identifier, 0);	
 		ReportTable2.JTable(column, data);
+		// Calls the method for loading values to the JTable.	
 	}
 
 
-	/**This method builds a csv output file for multipillar data*/
+	/**This method builds a csv output file for multipillar data
+	 * @returns output - an output string for file.
+	 */
 
 	public String outputMultipillar () {
 
@@ -230,10 +228,7 @@ public class OutputData {
 
 		String [] column = {"Pillar Index (ID)", "Average Force (pN)", "Standard Deviation"};
 
-		int columns = 3;
-		int rows= Process2.getPillar().size();
-
-		Object [][] data = new Object [rows][columns];
+		Object [][] data = new Object [Process2.getPillar().size()][3];
 
 		for (int i = 0; i < Process2.getPillar().size(); i++) {
 
@@ -247,13 +242,15 @@ public class OutputData {
 		}
 
 		String identifier = "Statistical Data";
-
 		ReportTable2 ReportTable2 = new ReportTable2 (Process2, identifier, 0);	
 		ReportTable2.JTable(column, data);
+		// Calls the method for loading values to the JTable.	
 	}
 
 
-	/**This method builds a csv output file for the statistics*/
+	/**This method builds a csv output file for the statistics
+	 * @returns output - an output string for file.
+	 */
 
 	public String outputStatistics () {
 
@@ -279,28 +276,22 @@ public class OutputData {
 	
 	public void stringAllData () {
 
-		int columns = 3;
-		int rows = Process2.getDataByPillarFrame().size();
+		Object [][] allData = new Object [Process2.getDataByPillarFrame().size()][3];
 
-		Object [][] allData = new Object [rows][columns];
-
-		for (int i = 0; i< rows; i++) {
-			allData [i] = Process2.getDataByPillarFrame().get(i).split(",");
+		for (int i = 0; i< Process2.getDataByPillarFrame().size(); i++) {
+			
+			allData [i] = Process2.getDataByPillarFrame().get(i).toString().split(",");
 		}
 
 		String [] column = {"Frame Index (ID)", "Pillar Index (ID)", "Force (pN)"};
 
-		Object [][] data = new Object [rows][columns];
-
-		int frame = 0;
-		int pillar = 0;
-		double forces = 0.0;
+		Object [][] data = new Object [Process2.getDataByPillarFrame().size()][3];
 
 		for (int i = 0; i < Process2.getDataByPillarFrame().size(); i++) {
 
-			frame = Integer.parseInt((String)allData [i][0]);
-			pillar = Integer.parseInt((String)allData [i][1]);
-			forces = Double.parseDouble((String)allData [i][2]);
+			int frame = Integer.parseInt((String)allData [i][0]);
+			int pillar = Integer.parseInt((String)allData [i][1]);
+			double forces = Double.parseDouble((String)allData [i][2]);
 
 			data [i][0] = frame;
 			data [i][1] = pillar;
@@ -308,14 +299,16 @@ public class OutputData {
 		}
 
 		String identifier = "All Data";
-		System.out.println("identifier : " + "\n" + identifier);
-
 		ReportTable2 ReportTable2 = new ReportTable2 (Process2, identifier, 0);	
 		ReportTable2.JTable(column, data);
+		// Calls the method for loading values to the JTable.	
 	}
 
 
-	/**This method builds a csv output file for the whole data organised by frame rather than by pillar*/
+	/**This method builds a csv output file for the whole 
+	 * data organised by frame rather than by pillar
+	 * @returns output - an output string for file.
+	 */
 	
 	public String outputAllData () {
 
