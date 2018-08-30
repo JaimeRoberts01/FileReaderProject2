@@ -97,7 +97,7 @@ public class LineChart implements ActionListener {
 				lineChartArray [i] = (Process2.getOutputDataByPillar().get(i)).toString().split(",");
 				System.out.println(Arrays.toString(lineChartArray[i]));
 			}	
-
+			
 			ID = new int [1];
 
 			for (int i = 0; i < ID.length; i++) { 
@@ -139,7 +139,6 @@ public class LineChart implements ActionListener {
 			for (int i = 0; i < Process2.getOutputMultipillar().size(); i++) {
 
 				lineChartArray [i] = (Process2.getOutputMultipillar().get(i)).toString().split(",");
-				System.out.println("LineChart2: " + Arrays.toString(lineChartArray[i]));
 			}
 
 			ID = new int [IDs.length];

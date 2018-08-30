@@ -15,12 +15,13 @@ public class MultipillarInput extends JFrame implements ActionListener{
 	/*Instance Variables*/
 	private JTextArea displayFile;
 	private JButton button1, button2;
+	private JPanel panel;
 	private Object [] ID;
 
 	private Processing Process;
 	private Processing2 Process2;
 
-
+	
 	/* Default Constructor*/
 	public MultipillarInput () {
 	}
@@ -38,7 +39,8 @@ public class MultipillarInput extends JFrame implements ActionListener{
 		setSize (400, 400);
 		setVisible (true);
 		setResizable (false);
-		setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
+		setLayout (new BorderLayout());
+		//setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
 	}
 
 
@@ -58,7 +60,11 @@ public class MultipillarInput extends JFrame implements ActionListener{
 		displayFile.setBorder (new EmptyBorder (10,10,10,10));
 		JScrollPane scroll = new JScrollPane (displayFile);
 		scroll.setPreferredSize(new Dimension (400, 345));
-		add (scroll);
+		add (scroll, BorderLayout.CENTER);
+		
+		panel = new JPanel ();
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
+		add(panel, BorderLayout.SOUTH);
 
 		button1 = new JButton("OK");
 		button1.setPreferredSize(new Dimension(125,23));
@@ -67,7 +73,7 @@ public class MultipillarInput extends JFrame implements ActionListener{
 		button1.setBorder(BorderFactory.createLineBorder(Color.black));
 		button1.addActionListener (this);
 		button1.setEnabled(true);
-		add (button1);
+		panel.add (button1);
 
 		button2 = new JButton("Cancel");
 		button2.setPreferredSize(new Dimension(125,23));
@@ -76,7 +82,7 @@ public class MultipillarInput extends JFrame implements ActionListener{
 		button2.setBorder(BorderFactory.createLineBorder(Color.black));
 		button2.addActionListener (this);
 		button2.setEnabled(true);
-		add (button2);
+		panel.add (button2);
 	}
 
 

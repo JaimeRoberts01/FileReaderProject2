@@ -25,8 +25,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 	private Processing Process;
 	private Processing2 Process2;
-//	@SuppressWarnings("unused")
-//	private FileManager FileManager;
 	
 	private ArrayList <String> fileLine;
 
@@ -62,7 +60,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		tf1.addActionListener (this);
 		tf1.setBorder(BorderFactory.createLineBorder(Color.black));
 		tf1.setPreferredSize(new Dimension(43,23));
-		tf1.setEditable(true);
+		tf1.setEditable(false);
 		panel1.add(tf1);
 		tf1.setEnabled(true);
 
@@ -286,7 +284,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 
 	/** JFileChooser allows the open a file from a location in the directory;
-	 * the fileName is passed the FileReader. Only csv files are permittable.
+	 * the fileName is passed the FileReader. Only csv files are permitable.
 	 */
 
 	public void fileSelection () {
@@ -305,8 +303,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			if (fileName.contains(".csv")) {
 
 				fileReader (fileName);
-//				FileManager FileManager = new FileManager ();
-//				FileManager.fileReader(fileName);
 			}
 
 			else {
@@ -377,18 +373,6 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 		/*Browse*/
 		if (e.getSource() == button1) {
-
-//			FileManager FileManager = new FileManager ();
-//			FileManager.fileSelection ();
-//
-//			String fileName = FileManager.getFileName();
-//			if (fileName != null) {
-//				tf1.setText(fileName);
-//				button2.setEnabled(true);
-//			}
-//			else {
-//				tf1.setText("");
-//			}
 
 			if (tf2 != null || tf3 != null || tf4 != null || tf5 != null || tf7 != null) {
 
@@ -636,6 +620,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 				String message = "Invalid user input - value contains zero.";
 				LogFile log = new LogFile ();
 				log.writeToLog(message, null);
+				// Calls the log file if there is an error.
 			}
 
 			else {

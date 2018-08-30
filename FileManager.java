@@ -11,7 +11,6 @@ public class FileManager {
 	/*Instance variables*/
 	private Processing Process;
 	private Processing2 Process2;
-	private GUIClass GUI;
 	private OutputData OutputData;
 	
 	private ArrayList <String> fileLine;
@@ -52,8 +51,7 @@ public class FileManager {
 
 			if (fileName.contains(".csv")) {
 
-				GUI = new GUIClass ();
-				GUI.fileReader (fileName);
+				fileReader(fileName);
 			}
 
 			else {
@@ -75,7 +73,7 @@ public class FileManager {
 	 *@param fileName - the name of the file.
 	 */
 	
-	public void fileReader (String fileName) { // This causes issues
+	public void fileReader (String fileName) {
 
 		FileReader reader = null;	
 		BufferedReader bufferedReader = null;
