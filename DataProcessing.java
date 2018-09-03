@@ -3,7 +3,7 @@ import java.util.*;
 
 /**Defines a class that manipulates the data in the data array*/
 
-public class Processing2 {
+public class DataProcessing {
 	
 
 	/*Instance variables*/
@@ -17,12 +17,12 @@ public class Processing2 {
 	private MultipillarInput MultipillarInput;
 	
 	/*Default constructor*/
-	Processing2 () {
+	DataProcessing () {
 	}
 	
 
 	/*Constructor*/
-	Processing2 (MultipillarInput MultipillarInput) {	
+	DataProcessing (MultipillarInput MultipillarInput) {	
 		this.MultipillarInput = MultipillarInput;
 	}
 
@@ -120,6 +120,7 @@ public class Processing2 {
 			}
 
 			statistics (force); // Calls the statistics methods and gives it the forces.
+			force.clear();
 		}
 	}	
 
@@ -185,7 +186,6 @@ public class Processing2 {
 			LogFile log = new LogFile ();
 			log.writeToLog(message, null);
 			// Calls the log file if there is an error.
-
 			return;
 		}
 
@@ -196,6 +196,7 @@ public class Processing2 {
 			OutputData OutputData = new OutputData (this, null);
 			OutputData.stringByPillar (ID);
 			// Calls the method for loading values to the JTable.	
+			force.clear();
 		}
 	}
 
@@ -239,6 +240,7 @@ public class Processing2 {
 		OutputData OutputData = new OutputData (this, null);
 		OutputData.StringMultipillar ();
 		// Calls the method for loading values to the JTable.	
+		force.clear();
 	}
 	
 

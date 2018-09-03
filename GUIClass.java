@@ -23,8 +23,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 	private JComboBox <String> jcb1;
 	private JButton button1, button2, button3, button4, button5, button6, button7, button8;
 
-	private Processing Process;
-	private Processing2 Process2;
+	private DataArray DataArray;
+	private DataProcessing DataProcessing;
 	
 	private ArrayList <String> fileLine;
 
@@ -331,7 +331,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		String file = null;
 		String line = null;
 
-		Process = new Processing();
+		DataArray = new DataArray();
 
 		try {
 
@@ -345,7 +345,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 				fileLine.add (line);
 			}
 
-			Process.data(fileLine);
+			DataArray.data(fileLine);
 
 			reader.close();	
 			bufferedReader.close();
@@ -381,10 +381,10 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 			fileSelection (); // Calls the JFileChooser.
 
-			Process2 = new Processing2 ();
-			Process2.getFrames(Process.getData());
+			DataProcessing = new DataProcessing ();
+			DataProcessing.getFrames(DataArray.getData());
 			
-			int max = Process2.getFrame().size(); // Gets the number of frames in the file.
+			int max = DataProcessing.getFrame().size(); // Gets the number of frames in the file.
 			js1.setMaximum(max); // Sets the maximum value of the frame slider.
 			js1.setEnabled(true);
 
@@ -416,11 +416,11 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 			try {
 
-				Process2 = new Processing2 ();
-				Process2.getPillars(Process.getData());
-				Process2.allFrames(Process.getNewData());
+				DataProcessing = new DataProcessing ();
+				DataProcessing.getPillars(DataArray.getData());
+				DataProcessing.allFrames(DataArray.getDataArray());
 
-				OutputData OutputData = new OutputData (Process2, null);
+				OutputData OutputData = new OutputData (DataProcessing, null);
 				OutputData.stringStatistics(); 
 				// Calls the method for loading values to the JTable.				
 			}
@@ -459,34 +459,34 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 			if (jcb1.getSelectedIndex() == 1) {
 
-				Process2 = new Processing2 ();
-				Process2.getPillars(Process.getData());
-				Process2.allPillarsAllFrames(Process.getNewData());
+				DataProcessing = new DataProcessing ();
+				DataProcessing.getPillars(DataArray.getData());
+				DataProcessing.allPillarsAllFrames(DataArray.getDataArray());
 				
-				LineChart LineChart = new LineChart (Process2);
+				LineChart LineChart = new LineChart (DataProcessing);
 				LineChart.lineChartData_AllData(); 
 				// Calls the method for creating the line chart of all data.
 			}
 
 			if (jcb1.getSelectedIndex() == 2) {
 
-				Process2 = new Processing2 ();
-				Process2.getPillars(Process.getData());
-				Process2.allFrames(Process.getNewData());
+				DataProcessing = new DataProcessing ();
+				DataProcessing.getPillars(DataArray.getData());
+				DataProcessing.allFrames(DataArray.getDataArray());
 				
-				ScatterPlot ScatterPlot = new ScatterPlot (Process2);
+				ScatterPlot ScatterPlot = new ScatterPlot (DataProcessing);
 				ScatterPlot.scatterPlotData_AllFrames (); 
 				// Calls the method for creating the Scatter plot of all data.
 			}
 
 			if (jcb1.getSelectedIndex() == 3) {
 
-				Process2 = new Processing2 ();
-				Process2.getPillars(Process.getData());
-				Process2.allFrames(Process.getNewData());
+				DataProcessing = new DataProcessing ();
+				DataProcessing.getPillars(DataArray.getData());
+				DataProcessing.allFrames(DataArray.getDataArray());
 				
-				BarGraph BarGraph = new BarGraph (Process2); 
-				BarGraph.barChartData_AllData(); 
+				BarChart BarChart = new BarChart (DataProcessing); 
+				BarChart.barChartData_AllData(); 
 				// Calls the method for creating the bar chart of all data.
 			}
 		}
@@ -498,10 +498,10 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			try {
 
 				int ID = Integer.parseInt(tf6.getText().trim());
-				Process2 = new Processing2 ();
-				Process2.getPillars(Process.getData());
-				Process2.getFrames(Process.getData());
-				Process2.dataByFrame(Process.getNewData(), ID);
+				DataProcessing = new DataProcessing ();
+				DataProcessing.getPillars(DataArray.getData());
+				DataProcessing.getFrames(DataArray.getData());
+				DataProcessing.dataByFrame(DataArray.getDataArray(), ID);
 			}
 
 			catch (NullPointerException NPE) {
@@ -535,9 +535,9 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 				else {
 
-					Process2 = new Processing2 ();
-					Process2.getPillars(Process.getData());
-					Process2.dataByPillar(Process.getNewData(), ID);
+					DataProcessing = new DataProcessing ();
+					DataProcessing.getPillars(DataArray.getData());
+					DataProcessing.dataByPillar(DataArray.getDataArray(), ID);
 				}
 			}
 
@@ -570,7 +570,7 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		/*MultiPillar*/
 		if (e.getSource() == button7) {
 
-			MultipillarInput MultipillarInput = new MultipillarInput (Process, Process2);
+			MultipillarInput MultipillarInput = new MultipillarInput (DataArray, DataProcessing);
 			MultipillarInput.frameComponents(); // Calls the MultiPillar input box.
 		}
 
@@ -578,11 +578,11 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 		/*Get Data - All Data*/
 		if (e.getSource() == button8) {
 
-			Process2 = new Processing2 ();
-			Process2.getPillars(Process.getData());
-			Process2.allPillarsAllFrames(Process.getNewData());
+			DataProcessing = new DataProcessing ();
+			DataProcessing.getPillars(DataArray.getData());
+			DataProcessing.allPillarsAllFrames(DataArray.getDataArray());
 			
-			OutputData OutputData = new OutputData (Process2, null);
+			OutputData OutputData = new OutputData (DataProcessing, null);
 			OutputData.stringAllData();
 			// Calls the method for loading values to the JTable.	
 		}
@@ -625,9 +625,9 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 
 			else {
 
-				Process.nanoMeters(conversion);
-				Process.forces(youngsM, pillarD, pillarL);
-				Process.newDataArray();
+				DataArray.nanoMeters(conversion);
+				DataArray.forces(youngsM, pillarD, pillarL);
+				DataArray.newDataArray();
 			}
 		}
 

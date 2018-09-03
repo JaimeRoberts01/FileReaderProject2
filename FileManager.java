@@ -9,8 +9,8 @@ public class FileManager {
 
 
 	/*Instance variables*/
-	private Processing Process;
-	private Processing2 Process2;
+	private DataArray DataArray;
+	private DataProcessing DataProcessing;
 	private OutputData OutputData;
 	
 	private ArrayList <String> fileLine;
@@ -23,9 +23,9 @@ public class FileManager {
 		
 	
 	/*Constructor*/ 
-	public FileManager(Processing Process, Processing2 Process2, OutputData OutputData) {
-		this.Process = Process;
-		this.Process2 = Process2;
+	public FileManager(DataArray DataArray, DataProcessing DataProcessing, OutputData OutputData) {
+		this.DataArray = DataArray;
+		this.DataProcessing = DataProcessing;
 		this.OutputData = OutputData;
 	}
 
@@ -94,8 +94,8 @@ public class FileManager {
 				fileLine.add (line);
 			}
 
-			Process = new Processing ();
-			Process.data(fileLine);
+			DataArray = new DataArray ();
+			DataArray.data(fileLine);
 
 			reader.close();	
 			bufferedReader.close();
@@ -123,7 +123,7 @@ public class FileManager {
 	public void fileWriter (String identifier, String fileName) { // This works
 
 		FileWriter writer = null;
-		OutputData = new OutputData (Process2, Process);
+		OutputData = new OutputData (DataProcessing, DataArray);
 
 		try {
 
@@ -131,7 +131,7 @@ public class FileManager {
 
 				writer = new FileWriter (fileName);
 				
-				if (identifier.equals("Data")) {
+				if (identifier.equals("Force Data")) {
 					writer.write(OutputData.outputFile());
 				}
 				

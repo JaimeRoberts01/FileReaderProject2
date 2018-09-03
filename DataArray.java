@@ -3,22 +3,22 @@ import java.util.*;
 
 /**Defines a class that creates the data array*/
 
-public class Processing {
+public class DataArray {
 
 	/*Instance variables for the arrays.*/
-	private Object [][] data, newData;
+	private Object [][] data, dataArray;
 	private double [] nanometers, picoNewtons;
 	private OutputData OutputData;
 
 
 	/*Constructor*/
-	public Processing () {
+	public DataArray () {
 	}
 
 	
 	/*Getters*/
 	public Object[][] getData() {return data;}
-	public Object[][] getNewData() {return newData;}
+	public Object[][] getDataArray() {return dataArray;}
 	
 
 	/**This method breaks the ArrayList<String> into a 2D array using "," as the delimiter. It
@@ -112,25 +112,25 @@ public class Processing {
 
 	public Object [][] newDataArray () {
 
-		newData = new Object [data.length][9];
+		dataArray = new Object [data.length][9];
 
 		for (int i = 0; i < data.length; i++) {
 
-			newData [i][0] = data [i][0]; // frame
-			newData [i][1] = data [i][1]; // pillar
-			newData [i][2] = data [i][2]; // x
-			newData [i][3] = data [i][3]; // y
-			newData [i][4] = data [i][4]; // dx
-			newData [i][5] = data [i][5]; // dy
-			newData [i][6] = data [i][6]; // deflection
-			newData [i][7] = nanometers [i];
-			newData [i][8] = picoNewtons [i];
+			dataArray [i][0] = data [i][0]; // frame
+			dataArray [i][1] = data [i][1]; // pillar
+			dataArray [i][2] = data [i][2]; // x
+			dataArray [i][3] = data [i][3]; // y
+			dataArray [i][4] = data [i][4]; // dx
+			dataArray [i][5] = data [i][5]; // dy
+			dataArray [i][6] = data [i][6]; // deflection
+			dataArray [i][7] = nanometers [i];
+			dataArray [i][8] = picoNewtons [i];
 		}
 
 		OutputData = new OutputData (null, this);
 		OutputData.outputString();
 		// Calls the method for loading values to the JTable.	
 		
-		return newData;
+		return dataArray;
 	}
 }

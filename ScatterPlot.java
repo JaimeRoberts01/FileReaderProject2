@@ -31,12 +31,12 @@ public class ScatterPlot implements ActionListener {
 	private JButton button1, button2, button3, button4;
 	private JTextField tf1;
 
-	private Processing2 Process2;
+	private DataProcessing DataProcessing;
 
 
 	/*Constructor*/
-	public ScatterPlot (Processing2 Process2) {
-		this.Process2 = Process2;
+	public ScatterPlot (DataProcessing DataProcessing) {
+		this.DataProcessing = DataProcessing;
 	}
 
 
@@ -46,22 +46,22 @@ public class ScatterPlot implements ActionListener {
 
 	public void scatterPlotData_AllFrames () { // All data
 
-		scatterPlotArray = new Object [Process2.getMean().size()][3]; 
+		scatterPlotArray = new Object [DataProcessing.getMean().size()][3]; 
 		int [] ID = null;
 
 		try {
 
-			ID = new int [Process2.getPillar().size()];
+			ID = new int [DataProcessing.getPillar().size()];
 
-			for (int i = 0; i< Process2.getPillar().size(); i++) {
-				ID [i] = Process2.getPillar().get(i);
+			for (int i = 0; i< DataProcessing.getPillar().size(); i++) {
+				ID [i] = DataProcessing.getPillar().get(i);
 			}
 
-			for (int i = 0; i < Process2.getMean().size(); i++) {
+			for (int i = 0; i < DataProcessing.getMean().size(); i++) {
 
 				scatterPlotArray [i][0] = ID [i]; 
-				scatterPlotArray [i][1] = Process2.getMean().get(i);
-				scatterPlotArray [i][2] = Process2.getStandard_deviation().get(i);
+				scatterPlotArray [i][1] = DataProcessing.getMean().get(i);
+				scatterPlotArray [i][2] = DataProcessing.getStandard_deviation().get(i);
 			}
 		}
 
@@ -88,12 +88,12 @@ public class ScatterPlot implements ActionListener {
 
 	public void scatterPlotData_byFrame (int frameID) { // getByFrame
 
-		scatterPlotArray = new Object [Process2.getOutputDataByFrame().size()][3]; 
+		scatterPlotArray = new Object [DataProcessing.getOutputDataByFrame().size()][3]; 
 		int [] ID = null;
 
-		for (int i = 0; i < Process2.getOutputDataByFrame().size(); i++) {
+		for (int i = 0; i < DataProcessing.getOutputDataByFrame().size(); i++) {
 
-			scatterPlotArray [i] = (Process2.getOutputDataByFrame().get(i)).toString().split(",");
+			scatterPlotArray [i] = (DataProcessing.getOutputDataByFrame().get(i)).toString().split(",");
 		}
 
 		ID = new int [1];

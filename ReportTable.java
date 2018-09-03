@@ -11,7 +11,7 @@ import javax.swing.border.*;
  */
 
 @SuppressWarnings("serial")
-public class ReportTable2 extends JFrame implements ActionListener {
+public class ReportTable extends JFrame implements ActionListener {
 	
 	
 	/*Instance variables*/
@@ -22,14 +22,16 @@ public class ReportTable2 extends JFrame implements ActionListener {
 	private JPanel panel;
 	private int ID;
 	
-	private Processing2 Process2;
+	private DataArray DataArray;
+	private DataProcessing DataProcessing;
 	private OutputData OutputData;
 
 
 	/*Constructor*/
-	public ReportTable2 (Processing2 Process2, String identifier, int ID) {
+	public ReportTable (DataArray DataArray, DataProcessing DataProcessing, String identifier, int ID) {
 
-		this.Process2 = Process2;
+		this.DataArray = DataArray;
+		this.DataProcessing = DataProcessing;
 		this.identifier = identifier;
 		this.ID = ID;
 	}
@@ -178,7 +180,7 @@ public class ReportTable2 extends JFrame implements ActionListener {
 
 	public void fileWriter (String fileName) {
 
-		FileManager FileManager = new FileManager (null, Process2, OutputData);
+		FileManager FileManager = new FileManager (DataArray, DataProcessing, OutputData);
 		FileManager.fileWriter(identifier, fileName);	
 	}
 
@@ -202,19 +204,19 @@ public class ReportTable2 extends JFrame implements ActionListener {
 
 			if (identifier.equals("Frame Data")) {
 				
-				ScatterPlot ScatterPlot = new ScatterPlot (Process2);
+				ScatterPlot ScatterPlot = new ScatterPlot (DataProcessing);
 				ScatterPlot.scatterPlotData_byFrame (ID);
 			}
 			if (identifier.equals("Pillar Data")) {
 				
-				LineChart LineChart = new LineChart (Process2);
+				LineChart LineChart = new LineChart (DataProcessing);
 				LineChart.lineChartData_byPillar (ID);
 			}
 
 			if (identifier.equals("Multipillar Data")) {
 				
-				LineChart LineChart = new LineChart (Process2);
-				LineChart.lineChartData_Multipillar(Process2.getValues());
+				LineChart LineChart = new LineChart (DataProcessing);
+				LineChart.lineChartData_Multipillar(DataProcessing.getValues());
 			}		
 		}
 	}

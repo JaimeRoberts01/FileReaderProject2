@@ -14,7 +14,7 @@ import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
  * the whole dataset and MultiPillar functionality.
  */
 
-public class BarGraph implements ActionListener {
+public class BarChart implements ActionListener {
 
 
 	/*Instance Variables*/
@@ -27,12 +27,12 @@ public class BarGraph implements ActionListener {
 	private JButton button1, button2, button3, button4;
 	private JTextField tf1;
 
-	private Processing2 Process2;
+	private DataProcessing DataProcessing;
 
 
 	/*Constructor*/
-	public BarGraph (Processing2 Process2) {
-		this.Process2 = Process2;
+	public BarChart (DataProcessing DataProcessing) {
+		this.DataProcessing = DataProcessing;
 	}
 
 
@@ -42,19 +42,19 @@ public class BarGraph implements ActionListener {
 
 	public void barChartData_AllData () { // All data
 
-		barChartArray = new Object [Process2.getPillar().size()][3];
+		barChartArray = new Object [DataProcessing.getPillar().size()][3];
 
 		try {
 
-			for (int i = 0; i < Process2.getPillar().size(); i++) {
-				barChartArray [i][0] = Process2.getPillar().get(i);
-				barChartArray [i][1] = Process2.getMean().get(i);
-				barChartArray [i][2] = Process2.getStandard_deviation().get(i);
+			for (int i = 0; i < DataProcessing.getPillar().size(); i++) {
+				barChartArray [i][0] = DataProcessing.getPillar().get(i);
+				barChartArray [i][1] = DataProcessing.getMean().get(i);
+				barChartArray [i][2] = DataProcessing.getStandard_deviation().get(i);
 			}
 
 			bar = new DefaultStatisticalCategoryDataset (); 
 
-			for (int i = 0; i < Process2.getPillar().size(); i++) { 
+			for (int i = 0; i < DataProcessing.getPillar().size(); i++) { 
 
 				double avg = (double) barChartArray [i][1]; 
 				double stdv = (double) barChartArray [i][2]; 
@@ -89,19 +89,19 @@ public class BarGraph implements ActionListener {
 
 	public void barChartData_Multipillar () { // MultiPillar
 
-		barChartArray = new Object [Process2.getValues().length][3];
+		barChartArray = new Object [DataProcessing.getValues().length][3];
 
 		try {
 
-			for (int i = 0; i < Process2.getValues().length; i++) {
-				barChartArray [i][0] = Process2.getValues() [i];
-				barChartArray [i][1] = Process2.getMean().get(i);
-				barChartArray [i][2] = Process2.getStandard_deviation().get(i);
+			for (int i = 0; i < DataProcessing.getValues().length; i++) {
+				barChartArray [i][0] = DataProcessing.getValues() [i];
+				barChartArray [i][1] = DataProcessing.getMean().get(i);
+				barChartArray [i][2] = DataProcessing.getStandard_deviation().get(i);
 			}
 
 			bar = new DefaultStatisticalCategoryDataset (); 
 
-			for (int i = 0; i < Process2.getValues().length; i++) { 
+			for (int i = 0; i < DataProcessing.getValues().length; i++) { 
 				double avg = (double) barChartArray [i][1];
 				double stdv = (double) barChartArray [i][2];
 				String cat = "Pillar"; // can have different categories.

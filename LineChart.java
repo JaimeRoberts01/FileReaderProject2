@@ -27,12 +27,12 @@ public class LineChart implements ActionListener {
 	private JPanel panel;
 	private JButton button1, button2, button3;
 
-	private Processing2 Process2;
+	private DataProcessing DataProcessing;
 
 
 	/*Constructor*/
-	public LineChart (Processing2 Process2) {
-		this.Process2 = Process2;	
+	public LineChart (DataProcessing DataProcessing) {
+		this.DataProcessing = DataProcessing;	
 	}
 
 
@@ -43,22 +43,21 @@ public class LineChart implements ActionListener {
 
 	public void lineChartData_AllData () { // All data
 
-		lineChartArray = new Object [Process2.getDataByPillarFrame().size()][3]; 
+		lineChartArray = new Object [DataProcessing.getDataByPillarFrame().size()][3]; 
 		int [] ID = null;
 
 		try {
 
-			for (int i = 0; i < Process2.getDataByPillarFrame().size(); i++) {
+			for (int i = 0; i < DataProcessing.getDataByPillarFrame().size(); i++) {
 
-				lineChartArray [i] = (Process2.getDataByPillarFrame().get(i)).toString().split(","); 
-				System.out.println(Arrays.toString(lineChartArray[i]));
+				lineChartArray [i] = (DataProcessing.getDataByPillarFrame().get(i)).toString().split(","); 
 			}	
 
-			ID = new int [Process2.getPillar().size()];
+			ID = new int [DataProcessing.getPillar().size()];
 
-			for (int i = 0; i< Process2.getPillar().size(); i++) {
+			for (int i = 0; i< DataProcessing.getPillar().size(); i++) {
 
-				ID [i] = Process2.getPillar().get(i);
+				ID [i] = DataProcessing.getPillar().get(i);
 			}
 		}
 
@@ -87,15 +86,14 @@ public class LineChart implements ActionListener {
 
 	public void lineChartData_byPillar (int pillarID) { //getByPillar
 
-		lineChartArray = new Object [Process2.getOutputDataByPillar().size()][3]; 
+		lineChartArray = new Object [DataProcessing.getOutputDataByPillar().size()][3]; 
 		int [] ID = null;
 
 		try {
 
-			for (int i = 0; i < Process2.getOutputDataByPillar().size(); i++) {
+			for (int i = 0; i < DataProcessing.getOutputDataByPillar().size(); i++) {
 
-				lineChartArray [i] = (Process2.getOutputDataByPillar().get(i)).toString().split(",");
-				System.out.println(Arrays.toString(lineChartArray[i]));
+				lineChartArray [i] = (DataProcessing.getOutputDataByPillar().get(i)).toString().split(",");
 			}	
 			
 			ID = new int [1];
@@ -131,14 +129,14 @@ public class LineChart implements ActionListener {
 
 	public void lineChartData_Multipillar (Object[] IDs) { // Multipillar
 
-		lineChartArray = new Object [Process2.getOutputMultipillar().size()][3]; 
+		lineChartArray = new Object [DataProcessing.getOutputMultipillar().size()][3]; 
 		int [] ID = null;
 
 		try {
 
-			for (int i = 0; i < Process2.getOutputMultipillar().size(); i++) {
+			for (int i = 0; i < DataProcessing.getOutputMultipillar().size(); i++) {
 
-				lineChartArray [i] = (Process2.getOutputMultipillar().get(i)).toString().split(",");
+				lineChartArray [i] = (DataProcessing.getOutputMultipillar().get(i)).toString().split(",");
 			}
 
 			ID = new int [IDs.length];
@@ -404,8 +402,8 @@ public class LineChart implements ActionListener {
 		}
 		if (e.getSource() == button3) {
 
-			BarGraph BarGraph = new BarGraph (Process2);
-			BarGraph.barChartData_Multipillar ();
+			BarChart BarChart = new BarChart (DataProcessing);
+			BarChart.barChartData_Multipillar ();
 		}
 	}	
 }

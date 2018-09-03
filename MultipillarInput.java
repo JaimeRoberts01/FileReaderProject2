@@ -18,8 +18,8 @@ public class MultipillarInput extends JFrame implements ActionListener{
 	private JPanel panel;
 	private Object [] ID;
 
-	private Processing Process;
-	private Processing2 Process2;
+	private DataArray DataArray;
+	private DataProcessing DataProcessing;
 
 	
 	/* Default Constructor*/
@@ -28,10 +28,10 @@ public class MultipillarInput extends JFrame implements ActionListener{
 
 
 	/*Constructor*/
-	public MultipillarInput (Processing Process, Processing2 Process2) {	
+	public MultipillarInput (DataArray DataArray, DataProcessing DataProcessing) {	
 
-		this.Process = Process;
-		this.Process2 = Process2;
+		this.DataArray = DataArray;
+		this.DataProcessing = DataProcessing;
 
 		setDefaultCloseOperation (DISPOSE_ON_CLOSE);
 		setTitle ("Multipillar Data");
@@ -124,15 +124,15 @@ public class MultipillarInput extends JFrame implements ActionListener{
 
 			ID = displayFile.getText().trim().split(" ");
 
-			Process2.getPillars(Process.getData());
+			DataProcessing.getPillars(DataArray.getData());
 
 			for (int j = 0 ; j<ID.length; j++) {
 
 				int value = Integer.parseInt((String)ID [j]);
 
-				for (int i =0; i<Process2.getPillar().size(); i++) {
+				for (int i =0; i<DataProcessing.getPillar().size(); i++) {
 
-					if (!Process2.getPillar().contains(value)) {
+					if (!DataProcessing.getPillar().contains(value)) {
 
 						String message = "Invalid pillar index - check values: " + Arrays.toString(ID);
 
@@ -144,9 +144,9 @@ public class MultipillarInput extends JFrame implements ActionListener{
 				}
 			}
 
-			Process2 = new Processing2 (this);
-			Process2.getPillars(Process.getData());
-			Process2.multiPillar(Process.getNewData());
+			DataProcessing = new DataProcessing (this);
+			DataProcessing.getPillars(DataArray.getData());
+			DataProcessing.multiPillar(DataArray.getDataArray());
 		}
 
 		catch (NumberFormatException NFE) {
