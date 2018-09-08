@@ -146,8 +146,8 @@ public class DataProcessing {
 			}	
 		}
 
-		OutputData OutputData = new OutputData (this, null);
-		OutputData.stringByFrame (ID);
+		DataOutput DataOutput = new DataOutput (this, null);
+		DataOutput.stringByFrame (ID);
 		// Calls the method for loading values to the JTable.	
 	}
 
@@ -193,8 +193,8 @@ public class DataProcessing {
 
 			statistics (force); // Calls the statistics methods and gives it the forces.
 			
-			OutputData OutputData = new OutputData (this, null);
-			OutputData.stringByPillar (ID);
+			DataOutput DataOutput = new DataOutput (this, null);
+			DataOutput.stringByPillar (ID);
 			// Calls the method for loading values to the JTable.	
 			force.clear();
 		}
@@ -237,12 +237,12 @@ public class DataProcessing {
 			statistics(force); // Calls the statistics methods and gives it the forces.
 		}
 
-		OutputData OutputData = new OutputData (this, null);
-		OutputData.StringMultipillar ();
+		DataOutput DataOutput = new DataOutput (this, null);
+		DataOutput.StringMultipillar ();
 		// Calls the method for loading values to the JTable.	
 		force.clear();
 	}
-	
+		
 
 	/**This method calculates the average and standard 
 	 * deviation of the forceNewton values in the data.

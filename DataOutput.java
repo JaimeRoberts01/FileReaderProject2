@@ -3,7 +3,7 @@ import java.util.*;
 
 /**Class to define JTable data and output data.*/
 
-public class OutputData {
+public class DataOutput {
 
 	/*Instance variables*/
 	private DataProcessing DataProcessing;
@@ -11,7 +11,7 @@ public class OutputData {
 
 
 	/*Constructor*/
-	public OutputData (DataProcessing DataProcessing, DataArray DataArray) {
+	public DataOutput (DataProcessing DataProcessing, DataArray DataArray) {
 		this.DataProcessing = DataProcessing;
 		this.DataArray = DataArray;		
 	}

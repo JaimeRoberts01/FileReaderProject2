@@ -8,14 +8,14 @@ import javax.swing.border.*;
 
 /**Class to define a window for entering multiple pillar IDs*/
 
-@SuppressWarnings("serial")
-public class MultipillarInput extends JFrame implements ActionListener{
+public class MultipillarInput implements ActionListener{
 
 
 	/*Instance Variables*/
 	private JTextArea displayFile;
 	private JButton button1, button2;
 	private JPanel panel;
+	private JFrame frame;
 	private Object [] ID;
 
 	private DataArray DataArray;
@@ -32,15 +32,6 @@ public class MultipillarInput extends JFrame implements ActionListener{
 
 		this.DataArray = DataArray;
 		this.DataProcessing = DataProcessing;
-
-		setDefaultCloseOperation (DISPOSE_ON_CLOSE);
-		setTitle ("Multipillar Data");
-		setLocationRelativeTo(null);
-		setSize (400, 400);
-		setVisible (true);
-		setResizable (false);
-		setLayout (new BorderLayout());
-		//setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
 	}
 
 
@@ -51,6 +42,15 @@ public class MultipillarInput extends JFrame implements ActionListener{
 	/**GUI layout*/
 	
 	public void frameComponents () {
+		
+		frame = new JFrame ();
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setTitle ("Multipillar Data");
+		frame.setSize(400, 400);
+		frame.setResizable(false);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+		frame.setLayout(new BorderLayout());
 
 		displayFile = new JTextArea ();
 		displayFile.setLineWrap (true);
@@ -60,11 +60,11 @@ public class MultipillarInput extends JFrame implements ActionListener{
 		displayFile.setBorder (new EmptyBorder (10,10,10,10));
 		JScrollPane scroll = new JScrollPane (displayFile);
 		scroll.setPreferredSize(new Dimension (400, 345));
-		add (scroll, BorderLayout.CENTER);
+		frame.add (scroll, BorderLayout.CENTER);
 		
 		panel = new JPanel ();
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 3, 3));
-		add(panel, BorderLayout.SOUTH);
+		frame.add(panel, BorderLayout.SOUTH);
 
 		button1 = new JButton("OK");
 		button1.setPreferredSize(new Dimension(125,23));
@@ -93,13 +93,13 @@ public class MultipillarInput extends JFrame implements ActionListener{
 
 		if (e.getSource() == button1) {
 
-			dispose();
+			frame.dispose();
 			multipillarValues ();
 		}
 
 		if (e.getSource() == button2) {
 
-			dispose();
+			frame.dispose();
 		}
 	}
 

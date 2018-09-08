@@ -24,7 +24,7 @@ public class ReportTable extends JFrame implements ActionListener {
 	
 	private DataArray DataArray;
 	private DataProcessing DataProcessing;
-	private OutputData OutputData;
+	private DataOutput DataOutput;
 
 
 	/*Constructor*/
@@ -180,7 +180,7 @@ public class ReportTable extends JFrame implements ActionListener {
 
 	public void fileWriter (String fileName) {
 
-		FileManager FileManager = new FileManager (DataArray, DataProcessing, OutputData);
+		FileManager FileManager = new FileManager (DataArray, DataProcessing, DataOutput);
 		FileManager.fileWriter(identifier, fileName);	
 	}
 

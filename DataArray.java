@@ -8,7 +8,7 @@ public class DataArray {
 	/*Instance variables for the arrays.*/
 	private Object [][] data, dataArray;
 	private double [] nanometers, picoNewtons;
-	private OutputData OutputData;
+	private DataOutput DataOutput;
 
 
 	/*Constructor*/
@@ -127,8 +127,8 @@ public class DataArray {
 			dataArray [i][8] = picoNewtons [i];
 		}
 
-		OutputData = new OutputData (null, this);
-		OutputData.outputString();
+		DataOutput = new DataOutput (null, this);
+		DataOutput.outputString();
 		// Calls the method for loading values to the JTable.	
 		
 		return dataArray;

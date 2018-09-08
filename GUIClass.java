@@ -420,8 +420,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 				DataProcessing.getPillars(DataArray.getData());
 				DataProcessing.allFrames(DataArray.getDataArray());
 
-				OutputData OutputData = new OutputData (DataProcessing, null);
-				OutputData.stringStatistics(); 
+				DataOutput DataOutput = new DataOutput (DataProcessing, null);
+				DataOutput.stringStatistics(); 
 				// Calls the method for loading values to the JTable.				
 			}
 
@@ -582,8 +582,8 @@ public class GUIClass extends JFrame implements ActionListener, ChangeListener {
 			DataProcessing.getPillars(DataArray.getData());
 			DataProcessing.allPillarsAllFrames(DataArray.getDataArray());
 			
-			OutputData OutputData = new OutputData (DataProcessing, null);
-			OutputData.stringAllData();
+			DataOutput DataOutput = new DataOutput (DataProcessing, null);
+			DataOutput.stringAllData();
 			// Calls the method for loading values to the JTable.	
 		}
 	}

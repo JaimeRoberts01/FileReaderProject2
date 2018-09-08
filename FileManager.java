@@ -11,7 +11,7 @@ public class FileManager {
 	/*Instance variables*/
 	private DataArray DataArray;
 	private DataProcessing DataProcessing;
-	private OutputData OutputData;
+	private DataOutput DataOutput;
 	
 	private ArrayList <String> fileLine;
 	private String fileName;
@@ -23,10 +23,10 @@ public class FileManager {
 		
 	
 	/*Constructor*/ 
-	public FileManager(DataArray DataArray, DataProcessing DataProcessing, OutputData OutputData) {
+	public FileManager(DataArray DataArray, DataProcessing DataProcessing, DataOutput DataOutput) {
 		this.DataArray = DataArray;
 		this.DataProcessing = DataProcessing;
-		this.OutputData = OutputData;
+		this.DataOutput = DataOutput;
 	}
 
 	
@@ -123,7 +123,7 @@ public class FileManager {
 	public void fileWriter (String identifier, String fileName) { // This works
 
 		FileWriter writer = null;
-		OutputData = new OutputData (DataProcessing, DataArray);
+		DataOutput = new DataOutput (DataProcessing, DataArray);
 
 		try {
 
@@ -132,28 +132,28 @@ public class FileManager {
 				writer = new FileWriter (fileName);
 				
 				if (identifier.equals("Force Data")) {
-					writer.write(OutputData.outputFile());
+					writer.write(DataOutput.outputFile());
 				}
 				
 				else if (identifier.equals("Statistical Data")) {
-					writer.write(OutputData.outputStatistics());
+					writer.write(DataOutput.outputStatistics());
 				}
 				
 				else if (identifier.equals("Frame Data")) {
-					writer.write(OutputData.outputByFrame());
+					writer.write(DataOutput.outputByFrame());
 				}
 
 				else if (identifier.equals("Pillar Data")) {
 					
-					writer.write(OutputData.outputByPillar());
+					writer.write(DataOutput.outputByPillar());
 				}
 
 				else if (identifier.equals("Multipillar Data")) {
-					writer.write(OutputData.outputMultipillar());
+					writer.write(DataOutput.outputMultipillar());
 				}
 				
 				else if (identifier.equals("All Data")) {
-					writer.write(OutputData.outputAllData());
+					writer.write(DataOutput.outputAllData());
 				}
 			}
 
